@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter_Tight, Roboto_Condensed } from 'next/font/google';
 import './globals.css';
+import SkipLink from '@/components/chrome/SkipLink';
+import Header from '@/components/chrome/Header';
+import MenuPanel from '@/components/chrome/MenuPanel';
 
 const interTight = Inter_Tight({
   subsets: ['latin'],
@@ -25,12 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${interTight.variable} ${robotoCondensed.variable}`}>
       <body>
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-[var(--margin)] focus:top-4 focus:z-[100] focus:bg-inverse-canvas focus:px-4 focus:py-2 focus:text-inverse-ink"
-        >
-          Skip to content
-        </a>
+        <SkipLink />
+        <Header />
+        <MenuPanel />
         <main id="main">{children}</main>
       </body>
     </html>
