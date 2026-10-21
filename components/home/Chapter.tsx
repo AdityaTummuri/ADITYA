@@ -6,6 +6,7 @@ import ButtonPrimary from '@/components/ui/ButtonPrimary';
 import SplitHeading from '@/components/ui/SplitHeading';
 import { buildChapterTimeline } from '@/lib/chapter-timeline';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
+import { chapters } from '@/content/chapters';
 import { useScrollStore } from '@/lib/scroll-store';
 
 interface Props {
@@ -14,6 +15,23 @@ interface Props {
   layerBody?: React.ReactNode;
   /** Tall content (rows, tiles) that flows after the pin releases. */
   flowBody?: React.ReactNode;
+}
+
+/**
+ * Reports a chapter's progress to the scroll store. ScrollTriggers fire in arbitrary order after a
+ * jump, so a finished earlier chapter must not overwrite a later one, and an unreached later chapter
+ * must not overwrite the current one.
+ */
+function report(spec: ChapterSpec, progress: number) {
+  const st = useScrollStore.getState();
+  if (progress >= 1 && spec.index < st.chapter) return;
+  if (progress <= 0 && spec.index > st.chapter) return;
+  if (progress <= 0 && spec.index === st.chapter && spec.index > 0) {
+    const prev = chapters[spec.index - 1];
+    st.set(prev.index, 1, prev.look);
+    return;
+  }
+  st.set(spec.index, progress, spec.look);
 }
 
 /**
@@ -46,9 +64,9 @@ export default function Chapter({ spec, layerBody, flowBody }: Props) {
           scrub: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onUpdate: (self) => useScrollStore.getState().set(spec.index, self.progress, spec.look),
+          onUpdate: (self) => report(spec, self.progress),
           onToggle: (self) => {
-            if (self.isActive) useScrollStore.getState().set(spec.index, self.progress, spec.look);
+            if (self.isActive) report(spec, self.progress);
           },
         });
         return () => section.removeAttribute('data-pinned');

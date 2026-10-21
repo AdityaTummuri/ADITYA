@@ -84,3 +84,14 @@ test('Tab order starts skip link, wordmark, menu button', async ({ page }) => {
   }
   expect(names).toEqual(['Skip to content', 'aditya tummuri', 'Menu']);
 });
+
+test('the fixed HUD hides over flowing content and returns during pinned stages', async ({ page, viewport }) => {
+  test.skip(!wide(viewport), 'pinning is a wide-screen behaviour');
+  const hud = page.locator('[data-hud]');
+  await expect(hud).toHaveCSS('opacity', '1');
+  const flowTop = await page.locator('#index [data-flow]').evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
+  await page.evaluate((y) => window.scrollTo(0, y + 200), flowTop);
+  await expect.poll(() => hud.evaluate((el) => +getComputedStyle(el).opacity), { timeout: 5000 }).toBe(0);
+  await page.evaluate(() => window.scrollTo(0, 100));
+  await expect.poll(() => hud.evaluate((el) => +getComputedStyle(el).opacity), { timeout: 5000 }).toBe(1);
+});

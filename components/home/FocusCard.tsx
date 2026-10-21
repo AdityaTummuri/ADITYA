@@ -9,7 +9,7 @@ export default function FocusCard({ area, index }: { area: FocusArea; index: num
   return (
     <article className="flex flex-col gap-sm">
       <HexFrame className="max-w-[14rem]"><Glyph name={GLYPHS[index % GLYPHS.length]} /></HexFrame>
-      <h3 className="text-title-md font-medium">{area.title}</h3>
+      <h2 className="text-title-md font-medium">{area.title}</h2>
       <p className="text-body">{area.detail}</p>
     </article>
   );

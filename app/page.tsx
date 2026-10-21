@@ -1,4 +1,5 @@
 import ChapterKeys from '@/components/chrome/ChapterKeys';
+import HudAutoHide from '@/components/chrome/HudAutoHide';
 import FooterHud from '@/components/chrome/FooterHud';
 import ProgressRail from '@/components/chrome/ProgressRail';
 import ScrollHint from '@/components/chrome/ScrollHint';
@@ -53,9 +54,11 @@ export default function Home() {
         return <Chapter key={spec.id} spec={spec} layerBody={b.layer} flowBody={b.flow} />;
       })}
       <SiteFooter />
-      <ProgressRail />
+      <HudAutoHide>
+        <ProgressRail />
+        <FooterHud hint={<ScrollHint />} />
+      </HudAutoHide>
       <ChapterKeys />
-      <FooterHud hint={<ScrollHint />} />
     </>
   );
 }

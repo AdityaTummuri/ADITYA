@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useReducedMotion, useWebGLSupport } from '@/lib/a11y';
 import { detectTier } from '@/lib/tier';
 import { useUi } from '@/lib/ui-store';
@@ -21,6 +21,15 @@ export default function SceneCanvas() {
   const setLoaded = useUi((s) => s.setLoaded);
   const tier = useMemo(() => (support ? detectTier() : 'low'), [support]);
   const fallback = support === false || lost;
+  // load the heavy scene chunk after first paint so the hero text owns LCP
+  const [idle, setIdle] = useState(false);
+  useEffect(() => {
+    const ric = (window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback;
+    const t = ric ? ric(() => setIdle(true), { timeout: 800 }) : window.setTimeout(() => setIdle(true), 300);
+    return () => {
+      if (!ric) window.clearTimeout(t);
+    };
+  }, []);
 
   useEffect(() => {
     if (fallback) setLoaded(true);
@@ -28,7 +37,7 @@ export default function SceneCanvas() {
 
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
-      {support === null ? null : fallback ? <WebGLFallback /> : <Scene still={reduce} tier={tier} />}
+      {support === null ? null : fallback ? <WebGLFallback /> : idle ? <Scene still={reduce} tier={tier} /> : null}
     </div>
   );
 }

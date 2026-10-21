@@ -57,7 +57,9 @@ export default function SignalScene({ still, streaks, points }: { still: boolean
 
     const mark = markRef.current;
     if (mark) {
-      mark.scale.setScalar(Math.max(p.mark, 0.001));
+      const markScale = p.mark * Math.min(1, aspect * 1.1);
+      mark.visible = markScale > 0.02;
+      mark.scale.setScalar(Math.max(markScale, 0.001));
       mark.rotation.x = 1.0 + progress * 0.35;
       mark.rotation.y = t * 0.12;
       mark.rotation.z = Math.sin(t * 0.2) * 0.2;
