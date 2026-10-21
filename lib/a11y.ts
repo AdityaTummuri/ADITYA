@@ -14,3 +14,23 @@ function subscribe(cb: () => void) {
 export function useReducedMotion(): boolean {
   return useSyncExternalStore(subscribe, () => window.matchMedia(QUERY).matches, () => false);
 }
+
+let webglSupport: boolean | null = null;
+
+/** null on the server and until measured, then whether a WebGL2 context can be created. */
+export function useWebGLSupport(): boolean | null {
+  return useSyncExternalStore(
+    () => () => {},
+    () => {
+      if (webglSupport === null) {
+        try {
+          webglSupport = !!document.createElement('canvas').getContext('webgl2');
+        } catch {
+          webglSupport = false;
+        }
+      }
+      return webglSupport;
+    },
+    () => null,
+  );
+}

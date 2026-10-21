@@ -13,7 +13,16 @@ export default defineConfig({
     env: { NEXT_PUBLIC_E2E: '1' },
   },
   projects: [
-    { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } },
-    { name: 'mobile', use: { ...devices['Pixel 7'] } },
+    { name: 'desktop', testIgnore: /scene-fallback/, use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } },
+    { name: 'mobile', testIgnore: /scene-fallback/, use: { ...devices['Pixel 7'] } },
+    {
+      name: 'nowebgl',
+      testMatch: /scene-fallback/,
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1440, height: 900 },
+        launchOptions: { args: ['--disable-gpu', '--disable-3d-apis', '--use-gl=disabled'] },
+      },
+    },
   ],
 });

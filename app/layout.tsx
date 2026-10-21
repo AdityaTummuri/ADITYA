@@ -4,6 +4,7 @@ import './globals.css';
 import SkipLink from '@/components/chrome/SkipLink';
 import Header from '@/components/chrome/Header';
 import MenuPanel from '@/components/chrome/MenuPanel';
+import SceneCanvas from '@/components/scene/SceneCanvas';
 import Providers from './providers';
 
 const interTight = Inter_Tight({
@@ -33,10 +34,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <MenuPanel />
         <Providers />
+        <SceneCanvas />
         <noscript>
           <style>{'[data-split]{visibility:visible!important}'}</style>
         </noscript>
-        <main id="main">{children}</main>
+        <main id="main" className="relative z-10">{children}</main>
       </body>
     </html>
   );
