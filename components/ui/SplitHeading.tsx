@@ -13,6 +13,8 @@ interface Props {
   delay?: number;
   /** Wait for the intro wipe before revealing. */
   gate?: boolean;
+  /** Reveal once when the heading scrolls into view (instead of on mount). */
+  trigger?: boolean;
   'data-overline'?: boolean;
 }
 
@@ -21,7 +23,7 @@ interface Props {
  * autoSplit re-splits when fonts load or the width changes; the tween is built inside onSplit.
  * Hidden until split to avoid a flash (noscript in the layout restores it).
  */
-export default function SplitHeading({ as = 'h2', className, lines, delay = 0, gate = false, 'data-overline': overline }: Props) {
+export default function SplitHeading({ as = 'h2', className, lines, delay = 0, gate = false, trigger = false, 'data-overline': overline }: Props) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
 
@@ -49,6 +51,7 @@ export default function SplitHeading({ as = 'h2', className, lines, delay = 0, g
             stagger: 0.08,
             delay,
             paused: gate && !useUi.getState().introDone,
+            ...(trigger ? { scrollTrigger: { trigger: el, start: 'top 90%', once: true } } : {}),
           });
           return current;
         },
@@ -61,7 +64,7 @@ export default function SplitHeading({ as = 'h2', className, lines, delay = 0, g
         split.revert();
       };
     },
-    { scope: ref, dependencies: [reduce, gate, delay], revertOnUpdate: true },
+    { scope: ref, dependencies: [reduce, gate, delay, trigger], revertOnUpdate: true },
   );
 
   const Tag = as as 'h2';

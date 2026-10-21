@@ -132,3 +132,56 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---- Pinned chapter layout (set by Chapter.tsx via data-pinned on wide screens) ---- */
+[data-chapter] [data-layer="compact"] { display: none; }
+[data-chapter][data-pinned] [data-stage] {
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+  padding-block: 0;
+}
+[data-chapter][data-pinned] [data-layer] { position: absolute; }
+[data-chapter][data-pinned] [data-layer="lockup"],
+[data-chapter][data-pinned] [data-layer="compact"] {
+  left: var(--margin);
+  right: var(--margin);
+  bottom: 11.1rem;
+}
+[data-chapter][data-pinned] [data-layer="compact"] { display: block; }
+[data-chapter][data-pinned] [data-layer="statement"] {
+  left: var(--margin);
+  top: 0;
+  bottom: 0;
+  width: calc(50% - var(--margin) - var(--gutter));
+  display: flex;
+  align-items: center;
+}
+[data-chapter][data-pinned] [data-layer="paragraph"] {
+  left: 50%;
+  right: var(--margin);
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+[data-chapter][data-pinned] [data-layer="body"] {
+  left: 50%;
+  right: calc(var(--margin) + 4rem);
+  top: 10rem;
+  bottom: 21rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+[data-chapter][data-pinned] [data-layer="body"] > * { width: 100%; }
+[data-chapter][data-pinned] [data-layer="cta"] {
+  left: 50%;
+  bottom: 11.1rem;
+}
+[data-chapter][data-pinned] .project-hex { display: none; }
+@media (min-width: 1024px) {
+  [data-chapter][data-pinned] [data-layer="lockup"],
+  [data-chapter][data-pinned] [data-layer="compact"] { bottom: 13.6rem; }
+  [data-chapter][data-pinned] [data-layer="cta"] { bottom: 13.6rem; }
+}

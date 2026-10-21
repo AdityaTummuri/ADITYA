@@ -30,5 +30,5 @@ export default function SmoothScroll() {
   }, [menuOpen]);
 
   if (reduce) return null;
-  return <ReactLenis root ref={ref} options={{ autoRaf: false, lerp: 0.1, smoothWheel: true, syncTouch: false }} />;
+  return <ReactLenis root ref={ref} options={{ autoRaf: false, lerp: 0.1, smoothWheel: true, syncTouch: false, anchors: true }} />;
 }

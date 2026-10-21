@@ -16,7 +16,7 @@ const BY_GROUP: Record<Project['group'], GlyphName> = {
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <article className="flex flex-col gap-sm">
-      <HexFrame className="max-w-[14rem]"><Glyph name={BY_GROUP[project.group]} /></HexFrame>
+      <HexFrame className="project-hex max-w-[14rem]"><Glyph name={BY_GROUP[project.group]} /></HexFrame>
       <Overline size="sm">{project.status}</Overline>
       <h3 className="text-title-md font-medium">{project.title}</h3>
       {project.question ? <p className="font-display text-headline tracking-[-0.03em]">{project.question}</p> : null}

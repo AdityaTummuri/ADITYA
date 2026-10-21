@@ -1,22 +1,66 @@
+'use client';
+
+import { useRef } from 'react';
 import type { ChapterSpec } from '@/content/types';
 import ButtonPrimary from '@/components/ui/ButtonPrimary';
 import SplitHeading from '@/components/ui/SplitHeading';
+import { buildChapterTimeline } from '@/lib/chapter-timeline';
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
+import { useScrollStore } from '@/lib/scroll-store';
 
 interface Props {
   spec: ChapterSpec;
-  /** Body layer content (cards, rows, tiles...), server-rendered by the page. */
-  body?: React.ReactNode;
+  /** Card/slider content that lives inside the pinned stage. */
+  layerBody?: React.ReactNode;
+  /** Tall content (rows, tiles) that flows after the pin releases. */
+  flowBody?: React.ReactNode;
 }
 
 /**
- * One home chapter (DESIGN.md `chapter-lockup`, `statement`). Layers are plain flow blocks for now;
- * the pin/scrub engine arrives in Task 7 and positions them as absolute layers on wide screens.
+ * One home chapter (DESIGN.md `chapter-lockup`, `statement`). On wide screens without reduced
+ * motion the stage is pinned and its layers are scrubbed by one timeline; otherwise the layers
+ * simply stack in document order.
  */
-export default function Chapter({ spec, body }: Props) {
+export default function Chapter({ spec, layerBody, flowBody }: Props) {
+  const root = useRef<HTMLElement>(null);
   const Heading = spec.index === 0 ? 'h1' : 'h2';
+  const reveal = spec.index > 0;
+
+  useGSAP(
+    () => {
+      const section = root.current;
+      if (!section) return;
+      const stage = section.querySelector<HTMLElement>('[data-stage]');
+      if (!stage) return;
+      const mm = gsap.matchMedia();
+      mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+        section.setAttribute('data-pinned', '');
+        const tl = buildChapterTimeline(section);
+        ScrollTrigger.create({
+          id: spec.id,
+          trigger: stage,
+          animation: tl,
+          start: 'top top',
+          end: () => `+=${spec.pinViewports * window.innerHeight}`,
+          pin: true,
+          scrub: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => useScrollStore.getState().set(spec.index, self.progress, spec.look),
+          onToggle: (self) => {
+            if (self.isActive) useScrollStore.getState().set(spec.index, self.progress, spec.look);
+          },
+        });
+        return () => section.removeAttribute('data-pinned');
+      });
+      return () => mm.revert();
+    },
+    { scope: root, dependencies: [spec.id] },
+  );
+
   return (
-    <section id={spec.id} data-chapter={spec.index} aria-labelledby={`${spec.id}-title`} className="relative py-2xl">
-      <div className="container-8bit grid gap-xl lg:grid-cols-12 lg:gap-x-[var(--gutter)] [&>*]:min-w-0">
+    <section ref={root} id={spec.id} data-chapter={spec.index} aria-labelledby={`${spec.id}-title`} className="relative">
+      <div data-stage className="container-8bit grid gap-xl py-2xl lg:grid-cols-12 lg:gap-x-[var(--gutter)] [&>*]:min-w-0">
         <div data-layer="lockup" className="lg:col-span-12">
           <Heading id={`${spec.id}-title`} className="font-display font-normal">
             <SplitHeading
@@ -24,16 +68,22 @@ export default function Chapter({ spec, body }: Props) {
               data-overline
               lines={[spec.overline]}
               gate={spec.index === 0}
+              trigger={reveal}
               className="block text-display-sm text-primary md:text-display-lg"
             />
             <SplitHeading
               as="span"
               lines={spec.title}
               gate={spec.index === 0}
+              trigger={reveal}
               delay={0.15}
               className="block text-display-sm leading-none md:text-display-xl"
             />
           </Heading>
+        </div>
+        <div data-layer="compact" aria-hidden className="font-display tracking-[-0.03em]">
+          <span className="block text-title-lg text-primary">{spec.overline}</span>
+          <span className="block text-headline">{spec.title.join(' ')}</span>
         </div>
         <p data-layer="statement" className="font-display text-display-sm text-primary tracking-[-0.03em] md:text-display-md lg:col-span-6">
           {spec.statement}
@@ -43,13 +93,14 @@ export default function Chapter({ spec, body }: Props) {
             {spec.paragraph}
           </p>
         ) : null}
-        {body ? <div data-layer="body" className="lg:col-span-12">{body}</div> : null}
+        {layerBody ? <div data-layer="body" className="lg:col-span-12">{layerBody}</div> : null}
         {spec.cta ? (
           <div data-layer="cta" className="lg:col-span-12">
             <ButtonPrimary href={spec.cta.href}>{spec.cta.label}</ButtonPrimary>
           </div>
         ) : null}
       </div>
+      {flowBody ? <div data-flow className="container-8bit pb-2xl">{flowBody}</div> : null}
     </section>
   );
 }

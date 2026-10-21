@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
+import { useLenis } from 'lenis/react';
 import { menuLinks, socials } from '@/content/nav';
 import { useUi } from '@/lib/ui-store';
 
@@ -11,6 +12,7 @@ export default function MenuPanel() {
   const open = useUi((s) => s.menuOpen);
   const setOpen = useUi((s) => s.setMenuOpen);
   const pathname = usePathname();
+  const lenis = useLenis();
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -78,7 +80,20 @@ export default function MenuPanel() {
               >
                 <Link
                   href={l.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => {
+                    setOpen(false);
+                    const hash = l.href.split('#')[1];
+                    if (pathname === '/' && l.href.startsWith('/#') && hash) {
+                      const el = document.getElementById(hash);
+                      if (el) {
+                        e.preventDefault();
+                        window.history.pushState(null, '', l.href);
+                        const y = el.getBoundingClientRect().top + window.scrollY;
+                        if (lenis) lenis.scrollTo(y, { duration: 1.1 });
+                        else window.scrollTo(0, y);
+                      }
+                    }
+                  }}
                   aria-current={current ? 'page' : undefined}
                   className={`block py-xs font-display text-title-lg font-normal tracking-[-0.03em] text-ink transition-opacity duration-300 ease-out-cubic hover:opacity-50 md:text-display-sm ${
                     current ? 'opacity-20' : ''

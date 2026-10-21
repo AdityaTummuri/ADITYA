@@ -1,4 +1,7 @@
+import ChapterKeys from '@/components/chrome/ChapterKeys';
 import FooterHud from '@/components/chrome/FooterHud';
+import ProgressRail from '@/components/chrome/ProgressRail';
+import ScrollHint from '@/components/chrome/ScrollHint';
 import SiteFooter from '@/components/chrome/SiteFooter';
 import Chapter from '@/components/home/Chapter';
 import CardSlider from '@/components/home/CardSlider';
@@ -13,39 +16,46 @@ import { featuredProjects } from '@/content/projects';
 import { profile } from '@/content/profile';
 import type { ChapterSpec } from '@/content/types';
 
-function bodyFor(spec: ChapterSpec): React.ReactNode {
+function bodyFor(spec: ChapterSpec): { layer?: React.ReactNode; flow?: React.ReactNode } {
   switch (spec.body) {
     case 'focus-cards':
-      return (
-        <CardSlider label="Focus areas">
-          {profile.focusAreas.map((a, i) => (<FocusCard key={a.title} area={a} index={i} />))}
-        </CardSlider>
-      );
+      return {
+        layer: (
+          <CardSlider label="Focus areas">
+            {profile.focusAreas.map((a, i) => (<FocusCard key={a.title} area={a} index={i} />))}
+          </CardSlider>
+        ),
+      };
     case 'project-cards':
-      return (
-        <CardSlider label="Featured projects">
-          {featuredProjects.map((p) => (<ProjectCard key={p.slug} project={p} />))}
-        </CardSlider>
-      );
+      return {
+        layer: (
+          <CardSlider label="Featured projects">
+            {featuredProjects.map((p) => (<ProjectCard key={p.slug} project={p} />))}
+          </CardSlider>
+        ),
+      };
     case 'project-rows':
-      return <ProjectRows />;
+      return { flow: <ProjectRows /> };
     case 'notes':
-      return <NoteBlock />;
+      return { flow: <NoteBlock /> };
     case 'now':
-      return <NowTiles />;
+      return { flow: <NowTiles /> };
     case 'contact':
-      return <ContactLinks />;
+      return { flow: <ContactLinks /> };
   }
 }
 
 export default function Home() {
   return (
     <>
-      {chapters.map((spec) => (
-        <Chapter key={spec.id} spec={spec} body={bodyFor(spec)} />
-      ))}
+      {chapters.map((spec) => {
+        const b = bodyFor(spec);
+        return <Chapter key={spec.id} spec={spec} layerBody={b.layer} flowBody={b.flow} />;
+      })}
       <SiteFooter />
-      <FooterHud />
+      <ProgressRail />
+      <ChapterKeys />
+      <FooterHud hint={<ScrollHint />} />
     </>
   );
 }
