@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/* Tokens from DESIGN.md. Root is 10px, so 1rem = 10px. */
+@theme {
+  --color-canvas: #000;
+  --color-primary: #8faab2;
+  --color-primary-soft: #cfe0e5;
+  --color-ink: #fff;
+  --color-ink-muted: #b2b2b2;
+  --color-ink-subtle: rgb(255 255 255 / 0.5);
+  --color-ink-tertiary: rgb(255 255 255 / 0.2);
+  --color-inverse-canvas: #fff;
+  --color-inverse-ink: #1a1a1a;
+  --color-surface-3: #292929;
+  --color-edge-from: #545454;
+  --color-edge-to: #303030;
+  --color-hairline: rgb(255 255 255 / 0.2);
+  --color-hairline-strong: rgb(255 255 255 / 0.3);
+  --color-hairline-focus: rgb(255 255 255 / 0.8);
+  --color-error: #ef4444;
+
+  --font-display: var(--font-inter-tight), Arial, sans-serif;
+  --font-body: var(--font-roboto-condensed), "Arial Narrow", sans-serif;
+
+  /* 10 x 1.25^n ladder */
+  --text-display-xl: 7.629rem;
+  --text-display-xl--line-height: 1;
+  --text-display-xl--letter-spacing: -0.04em;
+  --text-display-lg: 6.104rem;
+  --text-display-lg--line-height: 1.2;
+  --text-display-lg--letter-spacing: -0.05em;
+  --text-display-md: 4.883rem;
+  --text-display-md--line-height: 1.2;
+  --text-display-md--letter-spacing: -0.03em;
+  --text-display-sm: 3.906rem;
+  --text-display-sm--line-height: 1.2;
+  --text-display-sm--letter-spacing: -0.03em;
+  --text-headline: 3.125rem;
+  --text-headline--line-height: 1.2;
+  --text-headline--letter-spacing: -0.03em;
+  --text-title-lg: 2.5rem;
+  --text-title-lg--line-height: 1.2;
+  --text-title-lg--letter-spacing: -0.03em;
+  --text-title-md: 2rem;
+  --text-title-md--line-height: 1.4;
+  --text-title-md--letter-spacing: 0.02rem;
+  --text-body: 1.6rem;
+  --text-body--line-height: 1.5;
+  --text-body--letter-spacing: 0.032rem;
+  --text-body-sm: 1.28rem;
+  --text-body-sm--line-height: 1.4;
+  --text-body-sm--letter-spacing: 0.051rem;
+  --text-caption: 1.024rem;
+  --text-caption--line-height: 1.7;
+  --text-caption--letter-spacing: 0.051rem;
+
+  /* Re-base the spacing unit so `p-4` is 16px under a 10px root. */
+  --spacing: 0.4rem;
+  --spacing-xxs: 0.8rem;
+  --spacing-xs: 1.6rem;
+  --spacing-sm: 2.4rem;
+  --spacing-md: 3.2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 5.6rem;
+  --spacing-2xl: 8rem;
+
+  --radius-xs: 0.4rem;
+  --radius-md: 0.8rem;
+
+  --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  /* Tailwind's rem breakpoints would shrink under a 10px root, so pin px. */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1800px;
+}
+
+:root {
+  --margin: 2rem;
+  --gutter: 1rem;
+  --header-height: 6.1rem;
+  color-scheme: dark;
+}
+@media (min-width: 768px) {
+  :root { --margin: 4rem; --gutter: 3rem; }
+}
+@media (min-width: 1024px) {
+  :root { --margin: 6rem; }
+}
+@media (min-width: 1280px) {
+  :root { --margin: 10rem; }
+}
+
+html {
+  font-size: 10px;
+  background: var(--color-canvas);
+}
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  line-height: 1.5;
+  letter-spacing: 0.032rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container-8bit { padding-inline: var(--margin); width: 100%; }
+
+/* SplitText masks (see SplitHeading) */
+.line { overflow: hidden; padding-block: 0.1em; margin-top: -0.1em; }
+.word { white-space: nowrap; }
+
+:focus-visible {
+  outline: 1px solid var(--color-hairline-focus);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
