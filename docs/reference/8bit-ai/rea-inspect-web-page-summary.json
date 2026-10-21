@@ -1,0 +1,1501 @@
+{
+ "evidence_id": "ev_5a0477ade4f53f2fb6da0e968e5ea30d490d03d0b494739aff6023bcf49634c9",
+ "operation": "inspect_web_page",
+ "provider": {
+  "id": "rea-cdp-browser",
+  "name": "REA Chrome DevTools Protocol observation provider",
+  "version": "2"
+ },
+ "captured": {
+  "started_at": "2026-10-21T17:07:03.600Z",
+  "ended_at": "2026-10-21T17:07:11.967Z",
+  "observation_ms": 1500
+ },
+ "target": {
+  "target_id": "DD590868ED660848C11070C40DC54569",
+  "type": "page",
+  "title": "8bit.ai",
+  "url": "https://www.8bit.ai/",
+  "origin": "https://www.8bit.ai",
+  "attached": null
+ },
+ "browser": {
+  "product": "Chrome/156.0.8078.4",
+  "protocol_version": "1.3",
+  "revision": "537.36 (@f842f52ef39fd97b449eb27cff414bf05a98ddce)",
+  "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+  "js_version": "15.6.75"
+ },
+ "completeness": {
+  "status": "policy_filtered",
+  "conditions": [
+   "attach_limited",
+   "policy_filtered"
+  ],
+  "policy_filtered_sections": [
+   "json_body_shapes",
+   "metadata",
+   "resources",
+   "script_sources",
+   "scripts",
+   "websocket_shapes",
+   "workers"
+  ],
+  "attach_limited_sections": [
+   "console_events",
+   "metadata",
+   "network_requests",
+   "websocket_connections",
+   "websocket_frames"
+  ],
+  "truncated_sections": [],
+  "unavailable_sections": [],
+  "excluded": [
+   {
+    "section": "json_body_shapes",
+    "reason": "not_approved",
+    "count": null
+   },
+   {
+    "section": "metadata",
+    "reason": "disallowed_origin",
+    "count": 5
+   },
+   {
+    "section": "resources",
+    "reason": "unsupported_url",
+    "count": 2
+   },
+   {
+    "section": "script_sources",
+    "reason": "not_approved",
+    "count": 13
+   },
+   {
+    "section": "scripts",
+    "reason": "unsupported_url",
+    "count": 1
+   },
+   {
+    "section": "websocket_shapes",
+    "reason": "not_approved",
+    "count": null
+   },
+   {
+    "section": "workers",
+    "reason": "unattributed_origin",
+    "count": 4
+   }
+  ],
+  "dropped_events": {
+   "scripts": 0,
+   "network_requests": 0,
+   "console_events": 0,
+   "websocket_connections": 0,
+   "websocket_frames": 0,
+   "webmcp_tools": 0,
+   "timeline_events": 0,
+   "total": 0
+  }
+ },
+ "dom_total_nodes": 1454,
+ "resources": [
+  {
+   "resource_key": "res_032d71db42409f0fad5311603192cbc351d302d95eedb158dad215686e9f5b66",
+   "url": "https://www.8bit.ai/textures/hero-lines-medium-min.jpg",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/jpeg",
+   "content_size": 62329
+  },
+  {
+   "resource_key": "res_0bb6129609ddc86fbb185d428c41064feb2ae369a660096c085a48fdd54ef01c",
+   "url": "https://www.8bit.ai/textures/noise.png",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/png",
+   "content_size": 22198
+  },
+  {
+   "resource_key": "res_0cd8e2eb5b5337488786eca2e425df4c72d6591d1e5863475e6cbece83f5b7a2",
+   "url": "https://www.8bit.ai/textures/tunnel-lines-min.jpg",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/jpeg",
+   "content_size": 37754
+  },
+  {
+   "resource_key": "res_0f3970af09424cf06fdd77f6062ff05a2a6351b5aef45c990e87a50b1fae2029",
+   "url": "https://www.8bit.ai/textures/lut.png",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/png",
+   "content_size": 24641
+  },
+  {
+   "resource_key": "res_16e152b6f12f837c2ab4c461572dd519d32c9abb8b28cae348572d961d223187",
+   "url": "https://www.8bit.ai/_next/static/chunks/main-d0f687835b579ce6.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 125423
+  },
+  {
+   "resource_key": "res_22b3a319a3f24547e12cba0b049e7fafba73dd38bee7d06ea82315fb3eef8ee0",
+   "url": "https://www.8bit.ai/_next/static/chunks/333-862881bc5902782c.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 21044
+  },
+  {
+   "resource_key": "res_35fd02393f98831a82fdee14967e36159c97e99184e424a0813cae71fe53cfe0",
+   "url": "https://www.8bit.ai/_next/static/chunks/610-ab3db9ad36272f0e.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 19047
+  },
+  {
+   "resource_key": "res_3ade7f641068460f9a7040743ff3820c3f4ccff813ca93946b4771f54b4c301d",
+   "url": "https://www.8bit.ai/_next/static/chunks/pages/%5B...routes%5D-677a0a529331a522.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 43326
+  },
+  {
+   "resource_key": "res_409edefba913d8fc4fa300132ba087ebca02afa12b5047286001c92ebf445589",
+   "url": "https://www.8bit.ai/_next/static/chunks/906.e4a334a8c1a520ac.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 291102
+  },
+  {
+   "resource_key": "res_40d55eeb1611f407c55d56beeb602c6714357128d3d8a63f6ac635486b58c954",
+   "url": "https://www.8bit.ai/_next/static/chunks/268-ae781433cd42149f.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 90619
+  },
+  {
+   "resource_key": "res_483ff460da54e0680595e92f77e0ecf32525c3cf1917fc1b755f71cfb3cb5ef4",
+   "url": "https://www.8bit.ai/_next/static/chunks/webpack-c86462d2ec66fc12.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 4540
+  },
+  {
+   "resource_key": "res_4be133cbf2a94ba5b91792a018dc67f5ee7dfdce93fa0b7dbba1b870e7f421de",
+   "url": "https://www.8bit.ai/_next/static/chunks/framework-88998efc9eec3ad5.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 140072
+  },
+  {
+   "resource_key": "res_5ac43bb626c5a978372b36172932e0192549a1661e7efa38087b002d07b88928",
+   "url": "https://www.8bit.ai/_next/static/media/ea1c365fb9dff4af-s.p.woff",
+   "origin": "https://www.8bit.ai",
+   "type": "Font",
+   "mime_type": "font/woff",
+   "content_size": 23204
+  },
+  {
+   "resource_key": "res_62cfe8a0a9fde0fe6f59213bae1edced71d006a6782801ef745a0a9d9edf948d",
+   "url": "https://www.8bit.ai/_next/static/chunks/pages/index-7d7cb21b71f69b1b.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 9123
+  },
+  {
+   "resource_key": "res_6481a826a013e9711c1d9bcd98a07d32040ef14d0da30a9de318a3d404cfbe62",
+   "url": "https://www.8bit.ai/textures/hero-lines-thin-min.jpg",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/jpeg",
+   "content_size": 28452
+  },
+  {
+   "resource_key": "res_7055ee4abc461a8f1447203e60eaed83ce4254787eb742be0d22b6675a7e8b18",
+   "url": "https://www.8bit.ai/textures/tunnel-circles-min.jpg",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/jpeg",
+   "content_size": 48091
+  },
+  {
+   "resource_key": "res_75fac3b6c7bcc9049c4448ec1ccf7a26811955f7907f2d8b55ab0542654389ad",
+   "url": "https://www.8bit.ai/_next/static/media/dc1a31dd116e0329-s.p.woff2",
+   "origin": "https://www.8bit.ai",
+   "type": "Font",
+   "mime_type": "font/woff2",
+   "content_size": 46080
+  },
+  {
+   "resource_key": "res_769f047346018fe598782bff79fb54f90be51ee5e3d6d3d66d47a3b8856ea928",
+   "url": "https://www.8bit.ai/textures/advect.png",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/png",
+   "content_size": 27467
+  },
+  {
+   "resource_key": "res_7e953dcfcc8d2f4a602dcc5f3f29846f089b74d2d616d260efad036c2bb2bde0",
+   "url": "https://www.8bit.ai/media/2025/06/icon-lock.png",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/png",
+   "content_size": 1939
+  },
+  {
+   "resource_key": "res_83ca3101de279de2d2c4d525d5f9385f9ebe8c4a965375c8418675a3ab82e335",
+   "url": "https://www.8bit.ai/media/2025/06/icon-gpu.png",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/webp",
+   "content_size": 1690
+  },
+  {
+   "resource_key": "res_a036d1ca28e5120ff088cf17d51be0f9fc5cee6751d3a1c45458ea16b9ad61fd",
+   "url": "https://www.8bit.ai/textures/tunnel-circuits-min.jpg",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/jpeg",
+   "content_size": 70049
+  },
+  {
+   "resource_key": "res_a43114a9bd69c7fc85bf878729cb76f8a4010b6ed011803933c3e32c9c57ddd7",
+   "url": "https://www.8bit.ai/_next/static/media/3ceddf084a501fdf-s.p.woff",
+   "origin": "https://www.8bit.ai",
+   "type": "Font",
+   "mime_type": "font/woff",
+   "content_size": 73244
+  },
+  {
+   "resource_key": "res_aaf23a8a5244a46690bc9ad7b75ce77908d847073c1eab065955f7b373e443ce",
+   "url": "https://www.8bit.ai/_next/static/css/05d5d65ed77da545.css?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Stylesheet",
+   "mime_type": "text/css",
+   "content_size": 61435
+  },
+  {
+   "resource_key": "res_ab68cc936783c8ce9a174afb977cef3ad507dd5747bc5987652aa695d39bd008",
+   "url": "https://www.8bit.ai/_next/static/chunks/504.ce9b1b8bdb85c612.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 75161
+  },
+  {
+   "resource_key": "res_ae523fb71773668a34c7fd25363db8daf87c5d9f6794527a4c745405e73e47e8",
+   "url": "https://www.8bit.ai/_next/static/DMN8p872ktiJSHT5UD7Qt/_buildManifest.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 733
+  },
+  {
+   "resource_key": "res_c0fd9594b3f3ca367efa42f1bcf53cd1dd6b9a67ccb98c9911c86fa62aa21eb8",
+   "url": "https://www.8bit.ai/_next/static/media/677ca301d0114ba2-s.p.woff",
+   "origin": "https://www.8bit.ai",
+   "type": "Font",
+   "mime_type": "font/woff",
+   "content_size": 16564
+  },
+  {
+   "resource_key": "res_c57c1c686cdd1320aa5f87ba8ca7692607a1059d45d897fefa6870e20473474e",
+   "url": "https://www.8bit.ai/textures/perlin-datatexture.png",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/png",
+   "content_size": 3500
+  },
+  {
+   "resource_key": "res_cce37fe42c975163f7acd804c6b990df50fc641cb3f82740030f0ed03b05b8cf",
+   "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 1587688
+  },
+  {
+   "resource_key": "res_d543e1d6d3cede1f6e3e20d2f24974b4c8490f039108465ef5737714a0c75d74",
+   "url": "https://www.8bit.ai/_next/static/DMN8p872ktiJSHT5UD7Qt/_ssgManifest.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+   "origin": "https://www.8bit.ai",
+   "type": "Script",
+   "mime_type": "application/javascript",
+   "content_size": 108
+  },
+  {
+   "resource_key": "res_d9910fc12f9c9752bf669f3a880f49b2d27d20c9ef6ec18dcc886a800ad4c300",
+   "url": "https://www.8bit.ai/textures/hero-lines-bold-min.jpg",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/jpeg",
+   "content_size": 14521
+  },
+  {
+   "resource_key": "res_dce77413bd7861f2b55a51752a2f24d38fe6984e2500bfadb730b2e8f8769efe",
+   "url": "https://www.8bit.ai/_next/static/media/0bdd41334b6152e0-s.p.woff",
+   "origin": "https://www.8bit.ai",
+   "type": "Font",
+   "mime_type": "font/woff",
+   "content_size": 14392
+  },
+  {
+   "resource_key": "res_f06ca88619c576b64bfe4a90a3bce201b9d1f1496649bfdd01d12957e2ef25ff",
+   "url": "https://www.8bit.ai/media/2025/05/icon-gpu.png",
+   "origin": "https://www.8bit.ai",
+   "type": "Image",
+   "mime_type": "image/webp",
+   "content_size": 1676
+  }
+ ],
+ "scripts": {
+  "total": 13,
+  "items": [
+   {
+    "script_key": "scr_0e16ac0bffba5b0e3bbed905b7915f78c376436025ef2904c7c964ff73bebbef",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/DMN8p872ktiJSHT5UD7Qt/_ssgManifest.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "3716a155724203a596cffb639c3d3979e1cc2d5fbfe88a32d5a6925e0eb059c6",
+    "length": 108,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": null,
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_d543e1d6d3cede1f6e3e20d2f24974b4c8490f039108465ef5737714a0c75d74"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   },
+   {
+    "script_key": "scr_15228ff044c2595fcdea73bc5d3513fcbc8f17bde9bdc9ab9d13dc86a4070189",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/chunks/webpack-c86462d2ec66fc12.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "3c05a6d0135f863e168dfab397052dbb7c58d92294c8404494693367d402dafc",
+    "length": 4540,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": "https://www.8bit.ai/_next/static/chunks/webpack-c86462d2ec66fc12.js.map",
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_483ff460da54e0680595e92f77e0ecf32525c3cf1917fc1b755f71cfb3cb5ef4"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   },
+   {
+    "script_key": "scr_49cf9d87e5b7200f7d937a7ea142e177a4e183732063e5ad58dd9eb254ebd64b",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/%5B...routes%5D-677a0a529331a522.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "de7e205fe92706760cbca938427004f4719ba058dd847b9c7449145316b3c6c2",
+    "length": 43326,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": "https://www.8bit.ai/_next/static/chunks/pages/[...routes]-677a0a529331a522.js.map",
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_3ade7f641068460f9a7040743ff3820c3f4ccff813ca93946b4771f54b4c301d"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   },
+   {
+    "script_key": "scr_4b02289ad4b3408dbb241f47ed4ff20c69fbcae34c4bbcf672619c34b82f6230",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "a305721c76c5209df452422d3bc117daac811eaf570e918d876f13b2ae13d285",
+    "length": 1587676,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js.map",
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_cce37fe42c975163f7acd804c6b990df50fc641cb3f82740030f0ed03b05b8cf"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   },
+   {
+    "script_key": "scr_5f1fb5a51243eace1fc34252b9184c76f3b091fc1d4c2ffe4666498405d68d50",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/chunks/906.e4a334a8c1a520ac.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "8d833544c17e78776ada2c257496337538256c67d15e7df677493c5c9e9d9b10",
+    "length": 291102,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": "https://www.8bit.ai/_next/static/chunks/906.e4a334a8c1a520ac.js.map",
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_409edefba913d8fc4fa300132ba087ebca02afa12b5047286001c92ebf445589"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   },
+   {
+    "script_key": "scr_66e3bb2f7bcd985ce17a577222a689edaf295d58b0e9cdf70e1a1712b03f9304",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/chunks/504.ce9b1b8bdb85c612.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "69e1f96df8903dcb831603a4c3ee4eec55ae09e269cc07642b222cd20f3d2c91",
+    "length": 75161,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": "https://www.8bit.ai/_next/static/chunks/504.ce9b1b8bdb85c612.js.map",
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_ab68cc936783c8ce9a174afb977cef3ad507dd5747bc5987652aa695d39bd008"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   },
+   {
+    "script_key": "scr_75ba3d36fa8f5c1054810e485eba8cd01bc015f300bb672645dcbb179ed17ea9",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/chunks/610-ab3db9ad36272f0e.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "8d8b947f3023db7e9c7ac0d06b6c273f154a8f7ee2499cad9447da2d6c697d00",
+    "length": 19047,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": "https://www.8bit.ai/_next/static/chunks/610-ab3db9ad36272f0e.js.map",
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_35fd02393f98831a82fdee14967e36159c97e99184e424a0813cae71fe53cfe0"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   },
+   {
+    "script_key": "scr_77c966f27e66229e89d9cf4ee779c52f702a41f8be8ba0ae3482ed8adedbc4a0",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/index-7d7cb21b71f69b1b.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "2c1ff0c5f10a700395ea5ffc5c470a9365f61e5da136ddd4027399b7aaf7f3af",
+    "length": 9123,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": "https://www.8bit.ai/_next/static/chunks/pages/index-7d7cb21b71f69b1b.js.map",
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_62cfe8a0a9fde0fe6f59213bae1edced71d006a6782801ef745a0a9d9edf948d"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   },
+   {
+    "script_key": "scr_7e6986f24c43cd84df268dd218d0d0bedb9a58b30d231ab20a0d087c8a7fb6ec",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/chunks/framework-88998efc9eec3ad5.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "7b8f1da4938efa88fcf6ea0cdb29a0253871a26799e8585963d9800943189157",
+    "length": 140072,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": "https://www.8bit.ai/_next/static/chunks/framework-88998efc9eec3ad5.js.map",
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_4be133cbf2a94ba5b91792a018dc67f5ee7dfdce93fa0b7dbba1b870e7f421de"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   },
+   {
+    "script_key": "scr_801a4d1611900b2a5e3e0876f784fde0844b0e8bad10844dd866a2458589ee80",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/chunks/268-ae781433cd42149f.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "2640027514aea683150802452f6ad53d94e6c0b847780efe54d60a2b8598ecc6",
+    "length": 90619,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": "https://www.8bit.ai/_next/static/chunks/268-ae781433cd42149f.js.map",
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_40d55eeb1611f407c55d56beeb602c6714357128d3d8a63f6ac635486b58c954"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   },
+   {
+    "script_key": "scr_a5178cf96747a3be2dee55bf2e208809d7f251b4ae93fd55fe91a9a699be9024",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/chunks/main-d0f687835b579ce6.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "e42167a7ef42300e95ce04058301170a99b5d7dc55ef38a32148b4312f4b1550",
+    "length": 125423,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": "https://www.8bit.ai/_next/static/chunks/main-d0f687835b579ce6.js.map",
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_16e152b6f12f837c2ab4c461572dd519d32c9abb8b28cae348572d961d223187"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   },
+   {
+    "script_key": "scr_dab538d5eaf909fc32a20d12ae92e4826ec5f2231bc10d478c23bf8d86f5a467",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/DMN8p872ktiJSHT5UD7Qt/_buildManifest.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "a0b5d524e98e18c637b71e264050813e7d9d7c6fa1c6776f33b7d206e1b1f5f5",
+    "length": 733,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": null,
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_ae523fb71773668a34c7fd25363db8daf87c5d9f6794527a4c745405e73e47e8"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   },
+   {
+    "script_key": "scr_ffe40da5caec8e9299f457126306749cd439839a315e40b83b1838fea5cb1cde",
+    "frame_id": "DD590868ED660848C11070C40DC54569",
+    "url": "https://www.8bit.ai/_next/static/chunks/333-862881bc5902782c.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "origin": "https://www.8bit.ai",
+    "cdp_hash": "d7ecbbcf6ee83eba24dda5d116bc5da8b3c0b6f6da7b9c49430b3f12714232d8",
+    "length": 21044,
+    "is_module": false,
+    "language": "JavaScript",
+    "source_map_url": "https://www.8bit.ai/_next/static/chunks/333-862881bc5902782c.js.map",
+    "resource_reconciliation": {
+     "status": "exact",
+     "resource_key": "res_22b3a319a3f24547e12cba0b049e7fafba73dd38bee7d06ea82315fb3eef8ee0"
+    },
+    "source": {
+     "included": false,
+     "reason": "source capture was not selected"
+    }
+   }
+  ]
+ },
+ "console": {
+  "events": [
+   {
+    "type": "warning",
+    "timestamp": 1792602399038.723,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 8,
+    "column": 33995,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported."
+      }
+     ],
+     "retained_bytes": 73
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399443.526,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399444.188,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399446.694,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399448.009,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399448.898,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 164105,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "GSAP target  not found. https://gsap.com"
+      }
+     ],
+     "retained_bytes": 40
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399448.945,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 164105,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "GSAP target  not found. https://gsap.com"
+      }
+     ],
+     "retained_bytes": 40
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399450.847,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399451.434,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399458.037,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399458.406,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399459.09,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399460.081,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399460.613,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 164105,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "GSAP target  not found. https://gsap.com"
+      }
+     ],
+     "retained_bytes": 40
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399460.639,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 164105,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "GSAP target  not found. https://gsap.com"
+      }
+     ],
+     "retained_bytes": 40
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399462.383,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399462.812,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399468.354,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399468.76,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399469.392,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399470.682,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399471.521,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 164105,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "GSAP target  not found. https://gsap.com"
+      }
+     ],
+     "retained_bytes": 40
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399471.572,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 164105,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "GSAP target  not found. https://gsap.com"
+      }
+     ],
+     "retained_bytes": 40
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399473.232,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399473.677,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399478.738,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399479.394,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399480.473,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399481.693,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399482.168,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 164105,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "GSAP target  not found. https://gsap.com"
+      }
+     ],
+     "retained_bytes": 40
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399482.197,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 164105,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "GSAP target  not found. https://gsap.com"
+      }
+     ],
+     "retained_bytes": 40
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399483.566,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399484.265,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399846.745,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399849.522,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399852.342,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399853.933,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399856,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399857.085,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399860.938,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   },
+   {
+    "type": "warning",
+    "timestamp": 1792602399864.235,
+    "argument_types": [
+     "string"
+    ],
+    "url": "https://www.8bit.ai/_next/static/chunks/pages/_app-db73e48274836115.js?dpl=dpl_g9Ez2iKyqZxyrywYk67tAi417S5H",
+    "line": 0,
+    "column": 161762,
+    "text_capture": {
+     "status": "included",
+     "values": [
+      {
+       "argument_index": 0,
+       "type": "string",
+       "text": "SplitText called before fonts loaded"
+      }
+     ],
+     "retained_bytes": 36
+    }
+   }
+  ],
+  "coverage_started_at": "2026-10-21T17:07:03.600Z",
+  "prior_activity_available": false
+ },
+ "storage": {
+  "origin": "https://www.8bit.ai",
+  "usage_bytes": 0,
+  "quota_bytes": 138827614617,
+  "local_storage_keys": [],
+  "session_storage_keys": [],
+  "indexed_db_names": [],
+  "cache_names": [],
+  "content_fingerprints": [],
+  "fingerprint_algorithm": "sha256",
+  "fingerprints_complete": false,
+  "values_redacted": true
+ },
+ "limitations": [
+  "Artifact identity is unavailable for this observation.",
+  "Observation starts when REA attaches; prior network and console activity is unavailable.",
+  "Raw network headers, bodies, cookies, storage values, console objects, and WebSocket payloads are never retained; explicitly requested primitive console text is retained verbatim, while payload captures retain value-free shapes.",
+  "Source maps are reported only as declarative URLs and are not fetched.",
+  "URL-less scripts and console events without an allowed source URL are excluded because their origin cannot be proven.",
+  "CDP discovery omitted the target attachment state; attached is reported as unknown.",
+  "Browser host platform and architecture were not observed."
+ ]
+}
