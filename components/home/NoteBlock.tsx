@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notes } from '@/content/notes';
+import Reveal from '@/components/ui/Reveal';
 
 /** The three field notes: statement-sized teal titles with their quote beneath. */
 export default function NoteBlock() {
@@ -7,6 +8,7 @@ export default function NoteBlock() {
     <ol className="grid gap-lg">
       {notes.map((n) => (
         <li key={n.slug}>
+          <Reveal>
           <article className="grid gap-xs border-t border-hairline pt-sm">
             <h3 className="font-display text-display-sm tracking-[-0.03em] text-primary md:text-headline">
               <Link href={`/notes/${n.slug}`} className="transition-opacity duration-300 ease-out-cubic hover:opacity-50">
@@ -15,6 +17,7 @@ export default function NoteBlock() {
             </h3>
             <p className="text-title-md font-medium">{n.quote}</p>
           </article>
+          </Reveal>
         </li>
       ))}
     </ol>

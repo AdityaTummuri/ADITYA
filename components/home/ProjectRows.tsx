@@ -2,6 +2,7 @@ import { projectsByGroup, caseStudyProjects } from '@/content/projects';
 import type { ProjectGroup } from '@/content/types';
 import AccordionRow from '@/components/ui/AccordionRow';
 import FeatureRow from '@/components/ui/FeatureRow';
+import Reveal from '@/components/ui/Reveal';
 import TextLinkArrow from '@/components/ui/TextLinkArrow';
 
 const GROUP_LABEL: Record<ProjectGroup, string> = {
@@ -19,7 +20,7 @@ export default function ProjectRows() {
   return (
     <div className="grid gap-xl">
       {ORDER.map((g) => (
-        <div key={g}>
+        <Reveal key={g}>
           <h3 data-group className="mb-xs font-display text-title-lg tracking-[-0.03em] text-primary">
             {GROUP_LABEL[g]}
           </h3>
@@ -51,7 +52,7 @@ export default function ProjectRows() {
               );
             })}
           </div>
-        </div>
+        </Reveal>
       ))}
     </div>
   );
