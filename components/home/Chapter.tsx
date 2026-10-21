@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import type { ChapterSpec } from '@/content/types';
 import ButtonPrimary from '@/components/ui/ButtonPrimary';
 import SplitHeading from '@/components/ui/SplitHeading';
-import { buildChapterTimeline } from '@/lib/chapter-timeline';
+import { buildChapterTimeline, REVEALED_AT } from '@/lib/chapter-timeline';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { chapters } from '@/content/chapters';
 import { useScrollStore } from '@/lib/scroll-store';
@@ -76,9 +76,21 @@ export default function Chapter({ spec, layerBody, flowBody }: Props) {
     { scope: root, dependencies: [spec.id] },
   );
 
+  /** Focus landed in a layer that is not currently revealed: scroll to the sub-state that shows it. */
+  const onFocusCapture = (e: React.FocusEvent) => {
+    const section = root.current;
+    const st = ScrollTrigger.getById(spec.id);
+    if (!section || !st || !section.hasAttribute('data-pinned')) return;
+    const name = (e.target as HTMLElement).closest('[data-layer]')?.getAttribute('data-layer');
+    const w = name ? REVEALED_AT[name] : undefined;
+    if (!w) return;
+    if (st.progress >= w.from && st.progress <= w.to) return;
+    window.scrollTo(0, Math.round(st.start + w.at * (st.end - st.start)));
+  };
+
   return (
     <section ref={root} id={spec.id} data-chapter={spec.index} aria-labelledby={`${spec.id}-title`} className="relative">
-      <div data-stage className="container-8bit grid gap-xl py-2xl lg:grid-cols-12 lg:gap-x-[var(--gutter)] [&>*]:min-w-0">
+      <div data-stage onFocusCapture={onFocusCapture} className="container-8bit grid gap-xl py-2xl lg:grid-cols-12 lg:gap-x-[var(--gutter)] [&>*]:min-w-0">
         <div data-layer="lockup" className="lg:col-span-12">
           <Heading id={`${spec.id}-title`} className="font-display font-normal">
             <SplitHeading

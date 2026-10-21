@@ -19,7 +19,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       <HexFrame className="project-hex max-w-[14rem]"><Glyph name={BY_GROUP[project.group]} /></HexFrame>
       <Overline size="sm">{project.status}</Overline>
       <h3 className="text-title-md font-medium">{project.title}</h3>
-      {project.question ? <p className="font-display text-headline tracking-[-0.03em]">{project.question}</p> : null}
+      {project.question ? <p className="font-display text-title-lg tracking-[-0.03em]">{project.question}</p> : null}
       <p className="text-body">{project.summary}</p>
       {project.outcome ? <p className="text-body text-ink-muted">{project.outcome}</p> : null}
       <TextLinkArrow href={`/work/${project.slug}`}>Read the transmission</TextLinkArrow>

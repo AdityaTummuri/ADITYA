@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { gsap } from '@/lib/gsap';
 import { useReducedMotion } from '@/lib/a11y';
 
@@ -16,7 +16,8 @@ export default function RouteWipe() {
   const el = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
 
-  useEffect(() => {
+  // layout effect: the cover must be on before the new route's first paint
+  useLayoutEffect(() => {
     if (prev.current === pathname) return;
     prev.current = pathname;
     const node = el.current;

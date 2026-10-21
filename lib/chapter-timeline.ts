@@ -29,24 +29,41 @@ export function buildChapterTimeline(section: HTMLElement): gsap.core.Timeline {
   const body = layer('body');
   const cta = layer('cta');
 
-  gsap.set([compact, statement, paragraph, body, cta].filter(Boolean), { autoAlpha: 0 });
+  // opacity only (never visibility): hidden layers must stay in the accessibility tree and focusable
+  gsap.set([compact, statement, paragraph, body, cta].filter(Boolean), { opacity: 0 });
+  gsap.set([body, cta].filter(Boolean), { pointerEvents: 'none' });
 
   const tl = gsap.timeline({ defaults: { ease: 'none' } });
   (Object.keys(LABELS) as LabelName[]).forEach((k) => tl.addLabel(k, LABELS[k]));
 
-  if (lockup) tl.to(lockup, { autoAlpha: 0, y: -40, duration: 0.12 }, LABELS.handoff);
-  if (compact) tl.fromTo(compact, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.12 }, LABELS.handoff + 0.04);
+  if (lockup) tl.to(lockup, { opacity: 0, y: -40, duration: 0.12 }, LABELS.handoff);
+  if (compact) tl.fromTo(compact, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.12 }, LABELS.handoff + 0.04);
   if (statement) {
-    tl.fromTo(statement, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.1 }, LABELS.statement);
-    tl.to(statement, { autoAlpha: 0, y: -40, duration: 0.1 }, LABELS.paragraph + 0.08);
+    tl.fromTo(statement, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.1 }, LABELS.statement);
+    tl.to(statement, { opacity: 0, y: -40, duration: 0.1 }, LABELS.paragraph + 0.08);
   }
   if (paragraph) {
-    tl.fromTo(paragraph, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.1 }, LABELS.paragraph);
-    if (body) tl.to(paragraph, { autoAlpha: 0, y: -24, duration: 0.08 }, LABELS.body - 0.04);
+    tl.fromTo(paragraph, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.1 }, LABELS.paragraph);
+    if (body) tl.to(paragraph, { opacity: 0, y: -24, duration: 0.08 }, LABELS.body - 0.04);
   }
-  if (body) tl.fromTo(body, { autoAlpha: 0, x: 40 }, { autoAlpha: 1, x: 0, duration: 0.12 }, LABELS.body);
-  if (cta) tl.fromTo(cta, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.08 }, LABELS.cta);
+  if (body) {
+    tl.fromTo(body, { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.12 }, LABELS.body);
+    tl.set(body, { pointerEvents: 'auto' }, LABELS.body + 0.04);
+  }
+  if (cta) {
+    tl.fromTo(cta, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.08 }, LABELS.cta);
+    tl.set(cta, { pointerEvents: 'auto' }, LABELS.cta + 0.03);
+  }
   // pad so the timeline is exactly 1 long
   tl.to({}, { duration: 0 }, 1);
   return tl;
 }
+
+/** Scroll fraction at which each layer is fully shown; focus on a hidden layer jumps here. */
+export const REVEALED_AT: Record<string, { from: number; to: number; at: number }> = {
+  lockup: { from: 0, to: 0.16, at: 0.02 },
+  statement: { from: 0.4, to: 0.58, at: 0.45 },
+  paragraph: { from: 0.6, to: 0.7, at: 0.64 },
+  body: { from: 0.84, to: 1, at: 0.9 },
+  cta: { from: 0.99, to: 1, at: 1 },
+};

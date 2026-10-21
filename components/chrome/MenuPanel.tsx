@@ -17,8 +17,9 @@ export default function MenuPanel() {
 
   useEffect(() => {
     if (!open) return;
+    // lock the root: html's overflow-x:clip stops body overflow from propagating to the viewport
     document.body.setAttribute('data-scroll-locked', 'true');
-    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     const panel = panelRef.current;
     const toggle = document.querySelector<HTMLButtonElement>('button[aria-label="Menu"]');
     panel?.querySelector<HTMLElement>('a')?.focus();
@@ -43,7 +44,7 @@ export default function MenuPanel() {
     return () => {
       document.removeEventListener('keydown', onKey);
       document.body.removeAttribute('data-scroll-locked');
-      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [open, setOpen]);
 
@@ -89,7 +90,11 @@ export default function MenuPanel() {
                         e.preventDefault();
                         window.history.pushState(null, '', l.href);
                         const y = el.getBoundingClientRect().top + window.scrollY;
-                        if (lenis) lenis.scrollTo(y, { duration: 1.1 });
+                        if (lenis) {
+                          // the menu stopped Lenis; wake it so the scroll (and its easing) actually runs
+                          lenis.start();
+                          lenis.scrollTo(y, { duration: 1.1, force: true });
+                        }
                         else window.scrollTo(0, y);
                       }
                     }

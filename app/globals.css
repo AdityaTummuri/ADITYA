@@ -168,8 +168,8 @@ body {
 [data-chapter][data-pinned] [data-layer="body"] {
   left: 50%;
   right: calc(var(--margin) + 4rem);
-  top: 10rem;
-  bottom: 21rem;
+  top: calc(var(--header-height) + 2rem);
+  bottom: 17rem;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -180,6 +180,7 @@ body {
   bottom: 11.1rem;
 }
 [data-chapter][data-pinned] .project-hex { display: none; }
+[data-chapter][data-pinned] [data-layer="body"] article { gap: 1.6rem; }
 @media (min-width: 1024px) {
   [data-chapter][data-pinned] [data-layer="lockup"],
   [data-chapter][data-pinned] [data-layer="compact"] { bottom: 13.6rem; }

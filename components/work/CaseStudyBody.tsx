@@ -37,7 +37,7 @@ export default function CaseStudyBody({ project }: { project: Project }) {
       </Reveal>
 
       {project.repo ? (
-        <Reveal className="rounded-md bg-gradient-to-r from-[#455d64] to-[#8bb4c0] p-md">
+        <Reveal className="border-t border-hairline pt-md">
           <div className="flex flex-wrap items-center justify-between gap-md">
             <p className="font-display text-headline tracking-[-0.03em]">Read the code</p>
             <ButtonPrimary href={project.repo}>Open repository</ButtonPrimary>
