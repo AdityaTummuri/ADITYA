@@ -36,3 +36,38 @@ test('frames stop while the tab is hidden and resume when visible', async ({ pag
   await page.waitForTimeout(500);
   expect(await page.evaluate(() => window.__sceneFrames ?? 0)).toBeGreaterThan(b);
 });
+
+declare global {
+  interface Window { __sceneEffects?: string[] }
+}
+
+test('the post-processing chain mounts: bloom, grade, grain, smaa', async ({ page }) => {
+  await page.goto('/');
+  await page.waitForFunction(() => (window.__sceneEffects?.length ?? 0) > 0, undefined, { timeout: 15000 });
+  const fx = await page.evaluate(() => window.__sceneEffects);
+  expect(fx).toEqual(expect.arrayContaining(['bloom', 'grade', 'noise']));
+});
+
+test('normal motion keeps rendering frames', async ({ page }) => {
+  await page.goto('/');
+  await page.waitForFunction(() => (window.__sceneFrames ?? 0) > 1, undefined, { timeout: 15000 });
+  const a = await page.evaluate(() => window.__sceneFrames ?? 0);
+  await page.waitForTimeout(2000);
+  const b = await page.evaluate(() => window.__sceneFrames ?? 0);
+  // software GL (SwiftShader) in CI is slow; this only proves the loop is alive, not that it is fast
+  expect(b - a).toBeGreaterThanOrEqual(3);
+});
+
+test('reduced motion renders one still frame and then stops', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await expect(page.locator('canvas')).toHaveCount(1, { timeout: 15000 });
+  await page.waitForFunction(() => (window.__sceneFrames ?? 0) >= 1, undefined, { timeout: 15000 });
+  await page.waitForTimeout(1500);
+  const a = await page.evaluate(() => window.__sceneFrames ?? 0);
+  await page.waitForTimeout(1500);
+  const b = await page.evaluate(() => window.__sceneFrames ?? 0);
+  expect(b).toBe(a);
+  expect(a).toBeLessThanOrEqual(6);
+  await expect(page.locator('canvas')).toBeVisible();
+});

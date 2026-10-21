@@ -5,6 +5,7 @@ import { PerformanceMonitor } from '@react-three/drei';
 import { useEffect, useState } from 'react';
 import { TIER_CONFIG, type Tier } from '@/lib/tier';
 import { useUi } from '@/lib/ui-store';
+import Effects from './Effects';
 import SignalScene from './SignalScene';
 
 /** Pause rendering while the tab is hidden. */
@@ -37,6 +38,7 @@ export default function Scene({ still, tier }: { still: boolean; tier: Tier }) {
       }}
     >
       <SignalScene still={still} streaks={cfg.streaks} points={cfg.points} />
+      <Effects tier={tier} />
       {still ? null : <Pauser />}
       {still ? null : <PerformanceMonitor onDecline={() => setDpr(1)} />}
     </Canvas>
