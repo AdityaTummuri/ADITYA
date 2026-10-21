@@ -4,6 +4,7 @@ import './globals.css';
 import SkipLink from '@/components/chrome/SkipLink';
 import Header from '@/components/chrome/Header';
 import MenuPanel from '@/components/chrome/MenuPanel';
+import Providers from './providers';
 
 const interTight = Inter_Tight({
   subsets: ['latin'],
@@ -31,6 +32,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SkipLink />
         <Header />
         <MenuPanel />
+        <Providers />
+        <noscript>
+          <style>{'[data-split]{visibility:visible!important}'}</style>
+        </noscript>
         <main id="main">{children}</main>
       </body>
     </html>

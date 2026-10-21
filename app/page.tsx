@@ -1,12 +1,11 @@
 import FooterHud from '@/components/chrome/FooterHud';
+import SplitHeading from '@/components/ui/SplitHeading';
 
 export default function Home() {
   return (
     <>
       <div className="container-8bit min-h-svh flex items-end pb-[11.1rem]">
-        <h1 className="font-display font-normal text-display-xl">
-          that dream in signals &amp; motion.
-        </h1>
+        <SplitHeading as="h1" gate lines={['that dream in', 'signals & motion.']} className="font-display font-normal text-display-xl" />
       </div>
       <FooterHud />
     </>

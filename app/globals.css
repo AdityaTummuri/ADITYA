@@ -67,6 +67,7 @@
   --radius-xs: 0.4rem;
   --radius-md: 0.8rem;
 
+  --animate-rotate: rotate 1.8s linear infinite;
   --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
   --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
 
@@ -109,6 +110,8 @@ body {
 }
 
 .container-8bit { padding-inline: var(--margin); width: 100%; }
+
+@keyframes rotate { to { transform: rotate(1turn); } }
 
 /* SplitText masks (see SplitHeading) */
 .line { overflow: hidden; padding-block: 0.1em; margin-top: -0.1em; }
