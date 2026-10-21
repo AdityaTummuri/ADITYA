@@ -1,12 +1,50 @@
 import FooterHud from '@/components/chrome/FooterHud';
-import SplitHeading from '@/components/ui/SplitHeading';
+import SiteFooter from '@/components/chrome/SiteFooter';
+import Chapter from '@/components/home/Chapter';
+import CardSlider from '@/components/home/CardSlider';
+import ContactLinks from '@/components/home/ContactLinks';
+import FocusCard from '@/components/home/FocusCard';
+import NoteBlock from '@/components/home/NoteBlock';
+import NowTiles from '@/components/home/NowTiles';
+import ProjectCard from '@/components/home/ProjectCard';
+import ProjectRows from '@/components/home/ProjectRows';
+import { chapters } from '@/content/chapters';
+import { featuredProjects } from '@/content/projects';
+import { profile } from '@/content/profile';
+import type { ChapterSpec } from '@/content/types';
+
+function bodyFor(spec: ChapterSpec): React.ReactNode {
+  switch (spec.body) {
+    case 'focus-cards':
+      return (
+        <CardSlider label="Focus areas">
+          {profile.focusAreas.map((a, i) => (<FocusCard key={a.title} area={a} index={i} />))}
+        </CardSlider>
+      );
+    case 'project-cards':
+      return (
+        <CardSlider label="Featured projects">
+          {featuredProjects.map((p) => (<ProjectCard key={p.slug} project={p} />))}
+        </CardSlider>
+      );
+    case 'project-rows':
+      return <ProjectRows />;
+    case 'notes':
+      return <NoteBlock />;
+    case 'now':
+      return <NowTiles />;
+    case 'contact':
+      return <ContactLinks />;
+  }
+}
 
 export default function Home() {
   return (
     <>
-      <div className="container-8bit min-h-svh flex items-end pb-[11.1rem]">
-        <SplitHeading as="h1" gate lines={['that dream in', 'signals & motion.']} className="font-display font-normal text-display-xl" />
-      </div>
+      {chapters.map((spec) => (
+        <Chapter key={spec.id} spec={spec} body={bodyFor(spec)} />
+      ))}
+      <SiteFooter />
       <FooterHud />
     </>
   );

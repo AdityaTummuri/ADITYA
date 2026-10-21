@@ -13,6 +13,7 @@ interface Props {
   delay?: number;
   /** Wait for the intro wipe before revealing. */
   gate?: boolean;
+  'data-overline'?: boolean;
 }
 
 /**
@@ -20,7 +21,7 @@ interface Props {
  * autoSplit re-splits when fonts load or the width changes; the tween is built inside onSplit.
  * Hidden until split to avoid a flash (noscript in the layout restores it).
  */
-export default function SplitHeading({ as = 'h2', className, lines, delay = 0, gate = false }: Props) {
+export default function SplitHeading({ as = 'h2', className, lines, delay = 0, gate = false, 'data-overline': overline }: Props) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
 
@@ -37,6 +38,7 @@ export default function SplitHeading({ as = 'h2', className, lines, delay = 0, g
         type: 'lines',
         mask: 'lines',
         linesClass: 'line',
+        aria: 'none',
         autoSplit: true,
         onSplit(self) {
           gsap.set(el, { autoAlpha: 1 });
@@ -64,7 +66,7 @@ export default function SplitHeading({ as = 'h2', className, lines, delay = 0, g
 
   const Tag = as as 'h2';
   return (
-    <Tag ref={ref as React.Ref<HTMLHeadingElement>} className={className} data-split="" style={{ visibility: 'hidden' }}>
+    <Tag ref={ref as React.Ref<HTMLHeadingElement>} className={className} data-split="" data-overline={overline ? '' : undefined} style={{ visibility: 'hidden' }}>
       {lines.map((l, i) => (
         <Fragment key={l}>
           {i > 0 ? <br /> : null}

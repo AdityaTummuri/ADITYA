@@ -98,6 +98,8 @@
 html {
   font-size: 10px;
   background: var(--color-canvas);
+  /* the closed menu panel parks off-screen; never let it widen the layout viewport */
+  overflow-x: clip;
 }
 body {
   background: var(--color-canvas);

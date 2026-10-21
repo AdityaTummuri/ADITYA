@@ -8,7 +8,7 @@ export default function AccordionRow({ title, children, defaultOpen = false, met
   const id = useId();
   return (
     <div className="border-b border-hairline">
-      <h3>
+      <h4>
         <button
           type="button"
           aria-expanded={open}
@@ -22,7 +22,7 @@ export default function AccordionRow({ title, children, defaultOpen = false, met
             <span aria-hidden className="font-display text-title-lg leading-none">{open ? '−' : '+'}</span>
           </span>
         </button>
-      </h3>
+      </h4>
       <div
         id={id}
         role="region"
