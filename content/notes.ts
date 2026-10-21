@@ -26,3 +26,13 @@ export const notes: Note[] = [
     related: ['netra-ugv', 'trapsight', 'the-palesignal'],
   },
 ];
+
+export function getNote(slug: string): Note | undefined {
+  return notes.find((n) => n.slug === slug);
+}
+
+export function adjacentNote(slug: string): { prev: Note; next: Note } | undefined {
+  const i = notes.findIndex((n) => n.slug === slug);
+  if (i < 0) return undefined;
+  return { prev: notes[(i - 1 + notes.length) % notes.length], next: notes[(i + 1) % notes.length] };
+}

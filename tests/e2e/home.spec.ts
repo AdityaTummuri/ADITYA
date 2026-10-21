@@ -41,8 +41,7 @@ test('home has no serious or critical accessibility violations', async ({ page }
 test('the RotorMind row expands to show its trade-off and footnote', async ({ page }) => {
   const row = page.locator('#index [data-row]').filter({ hasText: 'RotorMind' }).first();
   const toggle = row.getByRole('button', { name: /RotorMind/ });
-  // revealed rows stay hidden until scrolled to, so scroll the flow body first
-  await page.locator('#index [data-flow]').evaluate((el) => el.scrollIntoView());
+  await toggle.scrollIntoViewIfNeeded();
   await expect(toggle).toBeVisible();
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await toggle.click();

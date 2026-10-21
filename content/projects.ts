@@ -188,3 +188,23 @@ export const caseStudyProjects = projects.filter((p) => p.tradeoff);
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
 }
+
+/** Splits an outcome sentence into a headline number and its label for a stat tile. */
+export function splitOutcome(outcome: string): { value: string; label: string } {
+  const lead = outcome.match(/^([<~]?\d[\d.,]*\s?[%×x°\w]*?)\s+(.+)$/);
+  if (lead && /^[<~]?\d/.test(lead[1])) return { value: lead[1], label: lead[2] };
+  const any = outcome.match(/[<~]?\d[\d.,]*[%×x°\w]*/);
+  if (any) return { value: any[0], label: outcome };
+  const [first, ...rest] = outcome.split(' ');
+  return { value: first, label: rest.join(' ') };
+}
+
+/** Previous/next in a cycle: featured projects cycle among themselves, the rest among the other case studies. */
+export function adjacentProject(slug: string): { prev: Project; next: Project } | undefined {
+  const me = getProject(slug);
+  if (!me) return undefined;
+  const pool = me.featured ? featuredProjects : caseStudyProjects.filter((p) => !p.featured);
+  const i = pool.findIndex((p) => p.slug === slug);
+  if (i < 0) return undefined;
+  return { prev: pool[(i - 1 + pool.length) % pool.length], next: pool[(i + 1) % pool.length] };
+}

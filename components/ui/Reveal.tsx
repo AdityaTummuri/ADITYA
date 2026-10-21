@@ -12,7 +12,7 @@ export default function Reveal({ children, className }: { children: React.ReactN
     () => {
       if (reduce || !ref.current) return;
       gsap.from(ref.current, {
-        autoAlpha: 0,
+        opacity: 0, // opacity only: revealed content must stay in the accessibility tree and focusable
         y: 24,
         duration: 0.8,
         ease: 'power3.out',
