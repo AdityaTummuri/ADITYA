@@ -37,6 +37,16 @@ export default function Scene({ still, tier }: { still: boolean; tier: Tier }) {
         });
       }}
     >
+      {/* Cinematic three-point lighting rig for TF-01 */}
+      <ambientLight intensity={0.08} />
+      {/* Key light — teal rim from upper-right front */}
+      <directionalLight position={[3, 5, 3]} intensity={0.65} color="#cfe0e5" />
+      {/* Fill light — soft teal-grey from left */}
+      <directionalLight position={[-4, 2, -2]} intensity={0.28} color="#8faab2" />
+      {/* Front accent — glacier glow from camera direction */}
+      <pointLight position={[0, 0, 5]} intensity={0.45} color="#8faab2" decay={2} />
+      {/* Under-bounce — very faint cold from below */}
+      <pointLight position={[0, -3, 1]} intensity={0.1} color="#6a8a94" decay={2} />
       <SignalScene still={still} streaks={cfg.streaks} points={cfg.points} />
       <Effects tier={tier} />
       {still ? null : <Pauser />}

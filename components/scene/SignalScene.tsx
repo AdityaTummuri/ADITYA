@@ -6,7 +6,6 @@ import { MathUtils, type Group, type InstancedMesh, type PerspectiveCamera, type
 import type { Look } from '@/content/types';
 import { useScrollStore } from '@/lib/scroll-store';
 import { useUi } from '@/lib/ui-store';
-import Mark from './Mark';
 import { applyUniforms, createField, createStreakGeometry, createStreakMaterial } from './scene-objects';
 
 interface LookParams { w: [number, number, number, number]; density: number; intensity: number; mark: number; camZ: number; fov: number }
@@ -28,7 +27,6 @@ declare global {
  * useFrame, so scroll progress never triggers a React render.
  */
 export default function SignalScene({ still, streaks, points }: { still: boolean; streaks: number; points: number }) {
-  const markRef = useRef<Group>(null);
   const streakMesh = useRef<InstancedMesh>(null);
   const cur = useRef<LookParams>({ ...LOOKS.streaks, w: [...LOOKS.streaks.w] });
   const announced = useRef(false);
@@ -52,23 +50,19 @@ export default function SignalScene({ still, streaks, points }: { still: boolean
 
     const t = still ? 6 : state.clock.elapsedTime;
     const aspect = state.size.width / state.size.height;
-    const progress = useScrollStore.getState().progress;
-    applyUniforms(streakMat, field, p, t, aspect, state.gl.getPixelRatio());
 
-    const mark = markRef.current;
-    if (mark) {
-      const markScale = p.mark * Math.min(1, aspect * 1.1);
-      mark.visible = markScale > 0.02;
-      mark.scale.setScalar(Math.max(markScale, 0.001));
-      mark.rotation.x = 1.0 + progress * 0.35;
-      mark.rotation.y = t * 0.12;
-      mark.rotation.z = Math.sin(t * 0.2) * 0.2;
-    }
+    // Smoothed mouse for deep parallax in shaders
+    const mx = state.pointer.x;
+    const my = state.pointer.y;
+    applyUniforms(streakMat, field, p, t, aspect, state.gl.getPixelRatio(), mx, my);
+
     const cam = state.camera as PerspectiveCamera;
+    // TF-01 controls its own camera Z via chapter transforms; keep background at p.camZ
     cam.position.z = p.camZ;
     if (!still) {
-      cam.position.x = MathUtils.damp(cam.position.x, state.pointer.x * 0.25, 2, dt);
-      cam.position.y = MathUtils.damp(cam.position.y, state.pointer.y * 0.15, 2, dt);
+      // Stronger camera parallax — the scene feels genuinely 3D
+      cam.position.x = MathUtils.damp(cam.position.x, state.pointer.x * 0.8, 2, dt);
+      cam.position.y = MathUtils.damp(cam.position.y, state.pointer.y * 0.5, 2, dt);
     }
     if (Math.abs(cam.fov - p.fov) > 0.01) { cam.fov = p.fov; cam.updateProjectionMatrix(); }
 
@@ -80,7 +74,6 @@ export default function SignalScene({ still, streaks, points }: { still: boolean
     <>
       <instancedMesh ref={streakMesh} args={[streakGeo, streakMat, streaks]} frustumCulled={false} />
       <primitive object={field} />
-      <Mark ref={markRef} />
     </>
   );
 }

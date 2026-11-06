@@ -17,7 +17,7 @@ export default function Effects({ tier }: { tier: Tier }) {
   return (
     <Suspense fallback={null}>
       <EffectComposer multisampling={0} frameBufferType={HalfFloatType} enableNormalPass={false} resolutionScale={tier === 'low' ? 0.75 : 1}>
-        <Bloom mipmapBlur intensity={0.9} luminanceThreshold={0.55} luminanceSmoothing={0.15} radius={0.7} />
+        <Bloom mipmapBlur intensity={1.4} luminanceThreshold={0.45} luminanceSmoothing={0.25} radius={0.85} />
         <GradeEffect />
         <Noise premultiply blendFunction={BlendFunction.SCREEN} opacity={0.06} />
         {tier === 'low' ? <></> : <SMAA />}

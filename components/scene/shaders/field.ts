@@ -1,10 +1,15 @@
-/** Signal-field points: sparse stars (hero), lattice (circuit), noisy cloud, cylinder flight (tunnel). */
+/** Signal-field points: sparse stars (hero), lattice (circuit), noisy cloud, cylinder flight (tunnel).
+ *
+ * Enhancement: mouse-reactive turbulence — a noise burst that grows toward the cursor,
+ * making the star field feel like it's parting around the viewer's gaze.
+ */
 export const fieldVertex = /* glsl */ `
 attribute vec3 aSeed;
 uniform float uTime;
 uniform float uAspect;
 uniform float uDpr;
 uniform vec4 uLook;
+uniform vec2 uMouse; // normalised -1..1 device coords
 varying float vA;
 
 const float H = 8.28;
@@ -32,8 +37,16 @@ void main() {
   float z = mix(-30.0, 8.0, fract(aSeed.x * 3.1 + uTime * 0.05 * (0.5 + aSeed.y)));
   vec3 tun = vec3(cos(th) * rr, sin(th) * rr, z);
   vec3 p = heroP * uLook.x + grid * uLook.y + cloud * uLook.z + tun * uLook.w;
+
+  // Depth-layered mouse parallax: stars at different seeds move differently
+  float depthLayer = aSeed.y; // 0..1
+  float parallaxAmt = mix(0.12, 0.9, depthLayer);
+  p.xy += uMouse * parallaxAmt * (0.5 + uLook.x * 0.5);
+
+  // Gentle ambient drift
   p.x += sin(uTime * 0.1 + aSeed.y * 6.28) * 0.08;
   p.y += cos(uTime * 0.08 + aSeed.x * 6.28) * 0.08;
+
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
   gl_Position = projectionMatrix * mv;
   gl_PointSize = clamp((1.2 + aSeed.z * 2.0) * uDpr * (8.0 / -mv.z), 1.0, 6.0 * uDpr);

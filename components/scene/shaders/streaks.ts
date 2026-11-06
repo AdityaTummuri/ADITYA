@@ -2,6 +2,9 @@
  * Streak shaders. One instanced quad per streak; four layouts (hero diagonal, circuit lanes,
  * cloud = hidden, tunnel = radial flight) are computed per vertex and blended by `uLook`.
  * World height at z=0 for the default camera (z=10, fov 45) is 8.28.
+ *
+ * Enhancement: depth-layered mouse parallax — foreground streaks move MORE with mouse,
+ * background streaks barely respond, creating real perceived 3D depth.
  */
 export const streaksVertex = /* glsl */ `
 attribute vec4 aSeed; // x seed, y lane, z length, w speed
@@ -9,6 +12,7 @@ uniform float uTime;
 uniform float uAspect;
 uniform float uDensity;
 uniform vec4 uLook; // hero, circuit, cloud, tunnel
+uniform vec2 uMouse; // normalised -1..1 device coords
 varying vec2 vUv;
 varying float vFade;
 
@@ -27,6 +31,13 @@ vec3 hero(vec4 s, vec2 q) {
   float len = s.z * 2.2;
   vec2 head = d * along + n * u;
   vec2 pos = head + d * ((q.x - 0.5) * len) + n * (q.y * 0.018 * (0.5 + s.w * 0.6));
+
+  // Depth-based parallax: streaks whose seed.z > 0.5 are in "foreground"
+  // They shift more with the mouse. Background streaks barely shift.
+  float depth = aSeed.z; // 0..1 random
+  float parallaxStrength = mix(0.08, 0.55, depth);
+  pos += uMouse * parallaxStrength;
+
   return vec3(pos, -s.z * 1.5);
 }
 
@@ -43,6 +54,8 @@ vec3 circuit(vec4 s, vec2 q) {
   float len = s.z * 1.1;
   vec2 head = d * along + n * u;
   vec2 pos = head + d * ((q.x - 0.5) * len) + n * (q.y * 0.014);
+  // Light parallax on circuit layer
+  pos += uMouse * 0.18;
   return vec3(pos, -2.0);
 }
 

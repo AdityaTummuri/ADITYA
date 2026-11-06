@@ -2,15 +2,17 @@
 
 import Loader from '@/components/chrome/Loader';
 import RouteWipe from '@/components/chrome/RouteWipe';
+import AudioButton from '@/components/chrome/AudioButton';
 import SmoothScroll from '@/lib/smooth-scroll';
 
-/** Client-side runtime mounted once in the root layout: smooth scroll, loader, route wipe. */
+/** Client-side runtime mounted once in the root layout: smooth scroll, loader, route wipe, audio. */
 export default function Providers() {
   return (
     <>
       <SmoothScroll />
       <Loader />
       <RouteWipe />
+      <AudioButton />
     </>
   );
 }

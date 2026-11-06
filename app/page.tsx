@@ -12,18 +12,22 @@ import NoteBlock from '@/components/home/NoteBlock';
 import NowTiles from '@/components/home/NowTiles';
 import ProjectCard from '@/components/home/ProjectCard';
 import ProjectRows from '@/components/home/ProjectRows';
+import CardTilt from '@/components/ui/CardTilt';
 import { chapters } from '@/content/chapters';
 import { featuredProjects } from '@/content/projects';
 import { profile } from '@/content/profile';
 import type { ChapterSpec } from '@/content/types';
-
 function bodyFor(spec: ChapterSpec): { layer?: React.ReactNode; flow?: React.ReactNode } {
   switch (spec.body) {
     case 'focus-cards':
       return {
         layer: (
           <CardSlider label="Focus areas">
-            {profile.focusAreas.map((a, i) => (<FocusCard key={a.title} area={a} index={i} />))}
+            {profile.focusAreas.map((a, i) => (
+              <CardTilt key={a.title}>
+                <FocusCard area={a} index={i} />
+              </CardTilt>
+            ))}
           </CardSlider>
         ),
       };
@@ -31,7 +35,11 @@ function bodyFor(spec: ChapterSpec): { layer?: React.ReactNode; flow?: React.Rea
       return {
         layer: (
           <CardSlider label="Featured projects">
-            {featuredProjects.map((p) => (<ProjectCard key={p.slug} project={p} />))}
+            {featuredProjects.map((p) => (
+              <CardTilt key={p.slug}>
+                <ProjectCard project={p} />
+              </CardTilt>
+            ))}
           </CardSlider>
         ),
       };

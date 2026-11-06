@@ -30,24 +30,27 @@ export function buildChapterTimeline(section: HTMLElement): gsap.core.Timeline {
   const cta = layer('cta');
 
   // opacity only (never visibility): hidden layers must stay in the accessibility tree and focusable
-  gsap.set([compact, statement, paragraph, body, cta].filter(Boolean), { opacity: 0 });
-  gsap.set([body, cta].filter(Boolean), { pointerEvents: 'none' });
+  const hiddenLayers = [compact, statement, paragraph, body, cta].filter(Boolean);
+  if (hiddenLayers.length > 0) gsap.set(hiddenLayers, { opacity: 0 });
+
+  const interactiveLayers = [body, cta].filter(Boolean);
+  if (interactiveLayers.length > 0) gsap.set(interactiveLayers, { pointerEvents: 'none' });
 
   const tl = gsap.timeline({ defaults: { ease: 'none' } });
   (Object.keys(LABELS) as LabelName[]).forEach((k) => tl.addLabel(k, LABELS[k]));
 
-  if (lockup) tl.to(lockup, { opacity: 0, y: -40, duration: 0.12 }, LABELS.handoff);
-  if (compact) tl.fromTo(compact, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.12 }, LABELS.handoff + 0.04);
+  if (lockup) tl.to(lockup, { opacity: 0, y: -40, rotateX: 3, duration: 0.12 }, LABELS.handoff);
+  if (compact) tl.fromTo(compact, { opacity: 0, y: 40, rotateX: -2 }, { opacity: 1, y: 0, rotateX: 0, duration: 0.12 }, LABELS.handoff + 0.04);
   if (statement) {
-    tl.fromTo(statement, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.1 }, LABELS.statement);
-    tl.to(statement, { opacity: 0, y: -40, duration: 0.1 }, LABELS.paragraph + 0.08);
+    tl.fromTo(statement, { opacity: 0, y: 40, rotateY: 2 }, { opacity: 1, y: 0, rotateY: 0, duration: 0.1 }, LABELS.statement);
+    tl.to(statement, { opacity: 0, y: -40, rotateY: -1, duration: 0.1 }, LABELS.paragraph + 0.08);
   }
   if (paragraph) {
-    tl.fromTo(paragraph, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.1 }, LABELS.paragraph);
+    tl.fromTo(paragraph, { opacity: 0, y: 24, rotateY: 1.5 }, { opacity: 1, y: 0, rotateY: 0, duration: 0.1 }, LABELS.paragraph);
     if (body) tl.to(paragraph, { opacity: 0, y: -24, duration: 0.08 }, LABELS.body - 0.04);
   }
   if (body) {
-    tl.fromTo(body, { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.12 }, LABELS.body);
+    tl.fromTo(body, { opacity: 0, x: 40, rotateY: -3 }, { opacity: 1, x: 0, rotateY: 0, duration: 0.12 }, LABELS.body);
     tl.set(body, { pointerEvents: 'auto' }, LABELS.body + 0.04);
   }
   if (cta) {
