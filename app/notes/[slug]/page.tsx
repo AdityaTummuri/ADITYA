@@ -42,7 +42,7 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
               <FeatureRow key={p.slug} title={p.title} aside={p.status}>
                 <p>{p.summary}</p>
                 <div className="mt-xs">
-                  {p.tradeoff ? <TextLinkArrow href={`/work/${p.slug}`}>Read the transmission</TextLinkArrow> : p.repo ? <TextLinkArrow href={p.repo}>Repository</TextLinkArrow> : null}
+                  {p.tradeoff ? <TextLinkArrow href={`/work/${p.slug}`}>Read the case</TextLinkArrow> : p.repo ? <TextLinkArrow href={p.repo}>Repository</TextLinkArrow> : null}
                 </div>
               </FeatureRow>
             ))}

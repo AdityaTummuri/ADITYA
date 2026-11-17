@@ -28,14 +28,14 @@ test('the social image is a 1200x630 png', async ({ request }) => {
 test('an unknown route shows the 404 lockup with a way home', async ({ page }) => {
   const res = await page.goto('/nope');
   expect(res?.status()).toBe(404);
-  await expect(page.getByText('Signal lost', { exact: true })).toBeVisible();
-  await expect(page.getByRole('heading', { name: /Nothing on this frequency/ })).toBeVisible();
-  await expect(page.getByRole('link', { name: /Back to the start/ })).toHaveAttribute('href', '/');
+  await expect(page.getByText('404', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /nothing here/ })).toBeVisible();
+  await expect(page.getByRole('link', { name: /back to start/ })).toHaveAttribute('href', '/');
 });
 
 test('pages declare a title, description and theme colour', async ({ page }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle('AdityaTummuri — The Dreaming Machine');
+  await expect(page).toHaveTitle('AdityaTummuri');
   expect(await page.locator('meta[name="description"]').getAttribute('content')).toContain('ECE student');
   expect(await page.locator('meta[name="theme-color"]').getAttribute('content')).toBe('#000000');
 });

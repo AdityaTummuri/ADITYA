@@ -7,11 +7,11 @@ test.beforeEach(async ({ page }) => {
   await expect(page.locator('[data-loader]')).toHaveCount(0, { timeout: 10000 });
 });
 
-test('a menu anchor click scrolls the home to that chapter (synthetic click, Lenis stopped by the menu)', async ({ page, viewport }) => {
-  test.skip(!wide(viewport), 'pinned chapters are wide-screen');
+test('a menu anchor click scrolls the home to that section (synthetic click, Lenis stopped by the menu)', async ({ page, viewport }) => {
+  test.skip(!wide(viewport), 'checked on wide screens');
   await page.locator('button[aria-label="Menu"]').click();
-  await page.getByRole('dialog', { name: 'Site menu' }).getByRole('link', { name: 'Index' }).evaluate((el: HTMLElement) => el.click());
-  await expect.poll(() => page.locator('section#index').evaluate((el) => Math.round(el.getBoundingClientRect().top)), { timeout: 6000 }).toBeLessThanOrEqual(1);
+  await page.getByRole('dialog', { name: 'Site menu' }).getByRole('link', { name: 'About' }).evaluate((el: HTMLElement) => el.click());
+  await expect.poll(() => page.locator('section#about').evaluate((el) => Math.round(el.getBoundingClientRect().top)), { timeout: 6000 }).toBeLessThanOrEqual(1);
 });
 
 test('with the menu open, neither the wheel nor the keyboard scrolls the page behind it', async ({ page }) => {
@@ -24,55 +24,6 @@ test('with the menu open, neither the wheel nor the keyboard scrolls the page be
   await page.waitForTimeout(800);
   expect(await page.evaluate(() => Math.round(window.scrollY))).toBe(0);
 });
-
-test('chapter headings and CTAs stay in the accessibility tree and Tab reaches them', async ({ page, viewport }) => {
-  test.skip(!wide(viewport), 'pinned layers are wide-screen');
-  await expect(page.getByRole('heading', { name: /that dream in/ })).toHaveCount(1);
-  await page.evaluate(() => window.scrollTo(0, 1500));
-  await page.waitForTimeout(700);
-  // mid-chapter the lockup has faded out, but the heading must remain exposed
-  await expect(page.getByRole('heading', { name: /that dream in/ })).toHaveCount(1);
-  await page.evaluate(() => window.scrollTo(0, 0));
-  await page.waitForTimeout(500);
-  let reached = false;
-  for (let i = 0; i < 40 && !reached; i++) {
-    await page.keyboard.press('Tab');
-    reached = await page.evaluate(() => document.activeElement?.getAttribute('href') === '#transmissions');
-  }
-  expect(reached).toBe(true);
-  // focusing a layer that is not yet revealed brings its sub-state into view
-  await expect.poll(() => page.evaluate(() => Math.round(window.scrollY)), { timeout: 4000 }).toBeGreaterThan(1000);
-  await expect.poll(() => page.locator('#hero [data-layer="cta"]').evaluate((el) => +getComputedStyle(el).opacity), { timeout: 4000 }).toBeGreaterThan(0.9);
-});
-
-for (const size of [{ width: 1366, height: 768 }, { width: 1280, height: 720 }]) {
-  test(`transmissions cards keep arrows, dots and link inside the pinned layer at ${size.width}x${size.height}`, async ({ page, viewport }) => {
-    test.skip(!wide(viewport), 'pinned layers are wide-screen');
-    await page.setViewportSize(size);
-    await page.waitForTimeout(600);
-    const top = await page.locator('#transmissions').evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
-    await page.evaluate((y) => window.scrollTo(0, y), top + 0.95 * 3 * size.height);
-    await page.waitForTimeout(1200);
-    for (let i = 0; i < 4; i++) {
-      const fits = await page.evaluate(() => {
-        const layer = document.querySelector('#transmissions [data-layer="body"]')!.getBoundingClientRect();
-        const pick = (sel: string) => document.querySelector(sel)!.getBoundingClientRect();
-        const next = pick('#transmissions button[aria-label="Next card"]');
-        const dots = [...document.querySelectorAll('#transmissions button[aria-label^="Go to card"]')].map((d) => d.getBoundingClientRect());
-        const slides = [...document.querySelectorAll('#transmissions [aria-roledescription="slide"]')];
-        const cur = slides.find((s) => { const r = s.getBoundingClientRect(); const c = r.left + r.width / 2; return c > layer.left && c < layer.right; });
-        const link = cur?.querySelector('a')?.getBoundingClientRect();
-        const inside = (r?: DOMRect) => !!r && r.top >= layer.top - 1 && r.bottom <= layer.bottom + 1;
-        return { next: inside(next), dots: dots.every(inside), link: inside(link) };
-      });
-      expect(fits).toEqual({ next: true, dots: true, link: true });
-      if (i < 3) {
-        await page.locator('#transmissions button[aria-label="Next card"]').click();
-        await page.waitForTimeout(500);
-      }
-    }
-  });
-}
 
 test('the new route is never painted uncovered', async ({ page, viewport }) => {
   test.skip(!wide(viewport), 'checked on wide screens');

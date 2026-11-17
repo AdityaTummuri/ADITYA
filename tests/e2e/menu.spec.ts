@@ -31,7 +31,7 @@ test('menu links use display-sm and the current page is dimmed', async ({ page, 
   await page.goto('/');
   await page.locator('button[aria-label="Menu"]').click();
   const home = page.getByRole('dialog', { name: 'Site menu' }).getByRole('link', { name: 'Home' });
-  const other = page.getByRole('dialog', { name: 'Site menu' }).getByRole('link', { name: 'Transmissions' });
+  const other = page.getByRole('dialog', { name: 'Site menu' }).getByRole('link', { name: 'Work' });
   await expect(home).toBeVisible();
   expect(await other.evaluate((el) => getComputedStyle(el).fontSize)).toBe('39.06px');
   expect(await home.evaluate((el) => getComputedStyle(el).opacity)).toBe('0.2');

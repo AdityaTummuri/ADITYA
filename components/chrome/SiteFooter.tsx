@@ -28,6 +28,7 @@ export default function SiteFooter() {
         </div>
         <div className={col}>
           <h2 className="text-[2rem] font-light leading-[1.4]">Elsewhere</h2>
+          <a href={profile.linkedin} className={link}>LinkedIn</a>
           <a href={profile.github} className={link}>GitHub</a>
           <a href={`mailto:${profile.email}`} className={link}>Email</a>
         </div>

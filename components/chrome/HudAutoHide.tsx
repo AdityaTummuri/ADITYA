@@ -4,8 +4,8 @@ import { useEffect, useRef } from 'react';
 import { useScrollStore } from '@/lib/scroll-store';
 
 /**
- * Fades its fixed children out while the page is over flowing content (a pinned chapter that has
- * finished and has a flow body below it) or the site footer, and back in during pinned stages.
+ * Fades its fixed children out once the page has left the hero (they would lie on the flowing
+ * sections) and over the site footer, and back in on the hero.
  */
 export default function HudAutoHide({ children }: { children: React.ReactNode }) {
   const el = useRef<HTMLDivElement>(null);
@@ -16,7 +16,7 @@ export default function HudAutoHide({ children }: { children: React.ReactNode })
       if (el.current) el.current.style.opacity = state.current.flow || state.current.footer ? '0' : '1';
     };
     const unsub = useScrollStore.subscribe((s) => {
-      const flow = s.chapter >= 2 && s.progress >= 0.995;
+      const flow = s.chapter > 0;
       if (flow !== state.current.flow) {
         state.current.flow = flow;
         apply();

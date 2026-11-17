@@ -44,7 +44,7 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
         />
       </div>
       <section aria-labelledby="work-cta" className="container-8bit flex flex-col items-center gap-sm pb-2xl text-center">
-        <h2 id="work-cta" className="font-display text-display-sm font-normal tracking-[-0.05em] md:text-display-lg">Send a signal back.</h2>
+        <h2 id="work-cta" className="font-display text-display-sm font-normal tracking-[-0.05em] md:text-display-lg">No rush. Write when ready.</h2>
         <ButtonPrimary href={`mailto:${profile.email}`}>Send a signal</ButtonPrimary>
       </section>
       <SiteFooter />

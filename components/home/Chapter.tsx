@@ -4,145 +4,96 @@ import { useRef } from 'react';
 import type { ChapterSpec } from '@/content/types';
 import ButtonPrimary from '@/components/ui/ButtonPrimary';
 import SplitHeading from '@/components/ui/SplitHeading';
-import HeroTelemetry from '@/components/home/HeroTelemetry';
-import { buildChapterTimeline, REVEALED_AT } from '@/lib/chapter-timeline';
-import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
-import { chapters } from '@/content/chapters';
+import { ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { useScrollStore } from '@/lib/scroll-store';
 
 interface Props {
   spec: ChapterSpec;
-  /** Card/slider content that lives inside the pinned stage. */
-  layerBody?: React.ReactNode;
-  /** Tall content (rows, tiles) that flows after the pin releases. */
-  flowBody?: React.ReactNode;
+  /** Right-hand column beside the hero lockup. */
+  aside?: React.ReactNode;
+  /** The section's content, filling the screen under the heading. */
+  children?: React.ReactNode;
 }
 
 /**
- * Reports a chapter's progress to the scroll store. ScrollTriggers fire in arbitrary order after a
- * jump, so a finished earlier chapter must not overwrite a later one, and an unreached later chapter
- * must not overwrite the current one.
+ * One home section (DESIGN.md `chapter-lockup`, `statement`). Plain document flow: a section is one
+ * or two screens tall and never pinned. ScrollTrigger only tells the scene which look to blend to.
  */
-function report(spec: ChapterSpec, progress: number) {
-  const st = useScrollStore.getState();
-  if (progress >= 1 && spec.index < st.chapter) return;
-  if (progress <= 0 && spec.index > st.chapter) return;
-  if (progress <= 0 && spec.index === st.chapter && spec.index > 0) {
-    const prev = chapters[spec.index - 1];
-    st.set(prev.index, 1, prev.look);
-    return;
-  }
-  st.set(spec.index, progress, spec.look);
-}
-
-/**
- * One home chapter (DESIGN.md `chapter-lockup`, `statement`). On wide screens without reduced
- * motion the stage is pinned and its layers are scrubbed by one timeline; otherwise the layers
- * simply stack in document order.
- */
-export default function Chapter({ spec, layerBody, flowBody }: Props) {
+export default function Chapter({ spec, aside, children }: Props) {
   const root = useRef<HTMLElement>(null);
-  const Heading = spec.index === 0 ? 'h1' : 'h2';
-  const reveal = spec.index > 0;
+  const hero = spec.index === 0;
+  const Heading = hero ? 'h1' : 'h2';
 
   useGSAP(
     () => {
       const section = root.current;
       if (!section) return;
-      const stage = section.querySelector<HTMLElement>('[data-stage]');
-      if (!stage) return;
-      const mm = gsap.matchMedia();
-      mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
-        section.setAttribute('data-pinned', '');
-        const tl = buildChapterTimeline(section);
-        ScrollTrigger.create({
-          id: spec.id,
-          trigger: stage,
-          animation: tl,
-          start: 'top top',
-          end: () => `+=${spec.pinViewports * window.innerHeight}`,
-          pin: true,
-          scrub: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => report(spec, self.progress),
-          onToggle: (self) => {
-            if (self.isActive) report(spec, self.progress);
-          },
-        });
-        return () => section.removeAttribute('data-pinned');
+      ScrollTrigger.create({
+        id: spec.id,
+        trigger: section,
+        start: 'top 55%',
+        end: 'bottom 55%',
+        onUpdate: (self) => {
+          if (self.isActive) useScrollStore.getState().set(spec.index, self.progress, spec.look);
+        },
+        onToggle: (self) => {
+          if (self.isActive) useScrollStore.getState().set(spec.index, self.progress, spec.look);
+        },
       });
-      return () => mm.revert();
     },
     { scope: root, dependencies: [spec.id] },
   );
 
-  /** Focus landed in a layer that is not currently revealed: scroll to the sub-state that shows it. */
-  const onFocusCapture = (e: React.FocusEvent) => {
-    const section = root.current;
-    const st = ScrollTrigger.getById(spec.id);
-    if (!section || !st || !section.hasAttribute('data-pinned')) return;
-    const name = (e.target as HTMLElement).closest('[data-layer]')?.getAttribute('data-layer');
-    const w = name ? REVEALED_AT[name] : undefined;
-    if (!w) return;
-    if (st.progress >= w.from && st.progress <= w.to) return;
-    window.scrollTo(0, Math.round(st.start + w.at * (st.end - st.start)));
-  };
-
   return (
-    <section ref={root} id={spec.id} data-chapter={spec.index} aria-labelledby={`${spec.id}-title`} className="relative">
-      <div data-stage onFocusCapture={onFocusCapture} className="container-8bit grid gap-xl py-2xl lg:grid-cols-12 lg:gap-x-[var(--gutter)] [&>*]:min-w-0">
-        <div
-          data-layer="lockup"
-          className={spec.index === 0 ? 'lg:col-span-7 lg:flex lg:flex-col lg:justify-center' : 'lg:col-span-12'}
-        >
+    <section
+      ref={root}
+      id={spec.id}
+      data-chapter={spec.index}
+      aria-labelledby={`${spec.id}-title`}
+      className={`relative flex min-h-svh scroll-mt-0 items-center ${hero ? 'pb-[14rem] pt-[calc(var(--header-height)+4rem)]' : 'py-2xl pt-[calc(var(--header-height)+4rem)]'}`}
+    >
+      <div className="container-8bit grid w-full gap-xl lg:grid-cols-12 lg:gap-x-[var(--gutter)] [&>*]:min-w-0">
+        <div className={hero ? 'lg:col-span-7 lg:flex lg:flex-col lg:justify-end' : 'lg:col-span-7'}>
           <Heading id={`${spec.id}-title`} className="font-display font-normal">
             <SplitHeading
               as="span"
               data-overline
               lines={[spec.overline]}
-              gate={spec.index === 0}
-              trigger={reveal}
-              className="block text-display-sm text-primary md:text-display-lg"
+              gate={hero}
+              trigger={!hero}
+              className={`block text-primary ${hero ? 'text-display-sm md:text-display-lg' : 'text-title-lg'}`}
             />
             <SplitHeading
               as="span"
               lines={spec.title}
-              gate={spec.index === 0}
-              trigger={reveal}
+              gate={hero}
+              trigger={!hero}
               delay={0.15}
-              className="block text-display-sm leading-none md:text-display-xl"
+              className={`block leading-none ${hero ? 'text-display-sm md:text-display-xl' : 'text-headline md:text-display-sm'}`}
             />
           </Heading>
+          {hero ? (
+            <div className="mt-lg grid gap-sm">
+              <p className="font-display text-title-lg tracking-[-0.03em] text-primary">{spec.statement}</p>
+              {spec.paragraph ? <p className="max-w-[56rem] text-title-md font-medium">{spec.paragraph}</p> : null}
+              {spec.cta ? (
+                <div className="mt-xs">
+                  <ButtonPrimary href={spec.cta.href}>{spec.cta.label}</ButtonPrimary>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
         </div>
-        {spec.index === 0 ? (
-          <div
-            data-layer="telemetry"
-            className="hidden lg:col-span-5 lg:flex lg:flex-col lg:justify-center"
-          >
-            <HeroTelemetry />
+        {hero ? (
+          aside ? <div className="hidden lg:col-span-5 lg:flex lg:flex-col lg:justify-end">{aside}</div> : null
+        ) : (
+          <div className="grid content-end gap-xs lg:col-span-5">
+            <p className="font-display text-title-md tracking-[-0.03em] text-primary">{spec.statement}</p>
+            {spec.paragraph ? <p className="text-body text-ink-muted">{spec.paragraph}</p> : null}
           </div>
-        ) : null}
-        <div data-layer="compact" aria-hidden className="font-display tracking-[-0.03em]">
-          <span className="block text-title-lg text-primary">{spec.overline}</span>
-          <span className="block text-headline">{spec.title.join(' ')}</span>
-        </div>
-        <p data-layer="statement" className="font-display text-display-sm text-primary tracking-[-0.03em] md:text-display-md lg:col-span-6">
-          {spec.statement}
-        </p>
-        {spec.paragraph ? (
-          <p data-layer="paragraph" className="text-title-md font-medium lg:col-span-7 lg:col-start-6">
-            {spec.paragraph}
-          </p>
-        ) : null}
-        {layerBody ? <div data-layer="body" className="lg:col-span-12">{layerBody}</div> : null}
-        {spec.cta ? (
-          <div data-layer="cta" className="lg:col-span-12">
-            <ButtonPrimary href={spec.cta.href}>{spec.cta.label}</ButtonPrimary>
-          </div>
-        ) : null}
+        )}
+        {children ? <div className="lg:col-span-12">{children}</div> : null}
       </div>
-      {flowBody ? <div data-flow className="container-8bit pb-2xl">{flowBody}</div> : null}
     </section>
   );
 }

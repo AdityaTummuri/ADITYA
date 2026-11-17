@@ -2,7 +2,7 @@
 
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
-import { MathUtils, type Group, type InstancedMesh, type PerspectiveCamera, type ShaderMaterial } from 'three';
+import { MathUtils, type InstancedMesh, type PerspectiveCamera, type ShaderMaterial } from 'three';
 import type { Look } from '@/content/types';
 import { useScrollStore } from '@/lib/scroll-store';
 import { useUi } from '@/lib/ui-store';

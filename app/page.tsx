@@ -1,56 +1,27 @@
-import ChapterKeys from '@/components/chrome/ChapterKeys';
-import HudAutoHide from '@/components/chrome/HudAutoHide';
 import FooterHud from '@/components/chrome/FooterHud';
+import HudAutoHide from '@/components/chrome/HudAutoHide';
+import ChapterKeys from '@/components/chrome/ChapterKeys';
 import ProgressRail from '@/components/chrome/ProgressRail';
 import ScrollHint from '@/components/chrome/ScrollHint';
 import SiteFooter from '@/components/chrome/SiteFooter';
+import AboutBlock from '@/components/home/AboutBlock';
 import Chapter from '@/components/home/Chapter';
-import CardSlider from '@/components/home/CardSlider';
 import ContactLinks from '@/components/home/ContactLinks';
-import FocusCard from '@/components/home/FocusCard';
-import NoteBlock from '@/components/home/NoteBlock';
-import NowTiles from '@/components/home/NowTiles';
-import ProjectCard from '@/components/home/ProjectCard';
+import HeroTelemetry from '@/components/home/HeroTelemetry';
 import ProjectRows from '@/components/home/ProjectRows';
-import CardTilt from '@/components/ui/CardTilt';
 import { chapters } from '@/content/chapters';
-import { featuredProjects } from '@/content/projects';
-import { profile } from '@/content/profile';
 import type { ChapterSpec } from '@/content/types';
-function bodyFor(spec: ChapterSpec): { layer?: React.ReactNode; flow?: React.ReactNode } {
-  switch (spec.body) {
-    case 'focus-cards':
-      return {
-        layer: (
-          <CardSlider label="Focus areas">
-            {profile.focusAreas.map((a, i) => (
-              <CardTilt key={a.title}>
-                <FocusCard area={a} index={i} />
-              </CardTilt>
-            ))}
-          </CardSlider>
-        ),
-      };
-    case 'project-cards':
-      return {
-        layer: (
-          <CardSlider label="Featured projects">
-            {featuredProjects.map((p) => (
-              <CardTilt key={p.slug}>
-                <ProjectCard project={p} />
-              </CardTilt>
-            ))}
-          </CardSlider>
-        ),
-      };
-    case 'project-rows':
-      return { flow: <ProjectRows /> };
-    case 'notes':
-      return { flow: <NoteBlock /> };
-    case 'now':
-      return { flow: <NowTiles /> };
+
+function bodyFor(spec: ChapterSpec): { aside?: React.ReactNode; body?: React.ReactNode } {
+  switch (spec.id) {
+    case 'hero':
+      return { aside: <HeroTelemetry /> };
+    case 'work':
+      return { body: <ProjectRows /> };
+    case 'about':
+      return { body: <AboutBlock /> };
     case 'contact':
-      return { flow: <ContactLinks /> };
+      return { body: <ContactLinks /> };
   }
 }
 
@@ -58,12 +29,16 @@ export default function Home() {
   return (
     <>
       {chapters.map((spec) => {
-        const b = bodyFor(spec);
-        return <Chapter key={spec.id} spec={spec} layerBody={b.layer} flowBody={b.flow} />;
+        const { aside, body } = bodyFor(spec);
+        return (
+          <Chapter key={spec.id} spec={spec} aside={aside}>
+            {body}
+          </Chapter>
+        );
       })}
       <SiteFooter />
+      <ProgressRail />
       <HudAutoHide>
-        <ProgressRail />
         <FooterHud hint={<ScrollHint />} />
       </HudAutoHide>
       <ChapterKeys />

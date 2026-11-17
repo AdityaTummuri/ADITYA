@@ -82,7 +82,7 @@ test('losing the WebGL context swaps in the CSS fallback', async ({ page }) => {
     gl.getExtension('WEBGL_lose_context')!.loseContext();
   });
   await expect(page.locator('[data-webgl-fallback]')).toBeVisible({ timeout: 5000 });
-  await expect(page.locator('h1')).toContainText('that dream in');
+  await expect(page.locator('h1')).toContainText('listen first');
 });
 
 test('with the real canvas mounted there are no serious or critical a11y violations', async ({ page }) => {

@@ -1,4 +1,4 @@
-# Aditya Tummuri — The Dreaming Machine
+# AdityaTummuri
 
 Portfolio site in the 8bit.ai visual language. Design source: `DESIGN.md`; content source: `information.md`; plan: `docs/superpowers/plans/2026-10-22-portfolio.md`.
 

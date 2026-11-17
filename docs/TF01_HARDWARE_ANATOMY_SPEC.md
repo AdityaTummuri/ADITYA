@@ -1,7 +1,7 @@
 # TF-01 FIELD INSTRUMENT & PORTFOLIO ENHANCEMENT
 ## Master Implementation Blueprint & Execution Checklist
 
-> **Purpose:** This document serves as the persistent single source of truth for "The Dreaming Machine" portfolio enhancement. Any model or agent taking over this workspace must reference this document to execute and track progress.
+> **Purpose:** This document serves as the persistent single source of truth for the AdityaTummuri portfolio enhancement. Any model or agent taking over this workspace must reference this document to execute and track progress.
 
 ---
 

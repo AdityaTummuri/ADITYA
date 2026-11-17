@@ -14,7 +14,7 @@ describe('content', () => {
     expect(projects.map((p) => p.order)).toEqual(Array.from({ length: 20 }, (_, i) => i + 1));
   });
 
-  it('features the four transmissions in order', () => {
+  it('features the four builds in order', () => {
     expect(featuredProjects.map((p) => p.slug)).toEqual(['rotormind', 'netra-ugv', 'fracsst-mamba', 'my-terminal']);
   });
 
@@ -39,12 +39,11 @@ describe('content', () => {
   });
 
   it('carries the headline verbatim', () => {
-    expect(profile.headline).toEqual(['I build machines', 'that dream in', 'signals & motion.']);
+    expect(profile.headline).toEqual(['AdityaTummuri', 'machines that', 'listen first.']);
     expect(profile.email).toBe('adityafrom2007@gmail.com');
   });
 
-  it('defines six chapters, hero pinned for 3 viewports', () => {
-    expect(chapters.map((c) => c.id)).toEqual(['hero', 'transmissions', 'index', 'notes', 'now', 'contact']);
-    expect(chapters[0].pinViewports).toBe(3);
+  it('defines four sections in order', () => {
+    expect(chapters.map((c) => c.id)).toEqual(['hero', 'work', 'about', 'contact']);
   });
 });

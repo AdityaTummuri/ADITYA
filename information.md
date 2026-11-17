@@ -17,7 +17,7 @@
 | **Studying** | Electronics & Communication Engineering (ECE) |
 
 ### Tagline / Headline
-- **Site title:** "Aditya Tummuri — The Dreaming Machine"
+- **Site title:** "AdityaTummuri"
 - **Role line:** ECE · Embedded Systems · Signal Processing · Edge ML
 - **Hero headline (3 lines):**
   1. "I build machines"
@@ -323,7 +323,7 @@
 **Tech stack:** TanStack Start (React SSR) · TypeScript · Tailwind CSS · shadcn/ui · Vite
 
 **Sections / Navigation:**
-1. **Hero** — "The Dreaming Machine" with animated DreamPlanet visual + telemetry presets (Survey / Deep Scan / Drift)
+1. **Hero** — AdityaTummuri with animated DreamPlanet visual + telemetry presets (Survey / Deep Scan / Drift)
 2. **Transmissions (§01)** — 4 featured projects with full-bleed visuals (RotorMind, NETRA-UGV, FracSST-Mamba, MY_TERMINAL)
 3. **Index (§02)** — Full project grid (WorkList component with all projects)
 4. **CraftLab** — Interactive micro-experiments (transition timing, SVG wave harmonics, telemetry inspector)
@@ -336,7 +336,7 @@
 - Dark background (`#191430` — deep navy/indigo)
 - Accent colors: Lime (green), Cyan, Peach
 - Typography: Display font (large, tight tracking) + Serif (italic accents) + Mono (labels)
-- Aesthetic: sci-fi signal / dreaming machine / lo-fi telemetry HUD
+- Aesthetic: calm, dark, signal-driven
 
 **Command palette:** Cmd/Ctrl-K opens a searchable command palette for navigation, repos, contact, and hero preset switching.
 
@@ -344,14 +344,11 @@
 
 ## 📌 Key Identity Phrases to Reuse
 
-- "The Dreaming Machine"
-- "I build machines that dream in signals & motion."
-- "Field notes from Aditya Tummuri"
-- "Receive transmissions" (CTA button)
-- "Send a signal back." (Contact CTA)
-- "Selected transmissions" (projects section label)
-- "Labelled for what it is" (index section subtitle)
-- "A systems mind, with a sense of wonder." (About title)
+- "machines that listen first." (hero title)
+- "see the work" (CTA button)
+- "no rush. write when ready." (contact title)
+- "selected work" (projects section label)
+- "calm mind. curious hands." (About title)
 - "Features before models" / "Touching hardware carefully" / "Labelling work honestly" (notes)
 
 ---

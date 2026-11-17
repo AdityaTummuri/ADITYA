@@ -27,7 +27,7 @@ export default function ProgressRail() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed right-[var(--margin)] top-0 z-30 hidden h-full w-[0.2rem] flex-col items-center justify-center [@media(pointer:fine)]:flex"
+      className="pointer-events-none fixed right-[calc(var(--margin)/2)] top-0 z-30 hidden h-full w-[0.2rem] flex-col items-center justify-center [@media(pointer:fine)]:flex"
     >
       <span ref={label} className="mb-xs whitespace-nowrap text-body-sm text-ink-muted">00</span>
       <span className="h-[0.2rem] w-[0.2rem] bg-ink" />

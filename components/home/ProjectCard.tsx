@@ -1,28 +1,19 @@
 import type { Project } from '@/content/types';
-import HexFrame from '@/components/ui/HexFrame';
 import Overline from '@/components/ui/Overline';
 import TextLinkArrow from '@/components/ui/TextLinkArrow';
-import { Glyph, type GlyphName } from './glyphs';
 
-const BY_GROUP: Record<Project['group'], GlyphName> = {
-  'embedded-robotics': 'wave',
-  'ai-ml': 'grid',
-  systems: 'prompt',
-  experiments: 'cube',
-  'products-analytics': 'sine',
-};
-
-/** Featured transmission card: status overline, title, the question, outcome, link to the case study. */
+/** Featured build: status overline, title, the question it asks, outcome, link to the case study. */
 export default function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="flex flex-col gap-sm">
-      <HexFrame className="project-hex max-w-[14rem]"><Glyph name={BY_GROUP[project.group]} /></HexFrame>
+    <article className="flex h-full flex-col gap-xs rounded-md border border-hairline bg-canvas/60 p-md backdrop-blur-md transition duration-300 ease-out-cubic hover:-translate-y-[2px] hover:border-primary/60">
       <Overline size="sm">{project.status}</Overline>
       <h3 className="text-title-md font-medium">{project.title}</h3>
-      {project.question ? <p className="font-display text-title-lg tracking-[-0.03em]">{project.question}</p> : null}
-      <p className="text-body">{project.summary}</p>
-      {project.outcome ? <p className="text-body text-ink-muted">{project.outcome}</p> : null}
-      <TextLinkArrow href={`/work/${project.slug}`}>Read the transmission</TextLinkArrow>
+      {project.question ? <p className="font-display text-body tracking-[-0.01em] text-primary-soft">{project.question}</p> : null}
+      <p className="text-body-sm text-ink-muted">{project.summary}</p>
+      {project.outcome ? <p className="text-body-sm text-ink">{project.outcome}</p> : null}
+      <div className="mt-auto pt-xs">
+        <TextLinkArrow href={`/work/${project.slug}`}>read the case</TextLinkArrow>
+      </div>
     </article>
   );
 }

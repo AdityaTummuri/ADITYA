@@ -58,10 +58,17 @@ export interface Profile {
   name: string;
   email: string;
   github: string;
+  linkedin: string;
   university: string;
   location: string;
   mode: string;
   studying: string;
+  degree: string;
+  year: string;
+  /** Non-tech interests, shown plainly. */
+  interests: string[];
+  /** What the visitor can reach out about. */
+  openTo: string;
   siteTitle: string;
   roleLine: string;
   headline: [string, string, string];
@@ -74,10 +81,8 @@ export interface Profile {
   phrases: Record<string, string>;
 }
 
-export type ChapterBody = 'focus-cards' | 'project-cards' | 'project-rows' | 'notes' | 'now' | 'contact';
-
 export interface ChapterSpec {
-  id: 'hero' | 'transmissions' | 'index' | 'notes' | 'now' | 'contact';
+  id: 'hero' | 'work' | 'about' | 'contact';
   index: number;
   label: string;
   overline: string;
@@ -86,6 +91,4 @@ export interface ChapterSpec {
   paragraph?: string;
   cta?: { label: string; href: string };
   look: Look;
-  pinViewports: number;
-  body: ChapterBody;
 }

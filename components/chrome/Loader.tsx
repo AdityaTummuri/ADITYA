@@ -4,15 +4,14 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from '@/lib/gsap';
 import { useReducedMotion } from '@/lib/a11y';
 import { useUi } from '@/lib/ui-store';
-import LogoA from '@/components/ui/LogoA';
 
 const FULL = 'polygon(0 0, 100% 0, 100% 100%, 0 100%)';
 const MID = 'polygon(0 0, 100% 0, 100% 0, 0 100%)';
 const GONE = 'polygon(0 0, 100% 0, 100% 0, 0 0)';
 
 /**
- * Canvas-black cover with wordmark and arc, then the diagonal clip-path wipe (1.3s power2.inOut)
- * and the chrome intro (logo up, hamburger lines drawn). Skipped under reduced motion.
+ * Canvas-black cover with the name and arc, then the diagonal clip-path wipe (1.3s power2.inOut)
+ * and the chrome intro (name up, hamburger lines drawn). Skipped under reduced motion.
  */
 export default function Loader() {
   const reduce = useReducedMotion();
@@ -58,10 +57,7 @@ export default function Loader() {
       aria-hidden
       className="fixed inset-0 z-[99] flex items-center justify-center bg-canvas"
     >
-      <div className="flex flex-col items-center gap-xs">
-        <LogoA className="h-[3.6rem] w-[3.6rem] drop-shadow-[0_0_12px_rgba(143,170,178,0.6)]" />
-        <span className="font-display text-[1.7rem] tracking-[-0.02em] text-ink">AdityaTummuri</span>
-      </div>
+      <span className="font-display text-[1.7rem] tracking-[-0.02em] text-ink">AdityaTummuri</span>
       <span className="absolute h-[16rem] w-[16rem] animate-rotate rounded-full border-2 border-transparent border-r-ink border-t-ink" />
     </div>
   );
