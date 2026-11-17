@@ -20,9 +20,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const p = getProject(slug);
   if (!p) return {};
   return {
-    title: `${p.title} — Aditya Tummuri`,
+    title: `${p.title} — AdityaTummuri`,
     description: p.summary,
-    openGraph: { title: `${p.title} — Aditya Tummuri`, description: p.summary },
+    openGraph: { title: `${p.title} — AdityaTummuri`, description: p.summary },
   };
 }
 

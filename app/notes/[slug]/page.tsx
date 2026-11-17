@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const n = getNote(slug);
   if (!n) return {};
-  return { title: `${n.title} — Aditya Tummuri`, description: n.quote, openGraph: { title: n.title, description: n.quote } };
+  return { title: `${n.title} — AdityaTummuri`, description: n.quote, openGraph: { title: n.title, description: n.quote } };
 }
 
 export default async function NotePage({ params }: { params: Promise<{ slug: string }> }) {

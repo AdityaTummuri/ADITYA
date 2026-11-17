@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import type { ChapterSpec } from '@/content/types';
 import ButtonPrimary from '@/components/ui/ButtonPrimary';
 import SplitHeading from '@/components/ui/SplitHeading';
+import HeroTelemetry from '@/components/home/HeroTelemetry';
 import { buildChapterTimeline, REVEALED_AT } from '@/lib/chapter-timeline';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { chapters } from '@/content/chapters';
@@ -91,7 +92,10 @@ export default function Chapter({ spec, layerBody, flowBody }: Props) {
   return (
     <section ref={root} id={spec.id} data-chapter={spec.index} aria-labelledby={`${spec.id}-title`} className="relative">
       <div data-stage onFocusCapture={onFocusCapture} className="container-8bit grid gap-xl py-2xl lg:grid-cols-12 lg:gap-x-[var(--gutter)] [&>*]:min-w-0">
-        <div data-layer="lockup" className="lg:col-span-12">
+        <div
+          data-layer="lockup"
+          className={spec.index === 0 ? 'lg:col-span-7 lg:flex lg:flex-col lg:justify-center' : 'lg:col-span-12'}
+        >
           <Heading id={`${spec.id}-title`} className="font-display font-normal">
             <SplitHeading
               as="span"
@@ -111,6 +115,14 @@ export default function Chapter({ spec, layerBody, flowBody }: Props) {
             />
           </Heading>
         </div>
+        {spec.index === 0 ? (
+          <div
+            data-layer="telemetry"
+            className="hidden lg:col-span-5 lg:flex lg:flex-col lg:justify-center"
+          >
+            <HeroTelemetry />
+          </div>
+        ) : null}
         <div data-layer="compact" aria-hidden className="font-display tracking-[-0.03em]">
           <span className="block text-title-lg text-primary">{spec.overline}</span>
           <span className="block text-headline">{spec.title.join(' ')}</span>

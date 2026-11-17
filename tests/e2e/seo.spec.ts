@@ -35,7 +35,7 @@ test('an unknown route shows the 404 lockup with a way home', async ({ page }) =
 
 test('pages declare a title, description and theme colour', async ({ page }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle('Aditya Tummuri — The Dreaming Machine');
+  await expect(page).toHaveTitle('AdityaTummuri — The Dreaming Machine');
   expect(await page.locator('meta[name="description"]').getAttribute('content')).toContain('ECE student');
   expect(await page.locator('meta[name="theme-color"]').getAttribute('content')).toBe('#000000');
 });

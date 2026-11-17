@@ -1,59 +1,51 @@
-import { projectsByGroup, caseStudyProjects } from '@/content/projects';
-import type { ProjectGroup } from '@/content/types';
-import AccordionRow from '@/components/ui/AccordionRow';
-import FeatureRow from '@/components/ui/FeatureRow';
+'use client';
+
+import { projects } from '@/content/projects';
+import { profile } from '@/content/profile';
 import Reveal from '@/components/ui/Reveal';
-import TextLinkArrow from '@/components/ui/TextLinkArrow';
+import ButtonPrimary from '@/components/ui/ButtonPrimary';
+import RepoCard from './RepoCard';
 
-const GROUP_LABEL: Record<ProjectGroup, string> = {
-  'embedded-robotics': 'Embedded & Robotics',
-  'ai-ml': 'AI & Signal',
-  systems: 'Systems & Tooling',
-  experiments: 'Interfaces & Experiments',
-  'products-analytics': 'Analytics & Simulation',
-};
-const ORDER: ProjectGroup[] = ['embedded-robotics', 'ai-ml', 'systems', 'experiments', 'products-analytics'];
-const hasCase = new Set(caseStudyProjects.map((p) => p.slug));
+// 8 curated standout repositories across all domains
+const CURATED_SLUGS = [
+  'rotormind',
+  'netra-ugv',
+  'fracsst-mamba',
+  'armmimic',
+  'hp-omen-fan-control',
+  'my-terminal',
+  'ascii-cam',
+  'sudo-shoot',
+];
 
-/** Full index: every project grouped by what it is made of, labelled with its status. */
+const curatedProjects = CURATED_SLUGS.map((slug) => projects.find((p) => p.slug === slug)).filter(Boolean) as typeof projects;
+
+/** Curated repository cards with 3D tilt and cursor-reactive hover effects. */
 export default function ProjectRows() {
   return (
     <div className="grid gap-xl">
-      {ORDER.map((g) => (
-        <Reveal key={g}>
-          <h3 data-group className="mb-xs font-display text-title-lg tracking-[-0.03em] text-primary">
-            {GROUP_LABEL[g]}
-          </h3>
-          <div className="border-t border-hairline">
-            {projectsByGroup[g].map((p) => {
-              const links = (
-                <div className="mt-xs flex flex-wrap gap-md">
-                  {hasCase.has(p.slug) ? <TextLinkArrow href={`/work/${p.slug}`}>Read the transmission</TextLinkArrow> : null}
-                  {p.repo ? <TextLinkArrow href={p.repo}>Repository</TextLinkArrow> : null}
-                </div>
-              );
-              return p.tradeoff || p.footnote ? (
-                <div key={p.slug} data-row>
-                  <AccordionRow title={p.title} meta={p.status}>
-                    <p>{p.summary}</p>
-                    {p.outcome ? <p className="mt-xs text-ink-muted">{p.outcome}</p> : null}
-                    {p.tradeoff ? <p className="mt-sm"><span className="text-ink-muted">Architecture trade-off. </span>{p.tradeoff}</p> : null}
-                    {p.footnote ? <p className="mt-xs"><span className="text-ink-muted">Engineering footnote. </span>{p.footnote}</p> : null}
-                    {links}
-                  </AccordionRow>
-                </div>
-              ) : (
-                <div key={p.slug} data-row>
-                  <FeatureRow title={p.title} aside={p.event ? `${p.status} · ${p.event}` : p.status}>
-                    <p>{p.summary}</p>
-                    {links}
-                  </FeatureRow>
-                </div>
-              );
-            })}
-          </div>
-        </Reveal>
-      ))}
+      <Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-md lg:gap-lg">
+          {curatedProjects.map((p) => (
+            <RepoCard key={p.slug} project={p} />
+          ))}
+        </div>
+      </Reveal>
+
+      {/* Footer link to view full catalogue on GitHub */}
+      <div className="mt-md flex flex-col items-center justify-center gap-xs text-center border-t border-hairline/40 pt-lg">
+        <p className="text-body text-ink-muted">
+          Showing 8 of {projects.length} curated repositories.
+        </p>
+        <a
+          href={profile.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-body text-primary transition-colors hover:text-primary-soft underline underline-offset-4"
+        >
+          View all 40+ repositories on GitHub →
+        </a>
+      </div>
     </div>
   );
 }

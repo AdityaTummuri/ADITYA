@@ -23,6 +23,7 @@ export const labelFractions = Object.values(LABELS);
 export function buildChapterTimeline(section: HTMLElement): gsap.core.Timeline {
   const layer = (name: string) => section.querySelector<HTMLElement>(`[data-layer="${name}"]`);
   const lockup = layer('lockup');
+  const telemetry = layer('telemetry');
   const compact = layer('compact');
   const statement = layer('statement');
   const paragraph = layer('paragraph');
@@ -39,7 +40,13 @@ export function buildChapterTimeline(section: HTMLElement): gsap.core.Timeline {
   const tl = gsap.timeline({ defaults: { ease: 'none' } });
   (Object.keys(LABELS) as LabelName[]).forEach((k) => tl.addLabel(k, LABELS[k]));
 
-  if (lockup) tl.to(lockup, { opacity: 0, y: -40, rotateX: 3, duration: 0.12 }, LABELS.handoff);
+  const lockupTargets = [lockup, telemetry].filter(Boolean) as HTMLElement[];
+  if (lockupTargets.length > 0) {
+    tl.to(lockupTargets, { opacity: 0, y: -40, rotateX: 3, duration: 0.12 }, LABELS.handoff);
+    if (telemetry) {
+      tl.set(telemetry, { pointerEvents: 'none' }, LABELS.handoff + 0.12);
+    }
+  }
   if (compact) tl.fromTo(compact, { opacity: 0, y: 40, rotateX: -2 }, { opacity: 1, y: 0, rotateX: 0, duration: 0.12 }, LABELS.handoff + 0.04);
   if (statement) {
     tl.fromTo(statement, { opacity: 0, y: 40, rotateY: 2 }, { opacity: 1, y: 0, rotateY: 0, duration: 0.1 }, LABELS.statement);
@@ -65,6 +72,7 @@ export function buildChapterTimeline(section: HTMLElement): gsap.core.Timeline {
 /** Scroll fraction at which each layer is fully shown; focus on a hidden layer jumps here. */
 export const REVEALED_AT: Record<string, { from: number; to: number; at: number }> = {
   lockup: { from: 0, to: 0.16, at: 0.02 },
+  telemetry: { from: 0, to: 0.16, at: 0.02 },
   statement: { from: 0.4, to: 0.58, at: 0.45 },
   paragraph: { from: 0.6, to: 0.7, at: 0.64 },
   body: { from: 0.84, to: 1, at: 0.9 },

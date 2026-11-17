@@ -47,10 +47,31 @@ void main() {
   p.x += sin(uTime * 0.1 + aSeed.y * 6.28) * 0.08;
   p.y += cos(uTime * 0.08 + aSeed.x * 6.28) * 0.08;
 
+  // ── Cursor disturbance & elastic reset ──────────────────────────────────
+  // Project to screen NDC space to determine proximity to mouse
+  vec4 preMv = modelViewMatrix * vec4(p, 1.0);
+  vec4 preClip = projectionMatrix * preMv;
+  vec2 ndc = preClip.xy / max(preClip.w, 0.001);
+  vec2 dScreen = ndc - uMouse;
+  dScreen.x *= uAspect;
+  float dist = length(dScreen);
+
+  float pushRadius = 0.52;
+  float force = smoothstep(pushRadius, 0.0, dist);
+  if (force > 0.001) {
+    vec2 pushDir = normalize(dScreen + 1e-4);
+    vec2 curl = vec2(-pushDir.y, pushDir.x);
+    // Elastic disturbance pulse with subtle vortex
+    float disturb = force * (2.6 + 0.8 * sin(uTime * 4.0 + aSeed.z * 6.28));
+    float cloudBonus = 1.0 + 1.2 * uLook.z; // Extra pronounced in Field Dispatches
+    p.xy += (pushDir * disturb + curl * (disturb * 0.4)) * cloudBonus;
+    p.z += force * 1.5 * cloudBonus;
+  }
+
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
   gl_Position = projectionMatrix * mv;
-  gl_PointSize = clamp((1.2 + aSeed.z * 2.0) * uDpr * (8.0 / -mv.z), 1.0, 6.0 * uDpr);
-  vA = (0.25 + 0.5 * aSeed.y) * (0.45 + uLook.z * 0.9 + uLook.y * 0.3);
+  gl_PointSize = clamp((1.2 + aSeed.z * 2.0 + force * 2.8) * uDpr * (8.0 / -mv.z), 1.0, 7.5 * uDpr);
+  vA = (0.25 + 0.5 * aSeed.y + force * 0.5) * (0.45 + uLook.z * 0.9 + uLook.y * 0.3);
 }
 `;
 

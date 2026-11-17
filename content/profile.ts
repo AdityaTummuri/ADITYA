@@ -1,14 +1,14 @@
 import type { Profile } from './types';
 
 export const profile: Profile = {
-  name: 'Aditya Tummuri',
+  name: 'AdityaTummuri',
   email: 'adityafrom2007@gmail.com',
   github: 'https://github.com/AdityaTummuri',
   university: 'Amrita Vishwa Vidyapeetham, Amritapuri',
   location: 'Kerala, India',
   mode: 'Student · Builder',
   studying: 'Electronics & Communication Engineering (ECE)',
-  siteTitle: 'Aditya Tummuri — The Dreaming Machine',
+  siteTitle: 'AdityaTummuri — The Dreaming Machine',
   roleLine: 'ECE · Embedded Systems · Signal Processing · Edge ML',
   headline: ['I build machines', 'that dream in', 'signals & motion.'],
   subheadline:
@@ -44,7 +44,7 @@ export const profile: Profile = {
   phrases: {
     identity: 'The Dreaming Machine',
     headline: 'I build machines that dream in signals & motion.',
-    notes: 'Field notes from Aditya Tummuri',
+    notes: 'Field notes from AdityaTummuri',
     cta: 'Receive transmissions',
     contact: 'Send a signal back.',
     projects: 'Selected transmissions',

@@ -25,7 +25,7 @@ export const viewport: Viewport = { themeColor: '#000000' };
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Aditya Tummuri — The Dreaming Machine',
+  title: 'AdityaTummuri — The Dreaming Machine',
   description:
     'An ECE student working where software runs into the physical world — sensors and signals, models small enough for the edge, robots that perceive terrain, and the Linux tools that hold it all together.',
 };

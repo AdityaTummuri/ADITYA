@@ -49,7 +49,7 @@ export const chapters: ChapterSpec[] = [
     overline: 'Open channel.',
     title: ['Send a', 'signal back.'],
     statement: 'The dreaming machine is listening.',
-    paragraph: 'Email is the fastest way in. Field notes from Aditya Tummuri, Kerala, India.',
+    paragraph: 'Email is the fastest way in. Field notes from AdityaTummuri, Kerala, India.',
     cta: { label: 'Send a signal', href: 'mailto:adityafrom2007@gmail.com' },
     look: 'tunnel', pinViewports: 2, body: 'contact',
   },
