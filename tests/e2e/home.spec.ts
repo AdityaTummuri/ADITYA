@@ -3,7 +3,6 @@ import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('[data-loader]')).toHaveCount(0, { timeout: 10000 });
 });
 
 test('one h1 carries the headline; lockup uses the display scale', async ({ page, viewport }) => {
@@ -25,11 +24,11 @@ test('work lists four featured projects linking to their case studies', async ({
   const cards = page.locator('#work article');
   await expect(cards).toHaveCount(4);
   const hrefs = await cards.locator('a[href^="/work/"]').evaluateAll((els) => els.map((e) => e.getAttribute('href')));
-  expect(hrefs).toEqual(['/work/rotormind', '/work/netra-ugv', '/work/fracsst-mamba', '/work/my-terminal']);
+  expect(hrefs).toEqual(['/work/rotormind', '/work/netra-ugv', '/work/fracsst-mamba', '/work/vocal-biomarker-edge']);
 });
 
-test('work lists six more labelled projects under the featured four', async ({ page }) => {
-  await expect(page.locator('#work ul li')).toHaveCount(6);
+test('work lists the other sixteen projects under the four flagships', async ({ page }) => {
+  await expect(page.locator('#work ul li')).toHaveCount(16);
 });
 
 test('home has no serious or critical accessibility violations', async ({ page }) => {

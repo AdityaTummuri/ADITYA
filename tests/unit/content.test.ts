@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import { projects, featuredProjects, projectsByGroup, getProject, caseStudyProjects } from '@/content/projects';
-import { notes } from '@/content/notes';
 import { profile } from '@/content/profile';
 import { chapters } from '@/content/chapters';
 
@@ -15,7 +14,7 @@ describe('content', () => {
   });
 
   it('features the four builds in order', () => {
-    expect(featuredProjects.map((p) => p.slug)).toEqual(['rotormind', 'netra-ugv', 'fracsst-mamba', 'my-terminal']);
+    expect(featuredProjects.map((p) => p.slug)).toEqual(['rotormind', 'netra-ugv', 'fracsst-mamba', 'vocal-biomarker-edge']);
   });
 
   it('gives every project a known group and status', () => {
@@ -33,9 +32,18 @@ describe('content', () => {
     expect(getProject('nope')).toBeUndefined();
   });
 
-  it('has three notes whose related slugs exist', () => {
-    expect(notes).toHaveLength(3);
-    for (const n of notes) for (const r of n.related) expect(getProject(r)).toBeDefined();
+  it('folds the three former notes into the case studies as lessons', () => {
+    const lessons = projects.filter((p) => p.lesson);
+    expect(lessons.map((p) => p.slug).sort()).toEqual(['fracsst-mamba', 'hp-omen-fan-control', 'netra-ugv']);
+    for (const p of lessons) expect(caseStudyProjects).toContain(p);
+  });
+
+  it('gives every flagship a question, an outcome and a trade-off', () => {
+    for (const p of featuredProjects) {
+      expect(p.question).toBeTruthy();
+      expect(p.outcome).toBeTruthy();
+      expect(p.tradeoff).toBeTruthy();
+    }
   });
 
   it('carries the headline verbatim', () => {

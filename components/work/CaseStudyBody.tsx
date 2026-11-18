@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { Project } from '@/content/types';
 import { splitOutcome } from '@/content/projects';
 import ButtonPrimary from '@/components/ui/ButtonPrimary';
@@ -5,16 +6,21 @@ import FeatureRow from '@/components/ui/FeatureRow';
 import Reveal from '@/components/ui/Reveal';
 import StatTile from '@/components/ui/StatTile';
 
-/** Facts, the question, trade-off and footnote of a case study. */
+/** A case study told as a story: the question, the choice that shaped it, what got in the way, what it taught. */
 export default function CaseStudyBody({ project }: { project: Project }) {
   const stat = project.outcome ? splitOutcome(project.outcome) : undefined;
   return (
     <div className="container-8bit grid gap-xl pb-xl">
-      <Reveal className="grid gap-xs sm:grid-cols-2 lg:grid-cols-4">
+      {project.media ? (
+        <Reveal className="mx-auto w-full max-w-[84rem] overflow-hidden rounded-md border border-hairline">
+          <Image src={project.media.src} alt={project.media.alt} width={project.media.width} height={project.media.height} sizes="(min-width: 1024px) 84rem, 100vw" className="h-auto w-full" />
+        </Reveal>
+      ) : null}
+
+      <Reveal className="grid gap-xs sm:grid-cols-3">
         {stat ? <StatTile value={stat.value} label={stat.label} /> : null}
         <StatTile value={project.status} label="status, labelled for what it is" />
         <StatTile value={project.category} label="category" />
-        <StatTile value={String(project.tags.length)} label={project.tags.join(', ')} />
       </Reveal>
 
       {project.question ? (
@@ -26,10 +32,13 @@ export default function CaseStudyBody({ project }: { project: Project }) {
 
       <Reveal className="mx-auto w-full max-w-[84rem] border-t border-hairline">
         {project.tradeoff ? (
-          <FeatureRow titleAs="h2" title="Architecture trade-off">{project.tradeoff}</FeatureRow>
+          <FeatureRow titleAs="h2" title="The choice that shaped it">{project.tradeoff}</FeatureRow>
         ) : null}
         {project.footnote ? (
-          <FeatureRow titleAs="h2" title="Engineering footnote">{project.footnote}</FeatureRow>
+          <FeatureRow titleAs="h2" title="What got in the way">{project.footnote}</FeatureRow>
+        ) : null}
+        {project.lesson ? (
+          <FeatureRow titleAs="h2" title={project.lesson.title}>{project.lesson.body}</FeatureRow>
         ) : null}
         {project.tech || project.tags.length ? (
           <FeatureRow titleAs="h2" title="Stack">{(project.tech ?? project.tags).join(' · ')}</FeatureRow>

@@ -22,6 +22,7 @@ export const projects: Project[] = [
     footnote: 'Label noise in the training set was the real bottleneck — spent more time writing annotation QA scripts than training the model itself.',
     question: 'Where is it safe for a ground vehicle to drive?',
     repo: gh('Netra-UGV'),
+    lesson: { title: 'Labelling work honestly', body: 'A lot of what I build is a prototype, a concept or a team effort. Saying which is which keeps me honest about what I actually learned, and what still needs proving.' },
     featured: true, order: 2,
   },
   {
@@ -33,17 +34,19 @@ export const projects: Project[] = [
     footnote: 'Fractional Fourier features improved separability of overlapping gestures but required careful numerical stability — clamped magnitudes to avoid NaN gradients during training.',
     question: 'What does a person’s movement look like to a radar?',
     repo: gh('FracSST-Mamba'),
+    lesson: { title: 'Features before models', body: 'On the audio and radar work, most of the leverage came from how the signal was framed and filtered. A smaller model on well-prepared features is easier to run on a device and easier to reason about.' },
     featured: true, order: 3,
   },
   {
     slug: 'vocal-biomarker-edge', title: 'Vocal Biomarker Edge', group: 'ai-ml', category: 'AI/ML', status: 'Prototype',
     summary: 'Client-side acoustic feature extraction from voice recordings, kept entirely on the device.',
     tags: ['DSP', 'Audio features', 'Browser'],
+    question: 'Can a voice be analysed without it ever leaving the phone?',
     outcome: '<120ms feature extraction on mid-range Android Chrome',
     tradeoff: 'Runs entirely in the browser via Web Audio API + WASM instead of a server roundtrip — eliminates privacy concerns but limits model size to what fits in a ServiceWorker cache.',
     footnote: 'Safari’s AudioWorklet implementation had subtle timing bugs that caused frame drops. Fell back to ScriptProcessorNode on WebKit with a 512-sample buffer compromise.',
     repo: gh('vocal-biomarker-edge'),
-    featured: false, order: 4,
+    featured: true, order: 4,
   },
   {
     slug: 'kavach-upi', title: 'Kavach-UPI', group: 'systems', category: 'Systems', status: 'Prototype',
@@ -64,7 +67,7 @@ export const projects: Project[] = [
     footnote: 'The trickiest part is font and locale detection across WSL, native Linux, and macOS — ended up probing $TERM_PROGRAM and os-release to pick code paths.',
     question: 'Can one terminal follow me between every machine I touch?',
     repo: gh('MY_TERMINAL'),
-    featured: true, order: 6,
+    featured: false, order: 6,
   },
   {
     slug: 'hp-omen-fan-control', title: 'HP OMEN CPU Fan Control', group: 'systems', category: 'Systems', status: 'Tooling',
@@ -74,6 +77,7 @@ export const projects: Project[] = [
     tradeoff: 'Direct EC register writes via /dev/port over a kernel module approach — faster to iterate but requires root and careful validation per BIOS revision.',
     footnote: 'Fail-safe is critical: if the script crashes, the EC reverts to BIOS-default fan curves within 3 seconds. Tested by kill -9 during thermal stress.',
     repo: gh('Hp-OMEN-cpu-fan-control'),
+    lesson: { title: 'Touching hardware carefully', body: 'Writing fan control for a laptop the vendor doesn’t support on Linux meant reading carefully before writing anything. The rule I keep: fail safe, log everything, and make the default the hardware’s own behaviour.' },
     featured: false, order: 7,
   },
   {

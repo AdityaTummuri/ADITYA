@@ -4,7 +4,6 @@ const wide = (v?: { width: number } | null) => (v?.width ?? 0) >= 768;
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('[data-loader]')).toHaveCount(0, { timeout: 10000 });
 });
 
 test('sections flow in the document: nothing is pinned and none overlap', async ({ page }) => {
@@ -33,7 +32,6 @@ test('the hero panel shows real figures, not a drawing', async ({ page, viewport
 test('a hash lands the section at the top of the viewport', async ({ page, viewport }) => {
   test.skip(!wide(viewport), 'checked on wide screens');
   await page.goto('/#work');
-  await expect(page.locator('[data-loader]')).toHaveCount(0, { timeout: 10000 });
   await expect
     .poll(() => page.locator('section#work').evaluate((el) => Math.round(el.getBoundingClientRect().top)), { timeout: 5000 })
     .toBeLessThanOrEqual(1);
@@ -47,7 +45,6 @@ test('the hero CTA reaches the work section', async ({ page }) => {
 test('reduced motion: nothing is hidden', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
-  await expect(page.locator('[data-loader]')).toHaveCount(0);
   await expect(page.locator('h1')).toBeVisible();
   await expect(page.locator('#work article').first()).toBeVisible();
 });

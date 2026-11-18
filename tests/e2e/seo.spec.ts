@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
 
-test('sitemap lists the home, 11 case studies and 3 notes', async ({ request }) => {
+test('sitemap lists the home, 11 case studies and no notes', async ({ request }) => {
   const res = await request.get('/sitemap.xml');
   expect(res.status()).toBe(200);
   const locs = [...(await res.text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
   expect(locs.filter((p) => p.startsWith('/work/'))).toHaveLength(11);
-  expect(locs.filter((p) => p.startsWith('/notes/'))).toHaveLength(3);
+  expect(locs.filter((p) => p.startsWith('/notes/'))).toHaveLength(0);
   expect(locs).toContain('/');
 });
 

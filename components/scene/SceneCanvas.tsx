@@ -18,9 +18,10 @@ export default function SceneCanvas() {
   const reduce = useReducedMotion();
   const support = useWebGLSupport();
   const lost = useUi((s) => s.sceneFallback);
-  const setLoaded = useUi((s) => s.setLoaded);
   const tier = useMemo(() => (support ? detectTier() : 'low'), [support]);
-  const fallback = support === false || lost;
+  // phones get the static CSS scene: no WebGL context, no battery drain, same look
+  const phone = useMemo(() => support === true && window.matchMedia('(pointer: coarse) and (max-width: 767px)').matches, [support]);
+  const fallback = support === false || lost || phone;
   // load the heavy scene chunk after first paint so the hero text owns LCP
   const [idle, setIdle] = useState(false);
   useEffect(() => {
@@ -30,10 +31,6 @@ export default function SceneCanvas() {
       if (!ric) window.clearTimeout(t);
     };
   }, []);
-
-  useEffect(() => {
-    if (fallback) setLoaded(true);
-  }, [fallback, setLoaded]);
 
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0">

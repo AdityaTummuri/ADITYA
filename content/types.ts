@@ -29,18 +29,13 @@ export interface Project {
   tradeoff?: string;
   footnote?: string;
   question?: string;
+  /** One lesson the project taught, shown at the end of its case study. */
+  lesson?: { title: string; body: string };
+  /** Optional photo or screenshot, a file under /public. Shown at the top of the case study. */
+  media?: { src: string; alt: string; width: number; height: number };
   repo?: string;
   featured: boolean;
   order: number;
-}
-
-export interface Note {
-  slug: string;
-  index: '01' | '02' | '03';
-  title: string;
-  quote: string;
-  /** Slugs of related projects. */
-  related: string[];
 }
 
 export interface FocusArea {

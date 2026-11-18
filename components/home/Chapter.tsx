@@ -59,14 +59,12 @@ export default function Chapter({ spec, aside, children }: Props) {
               as="span"
               data-overline
               lines={[spec.overline]}
-              gate={hero}
               trigger={!hero}
               className={`block text-primary ${hero ? 'text-display-sm md:text-display-lg' : 'text-title-lg'}`}
             />
             <SplitHeading
               as="span"
               lines={spec.title}
-              gate={hero}
               trigger={!hero}
               delay={0.15}
               className={`block leading-none ${hero ? 'text-display-sm md:text-display-xl' : 'text-headline md:text-display-sm'}`}

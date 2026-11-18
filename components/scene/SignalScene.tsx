@@ -5,7 +5,6 @@ import { useEffect, useMemo, useRef } from 'react';
 import { MathUtils, type InstancedMesh, type PerspectiveCamera, type ShaderMaterial } from 'three';
 import type { Look } from '@/content/types';
 import { useScrollStore } from '@/lib/scroll-store';
-import { useUi } from '@/lib/ui-store';
 import { applyUniforms, createField, createStreakGeometry, createStreakMaterial } from './scene-objects';
 
 interface LookParams { w: [number, number, number, number]; density: number; intensity: number; mark: number; camZ: number; fov: number }
@@ -29,7 +28,6 @@ declare global {
 export default function SignalScene({ still, streaks, points }: { still: boolean; streaks: number; points: number }) {
   const streakMesh = useRef<InstancedMesh>(null);
   const cur = useRef<LookParams>({ ...LOOKS.streaks, w: [...LOOKS.streaks.w] });
-  const announced = useRef(false);
 
   const streakGeo = useMemo(() => createStreakGeometry(streaks), [streaks]);
   const streakMat = useMemo(() => createStreakMaterial(), []);
@@ -67,7 +65,6 @@ export default function SignalScene({ still, streaks, points }: { still: boolean
     if (Math.abs(cam.fov - p.fov) > 0.01) { cam.fov = p.fov; cam.updateProjectionMatrix(); }
 
     if (process.env.NEXT_PUBLIC_E2E === '1') window.__sceneFrames = (window.__sceneFrames ?? 0) + 1;
-    if (!announced.current) { announced.current = true; useUi.getState().setLoaded(true); }
   });
 
   return (

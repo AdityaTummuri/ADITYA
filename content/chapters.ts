@@ -31,7 +31,7 @@ export const chapters: ChapterSpec[] = [
     overline: 'collaborate',
     title: ['let’s build', 'something.'],
     statement: 'open to collaborations. the work is the pitch.',
-    paragraph: 'a few notes on how i work, then the quickest ways to reach me.',
+    paragraph: 'email is quickest. linkedin and github work too.',
     look: 'tunnel',
   },
 ];

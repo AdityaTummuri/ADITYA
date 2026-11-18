@@ -14,7 +14,6 @@ test('a single WebGL2 canvas renders with a capped drawing buffer', async ({ pag
   }));
   expect(info.gl2).toBe(true);
   expect(info.w).toBeLessThanOrEqual(Math.ceil(info.iw * 1.5));
-  await expect(page.locator('[data-loader]')).toHaveCount(0, { timeout: 10000 });
 });
 
 test('frames stop while the tab is hidden and resume when visible', async ({ page }) => {
@@ -89,7 +88,6 @@ test('with the real canvas mounted there are no serious or critical a11y violati
   const { default: AxeBuilder } = await import('@axe-core/playwright');
   await page.goto('/');
   await expect(page.locator('canvas')).toHaveCount(1, { timeout: 15000 });
-  await expect(page.locator('[data-loader]')).toHaveCount(0, { timeout: 10000 });
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => v.id)).toEqual([]);
 });
