@@ -15,9 +15,19 @@ export default function ProgressRail() {
 
   useEffect(() => {
     if (reduce) return;
+    // scroll writes the store every frame; only touch the DOM when a value actually moved
+    let progress = -1;
+    let chapter = -1;
     const apply = (s: { chapter: number; progress: number }) => {
-      if (fill.current) fill.current.style.transform = `scaleY(${s.progress})`;
-      if (label.current) label.current.textContent = String(s.chapter).padStart(2, '0');
+      const p = Math.round(s.progress * 1000) / 1000;
+      if (p !== progress && fill.current) {
+        progress = p;
+        fill.current.style.transform = `scaleY(${p})`;
+      }
+      if (s.chapter !== chapter && label.current) {
+        chapter = s.chapter;
+        label.current.textContent = String(s.chapter).padStart(2, '0');
+      }
     };
     apply(useScrollStore.getState());
     return useScrollStore.subscribe(apply);

@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
-import { useLenis } from 'lenis/react';
 import { menuLinks, socials } from '@/content/nav';
 import { useUi } from '@/lib/ui-store';
 
@@ -12,8 +11,12 @@ export default function MenuPanel() {
   const open = useUi((s) => s.menuOpen);
   const setOpen = useUi((s) => s.setMenuOpen);
   const pathname = usePathname();
-  const lenis = useLenis();
   const panelRef = useRef<HTMLDivElement>(null);
+
+  // a route change (browser Back, a link elsewhere) always closes the menu
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname, setOpen]);
 
   useEffect(() => {
     if (!open) return;
@@ -81,24 +84,8 @@ export default function MenuPanel() {
               >
                 <Link
                   href={l.href}
-                  onClick={(e) => {
-                    setOpen(false);
-                    const hash = l.href.split('#')[1];
-                    if (pathname === '/' && l.href.startsWith('/#') && hash) {
-                      const el = document.getElementById(hash);
-                      if (el) {
-                        e.preventDefault();
-                        window.history.pushState(null, '', l.href);
-                        const y = el.getBoundingClientRect().top + window.scrollY;
-                        if (lenis) {
-                          // the menu stopped Lenis; wake it so the scroll (and its easing) actually runs
-                          lenis.start();
-                          lenis.scrollTo(y, { duration: 1.1, force: true });
-                        }
-                        else window.scrollTo(0, y);
-                      }
-                    }
-                  }}
+                  // same-page targets are scrolled by the capture listener in lib/smooth-scroll
+                  onClick={() => setOpen(false)}
                   aria-current={current ? 'page' : undefined}
                   className={`block py-xs font-display text-title-lg font-normal tracking-[-0.03em] text-ink transition-opacity duration-300 ease-out-cubic hover:opacity-50 md:text-display-sm ${
                     current ? 'opacity-20' : ''

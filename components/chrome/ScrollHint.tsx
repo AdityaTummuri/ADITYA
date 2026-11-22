@@ -7,8 +7,12 @@ import { useScrollStore } from '@/lib/scroll-store';
 export default function ScrollHint() {
   const el = useRef<HTMLSpanElement>(null);
   useEffect(() => {
+    let shown: boolean | null = null;
     const apply = (s: { chapter: number }) => {
-      if (el.current) el.current.style.opacity = s.chapter > 0 ? '0' : '1';
+      const show = s.chapter === 0;
+      if (show === shown || !el.current) return;
+      shown = show;
+      el.current.style.opacity = show ? '1' : '0';
     };
     apply(useScrollStore.getState());
     return useScrollStore.subscribe(apply);

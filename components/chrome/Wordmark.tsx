@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 
 /** Typographic wordmark: the name alone, no logo (DESIGN.md `top-nav`). */

@@ -100,7 +100,11 @@ html {
   background: var(--color-canvas);
   /* the closed menu panel parks off-screen; never let it widen the layout viewport */
   overflow-x: clip;
+  /* keep the scrollbar's space when the menu locks scroll, so the page doesn't shift sideways */
+  scrollbar-gutter: stable;
 }
+/* scrolling inside the menu never chains to the page behind it (from lenis.css) */
+[data-lenis-prevent] { overscroll-behavior: contain; }
 body {
   background: var(--color-canvas);
   color: var(--color-ink);
