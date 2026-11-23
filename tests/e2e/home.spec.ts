@@ -5,30 +5,39 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
-test('one h1 carries the headline; lockup uses the display scale', async ({ page, viewport }) => {
+test('one h1 carries the headline and the statement line is teal', async ({ page }) => {
   expect(await page.locator('h1').count()).toBe(1);
-  await expect(page.locator('h1')).toContainText('listen first');
-  const overline = page.locator('#hero [data-overline]').first();
-  await expect(overline).toHaveText('AdityaTummuri');
-  expect(await overline.evaluate((el) => getComputedStyle(el).color)).toBe('rgb(143, 170, 178)');
-  const wide = (viewport?.width ?? 0) >= 768;
-  expect(await overline.evaluate((el) => getComputedStyle(el).fontSize)).toBe(wide ? '61.04px' : '39.06px');
+  await expect(page.locator('h1')).toContainText('I don’t trust a number');
+  await expect(page.locator('h1')).toContainText('run it again.');
+  const statement = page.getByText('Aditya Tummuri, engineering student and builder.');
+  expect(await statement.evaluate((el) => getComputedStyle(el).color)).toBe('rgb(143, 170, 178)');
 });
 
-test('four sections exist with the planned ids', async ({ page }) => {
-  const ids = await page.locator('section[data-chapter]').evaluateAll((els) => els.map((e) => e.id));
-  expect(ids).toEqual(['hero', 'work', 'about', 'contact']);
+test('three divisions exist with the planned ids', async ({ page }) => {
+  const ids = await page.locator('section[data-division]').evaluateAll((els) => els.map((e) => e.id));
+  expect(ids).toEqual(['start', 'work', 'contact']);
 });
 
-test('work lists four featured projects linking to their case studies', async ({ page }) => {
-  const cards = page.locator('#work article');
-  await expect(cards).toHaveCount(4);
-  const hrefs = await cards.locator('a[href^="/work/"]').evaluateAll((els) => els.map((e) => e.getAttribute('href')));
-  expect(hrefs).toEqual(['/work/rotormind', '/work/netra-ugv', '/work/fracsst-mamba', '/work/vocal-biomarker-edge']);
+test('work lists the four rooms', async ({ page }) => {
+  const rows = page.locator('#work ol > li');
+  await expect(rows).toHaveCount(4);
+  const hrefs = await rows.locator('a[href^="/work/"]').evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+  expect(hrefs).toEqual(['/work/qedcode', '/work/fracsst-mamba', '/work/netra-ugv', '/work/kavach-upi']);
 });
 
-test('work lists the other sixteen projects under the four flagships', async ({ page }) => {
-  await expect(page.locator('#work ul li')).toHaveCount(16);
+test('no other project link on home', async ({ page }) => {
+  const hrefs = await page.locator('main a[href^="/work/"]').evaluateAll((els) => [...new Set(els.map((e) => e.getAttribute('href')))]);
+  expect(hrefs).toHaveLength(4);
+  // the only repository links on home belong to the open receipt
+  const repoLinks = await page.locator('main a[href*="github.com/AdityaTummuri/"]').evaluateAll((els) => els.filter((e) => !e.closest('[data-receipt-scope]')).map((e) => e.getAttribute('href')));
+  expect(repoLinks).toEqual([]);
+});
+
+test('the open receipt on the start division is a real, checkable receipt', async ({ page }) => {
+  const body = page.locator('#start [data-receipt-scope="qed-a"]');
+  await expect(body).toContainText('Results QEDCode graded A that were right');
+  await expect(body).toContainText('86 of 89 grade A results were right');
+  await expect(body.getByRole('button', { name: 'Check it now' })).toBeVisible();
 });
 
 test('home has no serious or critical accessibility violations', async ({ page }) => {

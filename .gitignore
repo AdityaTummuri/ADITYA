@@ -1,5 +1,11 @@
 .superpowers/
 .agents/
+.claude/
+skills-lock.json
+
+# working notes, kept local
+docs/facts.md
+docs/plan-show-the-work.md
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 

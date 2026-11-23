@@ -1,4 +1,4 @@
-import { AdditiveBlending, BufferGeometry, Float32BufferAttribute, InstancedBufferAttribute, PlaneGeometry, Points, ShaderMaterial, Vector2, Vector4 } from 'three';
+import { AdditiveBlending, BufferGeometry, Float32BufferAttribute, InstancedBufferAttribute, PlaneGeometry, Points, ShaderMaterial, Vector2, Vector3, Vector4 } from 'three';
 import { fieldFragment, fieldVertex } from './shaders/field';
 import { streaksFragment, streaksVertex } from './shaders/streaks';
 
@@ -35,7 +35,7 @@ export function createStreakMaterial(): ShaderMaterial {
     transparent: true,
     depthWrite: false,
     blending: AdditiveBlending,
-    uniforms: { uTime: { value: 0 }, uAspect: { value: 1 }, uDensity: { value: 1 }, uIntensity: { value: 1 }, uLook: { value: new Vector4(1, 0, 0, 0) }, uMouse: { value: new Vector2(0, 0) } },
+    uniforms: { uTime: { value: 0 }, uAspect: { value: 1 }, uDensity: { value: 1 }, uStretch: { value: 1 }, uIntensity: { value: 1 }, uLook: { value: new Vector4(1, 0, 0, 0) }, uMouse: { value: new Vector2(0, 0) }, uYield: { value: new Vector3(0.3, 0.8, 1) }, uRes: { value: new Vector2(1, 1) } },
   });
 }
 
@@ -52,24 +52,27 @@ export function createField(count: number): Points {
     transparent: true,
     depthWrite: false,
     blending: AdditiveBlending,
-    uniforms: { uTime: { value: 0 }, uAspect: { value: 1 }, uDpr: { value: 1 }, uIntensity: { value: 1 }, uLook: { value: new Vector4(1, 0, 0, 0) }, uMouse: { value: new Vector2(0, 0) } },
+    uniforms: { uTime: { value: 0 }, uAspect: { value: 1 }, uDpr: { value: 1 }, uIntensity: { value: 1 }, uLook: { value: new Vector4(1, 0, 0, 0) }, uMouse: { value: new Vector2(0, 0) }, uYield: { value: new Vector3(0.3, 0.8, 1) }, uRes: { value: new Vector2(1, 1) } },
   });
   const pts = new Points(g, m);
   pts.frustumCulled = false;
   return pts;
 }
 
-export interface Blend { w: [number, number, number, number]; density: number; intensity: number }
+export interface Blend { w: [number, number, number, number]; density: number; intensity: number; yield: [number, number, number] }
 
 /** Writes the per-frame uniforms. Lives outside React on purpose: three.js uniforms are mutated imperatively. */
-export function applyUniforms(streak: ShaderMaterial, field: Points, b: Blend, t: number, aspect: number, dpr: number, mouseX = 0, mouseY = 0) {
+export function applyUniforms(streak: ShaderMaterial, field: Points, b: Blend, t: number, aspect: number, dpr: number, mouseX = 0, mouseY = 0, resX = 1, resY = 1, stretch = 1) {
   const su = streak.uniforms;
   su.uTime.value = t;
   su.uAspect.value = aspect;
   su.uDensity.value = b.density;
+  su.uStretch.value = stretch;
   su.uIntensity.value = b.intensity;
   (su.uLook.value as Vector4).set(b.w[0], b.w[1], b.w[2], b.w[3]);
   (su.uMouse.value as Vector2).set(mouseX, mouseY);
+  (su.uYield.value as Vector3).set(b.yield[0], b.yield[1], b.yield[2]);
+  (su.uRes.value as Vector2).set(resX, resY);
   const fu = (field.material as ShaderMaterial).uniforms;
   fu.uTime.value = t;
   fu.uAspect.value = aspect;
@@ -77,4 +80,6 @@ export function applyUniforms(streak: ShaderMaterial, field: Points, b: Blend, t
   fu.uIntensity.value = b.intensity;
   (fu.uLook.value as Vector4).set(b.w[0], b.w[1], b.w[2], b.w[3]);
   (fu.uMouse.value as Vector2).set(mouseX, mouseY);
+  (fu.uYield.value as Vector3).set(b.yield[0], b.yield[1], b.yield[2]);
+  (fu.uRes.value as Vector2).set(resX, resY);
 }

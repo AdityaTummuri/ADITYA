@@ -1,58 +1,69 @@
 @import "tailwindcss";
 
+/* Hover is for a mouse: touch screens keep no sticky hover state. */
+@custom-variant hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
 /* Tokens from DESIGN.md. Root is 10px, so 1rem = 10px. */
 @theme {
   --color-canvas: #000;
   --color-primary: #8faab2;
   --color-primary-soft: #cfe0e5;
   --color-ink: #fff;
-  --color-ink-muted: #b2b2b2;
-  --color-ink-subtle: rgb(255 255 255 / 0.5);
-  --color-ink-tertiary: rgb(255 255 255 / 0.2);
+  --color-ink-muted: #c5cdd0;
+  --color-ink-subtle: #9aa5a9;
   --color-inverse-canvas: #fff;
   --color-inverse-ink: #1a1a1a;
-  --color-surface-3: #292929;
-  --color-edge-from: #545454;
-  --color-edge-to: #303030;
+  --color-surface-1: #0a0d0e;
+  --color-surface-2: #12171a;
   --color-hairline: rgb(255 255 255 / 0.2);
   --color-hairline-strong: rgb(255 255 255 / 0.3);
   --color-hairline-focus: rgb(255 255 255 / 0.8);
   --color-error: #ef4444;
 
+  /* Inter Tight is for everything that is read. Roboto Condensed is for places where width is
+     scarce: source paths, commits, quoted lines, axis and slider labels, the division rail. */
   --font-display: var(--font-inter-tight), Arial, sans-serif;
-  --font-body: var(--font-roboto-condensed), "Arial Narrow", sans-serif;
+  --font-body: var(--font-inter-tight), Arial, sans-serif;
+  --font-cond: var(--font-roboto-condensed), "Arial Narrow", sans-serif;
 
-  /* 10 x 1.25^n ladder */
   --text-display-xl: 7.629rem;
   --text-display-xl--line-height: 1;
   --text-display-xl--letter-spacing: -0.04em;
-  --text-display-lg: 6.104rem;
-  --text-display-lg--line-height: 1.2;
-  --text-display-lg--letter-spacing: -0.05em;
-  --text-display-md: 4.883rem;
-  --text-display-md--line-height: 1.2;
-  --text-display-md--letter-spacing: -0.03em;
-  --text-display-sm: 3.906rem;
-  --text-display-sm--line-height: 1.2;
+  --text-display-lg: clamp(3.6rem, 4.25vw, 6.104rem);
+  --text-display-lg--line-height: 1.04;
+  --text-display-lg--letter-spacing: -0.04em;
+  --text-display-md: clamp(3.2rem, 3.4vw, 4.883rem);
+  --text-display-md--line-height: 1.1;
+  --text-display-md--letter-spacing: -0.035em;
+  --text-display-sm: clamp(2.5rem, 2.7vw, 3.4rem);
+  --text-display-sm--line-height: 1.15;
   --text-display-sm--letter-spacing: -0.03em;
-  --text-headline: 3.125rem;
+  --text-headline: 2.8rem;
   --text-headline--line-height: 1.2;
-  --text-headline--letter-spacing: -0.03em;
-  --text-title-lg: 2.5rem;
-  --text-title-lg--line-height: 1.2;
-  --text-title-lg--letter-spacing: -0.03em;
-  --text-title-md: 2rem;
-  --text-title-md--line-height: 1.4;
-  --text-title-md--letter-spacing: 0.02rem;
-  --text-body: 1.6rem;
-  --text-body--line-height: 1.5;
-  --text-body--letter-spacing: 0.032rem;
-  --text-body-sm: 1.28rem;
-  --text-body-sm--line-height: 1.4;
-  --text-body-sm--letter-spacing: 0.051rem;
-  --text-caption: 1.024rem;
-  --text-caption--line-height: 1.7;
-  --text-caption--letter-spacing: 0.051rem;
+  --text-headline--letter-spacing: -0.025em;
+  --text-title-lg: 2.4rem;
+  --text-title-lg--line-height: 1.25;
+  --text-title-lg--letter-spacing: -0.02em;
+  --text-title-lg--font-weight: 500;
+  --text-title-md: 2.2rem;
+  --text-title-md--line-height: 1.45;
+  --text-title-md--letter-spacing: -0.005em;
+  --text-body: 1.8rem;
+  --text-body--line-height: 1.6;
+  --text-body--letter-spacing: 0;
+  --text-body-sm: 1.5rem;
+  --text-body-sm--line-height: 1.5;
+  --text-body-sm--letter-spacing: 0;
+  --text-meta: 1.5rem;
+  --text-meta--line-height: 1.4;
+  --text-meta--letter-spacing: 0.01em;
+  --text-meta--font-weight: 500;
 
   /* Re-base the spacing unit so `p-4` is 16px under a 10px root. */
   --spacing: 0.4rem;
@@ -68,6 +79,9 @@
   --radius-md: 0.8rem;
 
   --animate-rotate: rotate 1.8s linear infinite;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
   --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
 
@@ -84,6 +98,9 @@
   --gutter: 1rem;
   --header-height: 6.1rem;
   color-scheme: dark;
+}
+@media (max-width: 767px) {
+  :root { --text-body: 1.7rem; }
 }
 @media (min-width: 768px) {
   :root { --margin: 4rem; --gutter: 3rem; }
@@ -102,6 +119,7 @@ html {
   overflow-x: clip;
   /* keep the scrollbar's space when the menu locks scroll, so the page doesn't shift sideways */
   scrollbar-gutter: stable;
+  scrollbar-color: #455d64 #000;
 }
 /* scrolling inside the menu never chains to the page behind it (from lenis.css) */
 [data-lenis-prevent] { overscroll-behavior: contain; }
@@ -109,23 +127,183 @@ body {
   background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-body);
-  font-size: 1.6rem;
-  line-height: 1.5;
-  letter-spacing: 0.032rem;
+  font-size: 1.8rem;
+  line-height: 1.6;
+  letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
 }
+::selection { background: #8faab2; color: #000; }
 
 .container-8bit { padding-inline: var(--margin); width: 100%; }
 
 @keyframes rotate { to { transform: rotate(1turn); } }
 
-/* SplitText masks (see SplitHeading) */
-.line { overflow: hidden; padding-block: 0.1em; margin-top: -0.1em; }
-.word { white-space: nowrap; }
+/* Headline mask (see MaskHeading): each line rises out of its own clip, once */
+.line { display: block; overflow: clip; overflow-clip-margin: 0.04em; padding-block: 0.12em; margin-block: -0.12em; }
+.line > span { display: block; }
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-travelled]) .line > span { animation: line-rise 720ms var(--ease-out) both; animation-delay: calc(var(--i) * 70ms); }
+}
+@keyframes line-rise { from { transform: translateY(115%); } }
 
 :focus-visible {
-  outline: 1px solid var(--color-hairline-focus);
+  outline: 2px solid var(--color-primary-soft);
   outline-offset: 4px;
+}
+
+/* ---- Legibility: the scrim (plan 6.1) ------------------------------------------------------
+   Text that is not on a solid panel sits inside a .quiet. Its black layer is 0.9 opaque under the
+   content box and feathers to nothing outside it, so every glyph is on the full 0.9 and no edge
+   is hard. Black on black is invisible; it only fades streaks as they near the words. */
+@layer components {
+/* Not isolated on purpose: the scrim joins the page's stacking context at z -1, so it sits under
+   every block of text and every panel on the page, never over a neighbour. */
+.quiet { position: relative; --qx: min(6.4rem, var(--margin)); --qy: 4.8rem; }
+.quiet::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  inset: calc(-1 * var(--qy)) calc(-1 * var(--qx)); background: #000; opacity: 0.9;
+  -webkit-mask: linear-gradient(to right, transparent, #000 var(--qx), #000 calc(100% - var(--qx)), transparent), linear-gradient(to bottom, transparent, #000 var(--qy), #000 calc(100% - var(--qy)), transparent);
+  mask: linear-gradient(to right, transparent, #000 var(--qx), #000 calc(100% - var(--qx)), transparent), linear-gradient(to bottom, transparent, #000 var(--qy), #000 calc(100% - var(--qy)), transparent);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+}
+/* Phones: a full-bleed band, feathered only top and bottom. No side edges, no mask, cheaper to paint. */
+@media (max-width: 767px) {
+  .quiet { --qy: 5.6rem; }
+  .quiet::before {
+    inset: calc(-1 * var(--qy)) calc(-1 * var(--margin));
+    -webkit-mask: none; mask: none; opacity: 1;
+    background: linear-gradient(to bottom, transparent, rgb(0 0 0 / 0.9) var(--qy), rgb(0 0 0 / 0.9) calc(100% - var(--qy)), transparent);
+  }
+}
+}
+
+/* ---- Prose ------------------------------------------------------------------------------ */
+h1, h2, h3 { text-wrap: balance; }
+p, li, blockquote { text-wrap: pretty; }
+.prose-measure { max-width: 62ch; }
+:not(pre) > code {
+  font-family: var(--font-cond);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  background: var(--color-surface-2);
+  padding: 0.1em 0.35em;
+  border-radius: 0.3rem;
+}
+pre code { font-family: var(--font-cond); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* A number you can pull (plan 3.5). Inherits size and colour; the underline is the signal. */
+.num {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+  position: relative; z-index: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  .num:hover { text-decoration-thickness: 2px; }
+}
+
+/* ---- The receipt slip (plan 3.5, 8) ------------------------------------------------------
+   A popover: top layer, light dismiss, Escape. Desktop: 40rem beside the number, scale and fade
+   out of it. Phone: a bottom sheet. No shadow, no blur. */
+[data-receipt-slip] {
+  position: fixed; inset: auto; margin: 0; left: 0; top: 0;
+  width: min(40rem, calc(100vw - 3.2rem)); max-height: calc(100svh - 3.2rem); overflow-y: auto; overscroll-behavior: contain;
+  padding: 2.4rem; color: var(--color-ink);
+  background: var(--color-surface-1); border: 1px solid var(--color-hairline); border-radius: 0.8rem;
+  outline: none;
+  opacity: 0; transform: scale(0.97);
+  transition: opacity 120ms var(--ease-out), transform 120ms var(--ease-out), overlay 120ms allow-discrete, display 120ms allow-discrete;
+}
+[data-receipt-slip]:popover-open {
+  opacity: 1; transform: none;
+  transition-duration: 180ms;
+  @starting-style { opacity: 0; transform: scale(0.97); }
+}
+[data-receipt-slip]::backdrop { background: transparent; }
+@media (max-width: 767px) {
+  [data-receipt-slip] {
+    left: 0 !important; right: 0; top: auto !important; bottom: 0; width: 100%; max-height: 80svh;
+    border-radius: 0.8rem 0.8rem 0 0; border-bottom: 0; padding-bottom: calc(2.4rem + env(safe-area-inset-bottom));
+    transform: translateY(100%); transform-origin: 50% 100% !important;
+    transition: opacity 220ms var(--ease-drawer), transform 220ms var(--ease-drawer), overlay 220ms allow-discrete, display 220ms allow-discrete;
+  }
+  [data-receipt-slip]:popover-open {
+    transform: none; transition-duration: 320ms;
+    @starting-style { transform: translateY(100%); opacity: 1; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-receipt-slip], [data-receipt-slip]:popover-open { transform: none !important; transition: opacity 120ms linear, overlay 120ms allow-discrete, display 120ms allow-discrete !important; }
+  [data-receipt-slip]:popover-open { @starting-style { opacity: 0; transform: none; } }
+}
+
+/* the archive entry a link points at: teal title, teal hairlines above and below */
+.archive-item:target { border-top: 1px solid var(--color-primary); border-bottom-color: var(--color-primary); }
+.archive-item:target h3 a { color: var(--color-primary); }
+
+/* the receipt a link points at on /receipts */
+.receipt-item:target { border-top-color: var(--color-primary); }
+.receipt-item:target :is(h3, h2) { color: var(--color-primary); }
+
+/* ---- Travel: view transitions (plan 8.1) ---------------------------------------------------
+   The root layer holds the live WebGL canvas, so it is never shown as a frozen picture: the old root
+   image is hidden and the new one is left to follow the page. Only each page's content (and the
+   shared title) animates, above it. The header layers stay put, above the sliding content. */
+::view-transition { pointer-events: none; }
+::view-transition-old(root) { display: none; }
+::view-transition-new(root) { animation: none; }
+::view-transition-group(site-header),
+::view-transition-group(site-wordmark),
+::view-transition-group(site-menu-button),
+::view-transition-group(site-menu) { animation: none; z-index: 100; }
+::view-transition-old(site-header),
+::view-transition-old(site-wordmark),
+::view-transition-old(site-menu-button),
+::view-transition-old(site-menu) { display: none; }
+::view-transition-new(site-header),
+::view-transition-new(site-wordmark),
+::view-transition-new(site-menu-button),
+::view-transition-new(site-menu) { animation: none; }
+
+@keyframes vt-fade-out { to { opacity: 0; } }
+@keyframes vt-fade-in { from { opacity: 0; } }
+@keyframes vt-scale-up { to { scale: 1.015; } }
+@keyframes vt-scale-down { to { scale: 0.985; } }
+@keyframes vt-from-smaller { from { scale: 0.985; } }
+@keyframes vt-from-larger { from { scale: 1.015; } }
+@keyframes vt-slide-out { to { translate: -32px 0; } }
+@keyframes vt-slide-in { from { translate: 32px 0; } }
+
+/* into a room: the old page leaves while growing slightly, the new one settles in from smaller */
+::view-transition-old(.into) { animation: 140ms var(--ease-out) both vt-fade-out, 360ms var(--ease-out) both vt-scale-up; }
+::view-transition-new(.into) { animation: 220ms var(--ease-out) 100ms both vt-fade-in, 360ms var(--ease-out) both vt-from-smaller; }
+/* back out: the mirror */
+::view-transition-old(.out) { animation: 140ms var(--ease-out) both vt-fade-out, 360ms var(--ease-out) both vt-scale-down; }
+::view-transition-new(.out) { animation: 220ms var(--ease-out) 100ms both vt-fade-in, 360ms var(--ease-out) both vt-from-larger; }
+/* between rooms: 32px sideways */
+::view-transition-old(.side) { animation: 140ms var(--ease-out) both vt-fade-out, 360ms var(--ease-out) both vt-slide-out; }
+::view-transition-new(.side) { animation: 220ms var(--ease-out) 100ms both vt-fade-in, 360ms var(--ease-out) both vt-slide-in; }
+/* anything else, the browser's Back included: a short crossfade */
+::view-transition-old(.swap) { animation: 160ms ease both vt-fade-out; }
+::view-transition-new(.swap) { animation: 160ms ease both vt-fade-in; }
+/* a room's title travels from its row */
+::view-transition-group(.morph) { animation-duration: 380ms; animation-timing-function: var(--ease-in-out); }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*), ::view-transition-new(*), ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+/* ---- Press feedback (plan 8): every pressable thing answers in 140 ms ---------------------- */
+.press { transition: transform 140ms var(--ease-out), opacity 140ms var(--ease-out), background-color 200ms ease, color 200ms ease, border-color 200ms ease; }
+.press:active { transform: scale(0.97); }
+@media (prefers-reduced-motion: reduce) {
+  .press:active { transform: none; opacity: 0.85; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,57 +1,61 @@
 import { describe, expect, it } from 'vitest';
-import { projects, featuredProjects, projectsByGroup, getProject, caseStudyProjects } from '@/content/projects';
-import { profile } from '@/content/profile';
-import { chapters } from '@/content/chapters';
+import { archive, archiveOwn, archiveTeam } from '@/content/archive';
+import { commits } from '@/content/commits';
+import { receipts } from '@/content/receipts';
+import { rooms } from '@/content/rooms';
+import { allCopy, BANNED, DATE_TOKENS, TOKEN, withoutAllowed } from './copy';
 
-const GROUPS = ['embedded-robotics', 'ai-ml', 'systems', 'experiments', 'products-analytics'];
-const STATUSES = ['Prototype', 'Collaborative', 'Research prototype', 'Tooling', 'Concept', 'Experiment', 'Hackathon', 'Released', 'Open source', 'Project'];
+const copyIds = () => {
+  const ids = new Set<string>();
+  for (const s of allCopy()) for (const m of s.matchAll(TOKEN)) ids.add(m[1]);
+  return ids;
+};
 
 describe('content', () => {
-  it('has 20 projects with unique slugs in information.md order', () => {
-    expect(projects).toHaveLength(20);
-    expect(new Set(projects.map((p) => p.slug)).size).toBe(20);
-    expect(projects.map((p) => p.order)).toEqual(Array.from({ length: 20 }, (_, i) => i + 1));
+  it('has four rooms in order', () => {
+    expect(rooms.map((r) => r.slug)).toEqual(['qedcode', 'fracsst-mamba', 'netra-ugv', 'kavach-upi']);
   });
 
-  it('features the four builds in order', () => {
-    expect(featuredProjects.map((p) => p.slug)).toEqual(['rotormind', 'netra-ugv', 'fracsst-mamba', 'vocal-biomarker-edge']);
+  it('has 23 archive items with unique slugs', () => {
+    expect(archive).toHaveLength(23);
+    expect(archiveOwn).toHaveLength(13);
+    expect(archiveTeam).toHaveLength(10);
+    expect(new Set(archive.map((a) => a.slug)).size).toBe(23);
   });
 
-  it('gives every project a known group and status', () => {
-    for (const p of projects) {
-      expect(GROUPS).toContain(p.group);
-      expect(STATUSES).toContain(p.status);
+  it('only uses receipt ids that exist', () => {
+    const missing = [...copyIds()].filter((id) => !receipts[id] && !DATE_TOKENS.includes(id));
+    expect(missing).toEqual([]);
+  });
+
+  it('uses every receipt somewhere in copy', () => {
+    const used = copyIds();
+    const unused = Object.keys(receipts).filter((id) => !used.has(id));
+    expect(unused).toEqual([]);
+  });
+
+  it('points every room row at a receipt', () => {
+    for (const r of rooms) expect(receipts[r.row.figure]).toBeDefined();
+  });
+
+  it('types no digit in any copy string', () => {
+    const bad = allCopy().filter((s) => /\d/.test(withoutAllowed(s)));
+    expect(bad).toEqual([]);
+  });
+
+  it('uses no em dash or en dash', () => {
+    expect(allCopy().filter((s) => /[—–]/.test(s))).toEqual([]);
+  });
+
+  it('contains nothing from the banned list', () => {
+    const hits: string[] = [];
+    for (const s of allCopy()) for (const b of BANNED) if (s.includes(b)) hits.push(`${b} in ${s}`);
+    expect(hits).toEqual([]);
+  });
+
+  it('pins the commit of every repository a receipt names', () => {
+    for (const r of Object.values(receipts)) {
+      if (r.kind === 'quoted' || r.kind === 'counted') expect(commits[r.repo], r.id).toMatch(/^[0-9a-f]{40}$/);
     }
-    expect(Object.keys(projectsByGroup).sort()).toEqual([...GROUPS].sort());
-    expect(Object.values(projectsByGroup).flat()).toHaveLength(20);
-  });
-
-  it('exposes 11 case-study projects (those with a trade-off) and looks them up by slug', () => {
-    expect(caseStudyProjects).toHaveLength(11);
-    expect(getProject('rotormind')?.question).toBe('Can a motor tell you it’s unwell before it fails?');
-    expect(getProject('nope')).toBeUndefined();
-  });
-
-  it('folds the three former notes into the case studies as lessons', () => {
-    const lessons = projects.filter((p) => p.lesson);
-    expect(lessons.map((p) => p.slug).sort()).toEqual(['fracsst-mamba', 'hp-omen-fan-control', 'netra-ugv']);
-    for (const p of lessons) expect(caseStudyProjects).toContain(p);
-  });
-
-  it('gives every flagship a question, an outcome and a trade-off', () => {
-    for (const p of featuredProjects) {
-      expect(p.question).toBeTruthy();
-      expect(p.outcome).toBeTruthy();
-      expect(p.tradeoff).toBeTruthy();
-    }
-  });
-
-  it('carries the headline verbatim', () => {
-    expect(profile.headline).toEqual(['AdityaTummuri', 'machines that', 'listen first.']);
-    expect(profile.email).toBe('adityafrom2007@gmail.com');
-  });
-
-  it('defines four sections in order', () => {
-    expect(chapters.map((c) => c.id)).toEqual(['hero', 'work', 'about', 'contact']);
   });
 });

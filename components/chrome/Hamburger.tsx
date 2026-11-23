@@ -3,12 +3,12 @@
 import { forwardRef } from 'react';
 import { useUi } from '@/lib/ui-store';
 
-/** 44x44 hit area, two 28x2 lines that cross into an X (DESIGN.md `hamburger`). */
+/** 44x44 hit area, two 28x2 lines that cross into an X. */
 const Hamburger = forwardRef<HTMLButtonElement>(function Hamburger(_, ref) {
   const open = useUi((s) => s.menuOpen);
   const setOpen = useUi((s) => s.setMenuOpen);
   const line =
-    'absolute left-1/2 top-1/2 -ml-[1.4rem] h-[0.2rem] w-[2.8rem] bg-ink transition-transform duration-300 ease-out-cubic';
+    'absolute left-1/2 top-1/2 -ml-[1.4rem] h-[0.2rem] w-[2.8rem] bg-ink transition-transform duration-300 ease-[var(--ease-out)]';
   return (
     <button
       ref={ref}
@@ -17,13 +17,14 @@ const Hamburger = forwardRef<HTMLButtonElement>(function Hamburger(_, ref) {
       aria-expanded={open}
       aria-controls="site-menu"
       onClick={() => setOpen(!open)}
+      style={{ viewTransitionName: 'site-menu-button' }}
       className="fixed right-[var(--margin)] top-[2.4rem] z-[60] h-[4.4rem] w-[4.4rem] translate-x-[0.8rem] -translate-y-[1.5rem] md:top-[4rem] md:-translate-y-[1.1rem]"
     >
-      <span data-motion="hamb-line" className="absolute inset-0">
+      <span className="absolute inset-0">
         <span className={`${line} ${open ? 'translate-y-0 rotate-45' : '-translate-y-[0.4rem]'}`} />
       </span>
-      <span data-motion="hamb-line" className="absolute inset-0">
-        <span className={`${line} delay-75 ${open ? 'translate-y-0 -rotate-45' : 'translate-y-[0.2rem]'}`} />
+      <span className="absolute inset-0">
+        <span className={`${line} ${open ? 'translate-y-0 -rotate-45' : 'translate-y-[0.2rem]'}`} />
       </span>
     </button>
   );

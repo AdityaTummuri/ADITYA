@@ -4,13 +4,26 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { menuLinks, socials } from '@/content/nav';
+import { useScrollStore } from '@/lib/scroll-store';
 import { useUi } from '@/lib/ui-store';
+
+const HOME_DIVISION: Record<string, number> = { '/': 0, '/#work': 1, '/#contact': 2 };
+
+/** Which menu item is "you are here": the page, or on the home the division on screen. */
+function isCurrent(href: string, pathname: string, division: number): boolean {
+  if (href in HOME_DIVISION) {
+    if (pathname === '/') return HOME_DIVISION[href] === division;
+    return href === '/#work' && pathname.startsWith('/work/');
+  }
+  return pathname === href;
+}
 
 /** Right-hand black panel (DESIGN.md `menu-panel`). Locks scroll, traps focus, Esc closes. */
 export default function MenuPanel() {
   const open = useUi((s) => s.menuOpen);
   const setOpen = useUi((s) => s.setMenuOpen);
   const pathname = usePathname();
+  const division = useScrollStore((s) => s.chapter);
   const panelRef = useRef<HTMLDivElement>(null);
 
   // a route change (browser Back, a link elsewhere) always closes the menu
@@ -62,9 +75,10 @@ export default function MenuPanel() {
       // visibility flips instantly on open (so focus can move in) and after the slide on close
       style={{
         transitionProperty: 'transform, visibility',
-        transitionDuration: '600ms, 0s',
-        transitionDelay: open ? '0s, 0s' : '0s, 600ms',
-        transitionTimingFunction: 'var(--ease-out-cubic)',
+        transitionDuration: '400ms, 0s',
+        transitionDelay: open ? '0s, 0s' : '0s, 400ms',
+        transitionTimingFunction: 'var(--ease-out)',
+        viewTransitionName: 'site-menu',
       }}
       className={`fixed inset-y-0 right-0 z-[45] w-full overflow-y-auto bg-canvas px-[var(--margin)] pb-xl pt-[14rem] md:w-[45vw] md:pt-[18rem] ${
         open ? 'visible translate-x-0' : 'invisible translate-x-full'
@@ -72,36 +86,31 @@ export default function MenuPanel() {
     >
       <nav aria-label="Primary">
         <ul>
-          {menuLinks.map((l, i) => {
-            const current = l.href === '/' && pathname === '/';
+          {menuLinks.map((l) => {
+            const current = isCurrent(l.href, pathname, division);
             return (
-              <li
-                key={l.href}
-                style={{ transitionDelay: open ? `${300 + i * 60}ms` : '0ms' }}
-                className={`border-b border-hairline-strong transition-transform duration-500 ease-out-cubic ${
-                  open ? 'translate-x-0' : 'translate-x-[2rem]'
-                }`}
-              >
+              <li key={l.href} className="border-b border-hairline-strong">
                 <Link
                   href={l.href}
                   // same-page targets are scrolled by the capture listener in lib/smooth-scroll
                   onClick={() => setOpen(false)}
                   aria-current={current ? 'page' : undefined}
-                  className={`block py-xs font-display text-title-lg font-normal tracking-[-0.03em] text-ink transition-opacity duration-300 ease-out-cubic hover:opacity-50 md:text-display-sm ${
-                    current ? 'opacity-20' : ''
+                  className={`press flex min-h-[4.4rem] items-center py-xs font-display text-title-lg font-normal hover:text-primary-soft md:text-display-sm ${
+                    current ? 'text-primary' : 'text-ink'
                   }`}
                 >
                   {l.label}
+                  {current ? <span className="sr-only"> (you are here)</span> : null}
                 </Link>
               </li>
             );
           })}
         </ul>
       </nav>
-      <ul className="mt-xl flex gap-md text-body-sm text-ink-subtle">
+      <ul className="mt-xl flex gap-md text-body-sm text-ink-muted">
         {socials.map((s) => (
           <li key={s.href}>
-            <a href={s.href} className="transition-opacity duration-300 ease-out-cubic hover:opacity-50">
+            <a href={s.href} className="press inline-flex min-h-[4.4rem] items-center hover:text-ink">
               {s.label}
             </a>
           </li>

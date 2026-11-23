@@ -1,9 +1,9 @@
 'use client';
 
-import { ReactLenis, type LenisRef, useLenis } from 'lenis/react';
-import { useEffect, useRef } from 'react';
-import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { usePathname } from 'next/navigation';
+import { useEffect, useLayoutEffect } from 'react';
 import { useReducedMotion } from '@/lib/a11y';
+import { getLenis, scrollToY, setLenis } from '@/lib/lenis';
 import { useUi } from '@/lib/ui-store';
 
 /**
@@ -29,32 +29,47 @@ function samePageTarget(e: MouseEvent): { url: URL; el: Element | 'top' } | null
   return el ? { url, el } : null;
 }
 
-/** Lenis driven by gsap.ticker, kept in sync with ScrollTrigger. Off under reduced motion. */
+/**
+ * Eased wheel scrolling (Lenis), for mouse and trackpad only: touch screens already scroll smoothly,
+ * so they never download it. Off under reduced motion.
+ */
 export default function SmoothScroll() {
   const reduce = useReducedMotion();
-  const ref = useRef<LenisRef>(null);
   const menuOpen = useUi((s) => s.menuOpen);
-
-  useLenis(() => {
-    ScrollTrigger.update();
-  });
+  const pathname = usePathname();
 
   useEffect(() => {
-    if (reduce) return;
-    const update = (time: number) => ref.current?.lenis?.raf(time * 1000);
-    gsap.ticker.add(update);
-    gsap.ticker.lagSmoothing(0);
-    return () => gsap.ticker.remove(update);
+    if (reduce || !window.matchMedia('(pointer: fine)').matches) return;
+    let cancelled = false;
+    import('lenis').then(({ default: Lenis }) => {
+      if (cancelled) return;
+      const lenis = new Lenis({ autoRaf: true, lerp: 0.14, smoothWheel: true, syncTouch: false, anchors: false });
+      if (useUi.getState().menuOpen) lenis.stop();
+      setLenis(lenis);
+    }).catch(() => {});
+    return () => {
+      cancelled = true;
+      getLenis()?.destroy();
+      setLenis(null);
+    };
   }, [reduce]);
 
   useEffect(() => {
-    const lenis = ref.current?.lenis;
-    if (!lenis) return;
-    if (menuOpen) lenis.stop();
-    else lenis.start();
+    const lenis = getLenis();
+    if (menuOpen) lenis?.stop();
+    else lenis?.start();
   }, [menuOpen]);
 
-  // Same-page links (`#work`, `/#about` on the home, `/` on the home) scroll here, once. Left alone,
+  // A glide that is still running must not carry on into the next page: stop() and start() both
+  // drop the momentum and take the page's real position as the new starting point.
+  useLayoutEffect(() => {
+    const lenis = getLenis();
+    if (!lenis) return;
+    lenis.stop();
+    lenis.start();
+  }, [pathname]);
+
+  // Same-page links (`#work`, `/#work` on the home, `/` on the home) scroll here, once. Left alone,
   // Next's router jumps with scrollIntoView() while Lenis eases toward the same spot, and the two
   // fight for a frame. Capture phase so this runs before Next's <Link> handler, which then bails.
   useEffect(() => {
@@ -64,34 +79,11 @@ export default function SmoothScroll() {
       e.preventDefault();
       if (hit.url.href !== window.location.href) window.history.pushState(null, '', hit.url.href);
       useUi.getState().setMenuOpen(false);
-      const lenis = ref.current?.lenis;
-      const y = hit.el === 'top' ? 0 : hit.el.getBoundingClientRect().top + window.scrollY;
-      if (lenis) {
-        // the menu may have stopped Lenis; wake it so the eased scroll actually runs
-        lenis.start();
-        lenis.scrollTo(y, { duration: 1.1, force: true });
-      } else {
-        window.scrollTo(0, y);
-      }
+      scrollToY(hit.el === 'top' ? 0 : hit.el.getBoundingClientRect().top + window.scrollY, 'smooth');
     };
     document.addEventListener('click', onClick, true);
     return () => document.removeEventListener('click', onClick, true);
   }, []);
 
-  if (reduce) return null;
-  return (
-    <ReactLenis
-      root
-      ref={ref}
-      options={{
-        autoRaf: false,
-        lerp: 0.1,
-        smoothWheel: true,
-        syncTouch: false,
-        // anchors are handled by the capture listener above
-        anchors: false,
-        infinite: false,
-      }}
-    />
-  );
+  return null;
 }

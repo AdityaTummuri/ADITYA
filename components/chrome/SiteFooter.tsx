@@ -1,34 +1,41 @@
 import Link from 'next/link';
-import { featuredProjects } from '@/content/projects';
-import { profile } from '@/content/profile';
+import { footer } from '@/content/pages';
+import { footerLinks, socials } from '@/content/nav';
 
-/** Closing footer for inner pages and the end of the home (DESIGN.md `footer`). */
-export default function SiteFooter() {
-  const col = 'flex flex-col gap-xs';
-  const link = 'text-body text-ink transition-opacity duration-300 ease-out-cubic hover:opacity-50';
+const LINK = 'press inline-flex min-h-[4.4rem] items-center text-body-sm text-ink hover:text-primary-soft';
+
+/**
+ * The last thing on every page: one row on solid canvas. Pages other than the home also link to the
+ * five places (`links`). Without JavaScript the menu cannot open, so this row carries every link.
+ */
+export default function SiteFooter({ links = false }: { links?: boolean }) {
   return (
-    <footer className="container-8bit grid gap-xl bg-canvas py-xl md:grid-cols-[1fr_auto]">
-      <div>
-        <p className="font-display text-headline tracking-[-0.03em]">{profile.name}</p>
-        <p className="mt-xs text-ink-muted">{profile.phrases.identity}</p>
-      </div>
-      <div className="grid gap-lg sm:grid-cols-2">
-        <div className={col}>
-          <h2 className="text-[2rem] font-light leading-[1.4]">Work</h2>
-          {featuredProjects.map((p) => (
-            <Link key={p.slug} href={`/work/${p.slug}`} className={link}>{p.title}</Link>
-          ))}
+    <footer className="relative z-10 bg-canvas px-[var(--margin)] py-xs">
+      <div className="grid gap-xxs">
+        <p className="max-w-[80rem] text-body-sm text-ink-subtle">{footer.line}</p>
+        <div className="flex flex-wrap items-center justify-between gap-x-lg gap-y-0">
+          {links ? (
+            <nav aria-label="Pages">
+              <ul className="flex flex-wrap gap-x-md">
+                {footerLinks.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className={LINK}>{l.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ) : null}
+          <nav aria-label="Elsewhere">
+            <ul className="flex flex-wrap gap-x-md">
+              {socials.map((s) => (
+                <li key={s.href}>
+                  <a href={s.href} className={LINK}>{s.label}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
-        <div className={col}>
-          <h2 className="text-[2rem] font-light leading-[1.4]">Elsewhere</h2>
-          <a href={profile.linkedin} className={link}>LinkedIn</a>
-          <a href={profile.github} className={link}>GitHub</a>
-          <a href={`mailto:${profile.email}`} className={link}>Email</a>
-        </div>
       </div>
-      <p className="text-body-sm text-ink-subtle md:col-span-2">
-        2026 © {profile.name}. No cookies, no trackers.
-      </p>
     </footer>
   );
 }

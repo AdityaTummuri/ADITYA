@@ -77,10 +77,14 @@ void main() {
 
 export const fieldFragment = /* glsl */ `
 uniform float uIntensity;
+uniform vec3 uYield; // x0, x1, floor: how much of the scene is left under the text column
+uniform vec2 uRes; // drawing buffer size in pixels
 varying float vA;
 void main() {
   float d = length(gl_PointCoord - 0.5);
   float a = smoothstep(0.5, 0.0, d) * vA * uIntensity;
+  float yieldK = mix(uYield.z, 1.0, smoothstep(uYield.x, uYield.y, gl_FragCoord.x / uRes.x));
+  a *= yieldK;
   gl_FragColor = vec4(vec3(0.8, 0.9, 0.95) * a, a);
 }
 `;

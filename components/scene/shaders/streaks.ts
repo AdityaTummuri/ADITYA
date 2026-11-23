@@ -11,6 +11,7 @@ attribute vec4 aSeed; // x seed, y lane, z length, w speed
 uniform float uTime;
 uniform float uAspect;
 uniform float uDensity;
+uniform float uStretch; // 1 at rest, longer streaks while travelling
 uniform vec4 uLook; // hero, circuit, cloud, tunnel
 uniform vec2 uMouse; // normalised -1..1 device coords
 varying vec2 vUv;
@@ -28,7 +29,7 @@ vec3 hero(vec4 s, vec2 q) {
   float u = (s.y - 0.5) * span;
   float t = fract(s.x * 3.7 + uTime * s.w * 0.06);
   float along = (t - 0.5) * span * 1.5;
-  float len = s.z * 2.2;
+  float len = s.z * 2.2 * uStretch;
   vec2 head = d * along + n * u;
   vec2 pos = head + d * ((q.x - 0.5) * len) + n * (q.y * 0.018 * (0.5 + s.w * 0.6));
 
@@ -51,7 +52,7 @@ vec3 circuit(vec4 s, vec2 q) {
   float span = horiz ? W : H;
   float t = fract(s.x * 5.3 + uTime * s.w * 0.05);
   float along = (t - 0.5) * span * 1.3;
-  float len = s.z * 1.1;
+  float len = s.z * 1.1 * uStretch;
   vec2 head = d * along + n * u;
   vec2 pos = head + d * ((q.x - 0.5) * len) + n * (q.y * 0.014);
   // Light parallax on circuit layer
@@ -83,13 +84,18 @@ void main() {
 
 export const streaksFragment = /* glsl */ `
 uniform float uIntensity;
+uniform vec3 uYield; // x0, x1, floor: how much of the scene is left under the text column
+uniform vec2 uRes; // drawing buffer size in pixels
 varying vec2 vUv;
 varying float vFade;
 void main() {
   float head = pow(vUv.x, 2.2);
   float edge = pow(max(1.0 - abs(vUv.y - 0.5) * 2.0, 0.0), 1.5);
   float a = head * edge * vFade * uIntensity;
+  // quiet zone: dim the scene where the words are, full strength on the right
+  float yieldK = mix(uYield.z, 1.0, smoothstep(uYield.x, uYield.y, gl_FragCoord.x / uRes.x));
+  a *= yieldK;
   vec3 col = mix(vec3(0.56, 0.67, 0.70), vec3(1.0), head * 0.8);
-  gl_FragColor = vec4(col * a * 2.0, a);
+  gl_FragColor = vec4(col * a * 1.6, a);
 }
 `;
