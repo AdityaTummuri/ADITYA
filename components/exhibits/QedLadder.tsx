@@ -67,8 +67,8 @@ export default function QedLadder() {
           {candidates.map((cand, i) => (
             <label
               key={cand.title}
-              className={`press relative flex h-[4.8rem] cursor-pointer items-center gap-xs rounded-xs border px-xs text-body font-medium has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary-soft ${
-                i === selected ? 'border-primary text-primary' : 'border-hairline text-ink hover:border-hairline-strong'
+              className={`press relative flex h-[4.8rem] cursor-pointer items-center gap-xs rounded-xs border-2 px-xs text-body font-medium has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ink ${
+                i === selected ? 'border-ink bg-sun text-ink shadow-[0.3rem_0.3rem_0_var(--color-ink)]' : 'border-ink/40 text-ink hover:border-ink'
               }`}
             >
               <input

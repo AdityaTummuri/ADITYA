@@ -43,7 +43,9 @@ export default function CheckAll() {
           type="button"
           onClick={run}
           disabled={phase === 'running'}
-          className="press inline-flex min-h-[4.4rem] items-center rounded-md bg-inverse-canvas px-md text-body font-medium text-inverse-ink hover:bg-primary-soft disabled:opacity-60"
+          data-fx="hit"
+          data-word="kachi"
+          className="btn press disabled:opacity-60"
         >
           {phase === 'done' ? 'Check again' : receiptsPage.checkAll}
         </button>

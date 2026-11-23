@@ -5,16 +5,16 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
-test('one h1 carries the headline and the statement line is teal', async ({ page }) => {
+test('one h1 carries the headline and the statement line is ink', async ({ page }) => {
   expect(await page.locator('h1').count()).toBe(1);
   await expect(page.locator('h1')).toContainText('I don’t trust a number');
   await expect(page.locator('h1')).toContainText('run it again.');
   const statement = page.getByText('Aditya Tummuri, engineering student and builder.');
-  expect(await statement.evaluate((el) => getComputedStyle(el).color)).toBe('rgb(143, 170, 178)');
+  expect(await statement.evaluate((el) => getComputedStyle(el).color)).toBe('rgb(23, 20, 46)');
 });
 
-test('three divisions exist with the planned ids', async ({ page }) => {
-  const ids = await page.locator('section[data-division]').evaluateAll((els) => els.map((e) => e.id));
+test('the story has its three anchored chapters', async ({ page }) => {
+  const ids = await page.locator('main section[id]').evaluateAll((els) => els.map((e) => e.id));
   expect(ids).toEqual(['start', 'work', 'contact']);
 });
 

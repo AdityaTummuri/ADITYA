@@ -38,7 +38,7 @@ test('pages declare a title, description, canonical, open graph and theme colour
   await page.goto('/');
   await expect(page).toHaveTitle('Aditya Tummuri');
   expect(await page.locator('meta[name="description"]').getAttribute('content')).toContain('electronics and communication engineering student');
-  expect(await page.locator('meta[name="theme-color"]').getAttribute('content')).toBe('#000000');
+  expect(await page.locator('meta[name="theme-color"]').getAttribute('content')).toBe('#f7f0e0');
   expect(await page.locator('link[rel="canonical"]').getAttribute('href')).toMatch(/^http:\/\/localhost:3000\/?$/);
   for (const [path, title] of [['/archive', 'Archive | Aditya Tummuri'], ['/about', 'About | Aditya Tummuri'], ['/receipts', 'Receipts | Aditya Tummuri'], ['/work/qedcode', 'QEDCode | Aditya Tummuri']] as const) {
     await page.goto(path);

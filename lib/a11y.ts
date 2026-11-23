@@ -14,30 +14,3 @@ function subscribe(cb: () => void) {
 export function useReducedMotion(): boolean {
   return useSyncExternalStore(subscribe, () => window.matchMedia(QUERY).matches, () => false);
 }
-
-let webglSupport: boolean | null = null;
-const noSubscribe = () => () => {};
-
-function probeWebGL(): boolean {
-  try {
-    const gl = document.createElement('canvas').getContext('webgl2');
-    if (!gl) return false;
-    // release the probe context right away: browsers cap live contexts, and the scene needs one
-    gl.getExtension('WEBGL_lose_context')?.loseContext();
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-/** null on the server and until measured, then whether a WebGL2 context can be created. */
-export function useWebGLSupport(): boolean | null {
-  return useSyncExternalStore(
-    noSubscribe,
-    () => {
-      if (webglSupport === null) webglSupport = probeWebGL();
-      return webglSupport;
-    },
-    () => null,
-  );
-}

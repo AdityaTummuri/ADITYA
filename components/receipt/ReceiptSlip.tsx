@@ -100,7 +100,6 @@ export default function ReceiptSlip() {
       role="dialog"
       aria-labelledby="slip-title"
       data-receipt-slip
-      data-lenis-prevent
       tabIndex={-1}
     >
       {receipt ? <ReceiptBody receipt={receipt} as="h2" headingId="slip-title" /> : null}

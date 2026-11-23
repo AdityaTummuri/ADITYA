@@ -4,26 +4,20 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { menuLinks, socials } from '@/content/nav';
-import { useScrollStore } from '@/lib/scroll-store';
 import { useUi } from '@/lib/ui-store';
 
-const HOME_DIVISION: Record<string, number> = { '/': 0, '/#work': 1, '/#contact': 2 };
-
-/** Which menu item is "you are here": the page, or on the home the division on screen. */
-function isCurrent(href: string, pathname: string, division: number): boolean {
-  if (href in HOME_DIVISION) {
-    if (pathname === '/') return HOME_DIVISION[href] === division;
-    return href === '/#work' && pathname.startsWith('/work/');
-  }
+/** Which menu item is "you are here": the page itself; a project page counts as Work. */
+function isCurrent(href: string, pathname: string): boolean {
+  if (href === '/') return pathname === '/';
+  if (href === '/#work') return pathname.startsWith('/work/');
   return pathname === href;
 }
 
-/** Right-hand black panel (DESIGN.md `menu-panel`). Locks scroll, traps focus, Esc closes. */
+/** Full-screen paper menu: big poster links, each with its episode number. Locks scroll, traps focus, Esc closes. */
 export default function MenuPanel() {
   const open = useUi((s) => s.menuOpen);
   const setOpen = useUi((s) => s.setMenuOpen);
   const pathname = usePathname();
-  const division = useScrollStore((s) => s.chapter);
   const panelRef = useRef<HTMLDivElement>(null);
 
   // a route change (browser Back, a link elsewhere) always closes the menu
@@ -71,35 +65,33 @@ export default function MenuPanel() {
       role="dialog"
       aria-modal="true"
       aria-label="Site menu"
-      data-lenis-prevent
       // visibility flips instantly on open (so focus can move in) and after the slide on close
       style={{
-        transitionProperty: 'transform, visibility',
-        transitionDuration: '400ms, 0s',
-        transitionDelay: open ? '0s, 0s' : '0s, 400ms',
+        transitionProperty: 'clip-path, visibility',
+        transitionDuration: '520ms, 0s',
+        transitionDelay: open ? '0s, 0s' : '0s, 520ms',
         transitionTimingFunction: 'var(--ease-out)',
         viewTransitionName: 'site-menu',
+        clipPath: open ? 'circle(150% at calc(100% - 7rem) 4.2rem)' : 'circle(0% at calc(100% - 7rem) 4.2rem)',
       }}
-      className={`fixed inset-y-0 right-0 z-[45] w-full overflow-y-auto bg-canvas px-[var(--margin)] pb-xl pt-[14rem] md:w-[45vw] md:pt-[18rem] ${
-        open ? 'visible translate-x-0' : 'invisible translate-x-full'
-      }`}
+      className={`fixed inset-0 z-[45] overflow-y-auto bg-canvas px-[var(--margin)] pb-xl pt-[9rem] ${open ? 'visible' : 'invisible'}`}
     >
-      <nav aria-label="Primary">
+      <div aria-hidden className="tone pointer-events-none absolute inset-x-0 bottom-0 h-[50%] [--tone:rgb(255_79_154_/_0.35)] [mask-image:linear-gradient(to_top,#000,transparent)]" />
+      <nav aria-label="Primary" className="relative mx-auto max-w-[110rem]">
         <ul>
-          {menuLinks.map((l) => {
-            const current = isCurrent(l.href, pathname, division);
+          {menuLinks.map((l, i) => {
+            const current = isCurrent(l.href, pathname);
             return (
-              <li key={l.href} className="border-b border-hairline-strong">
+              <li key={l.href} className="border-b-[0.3rem] border-ink">
                 <Link
                   href={l.href}
-                  // same-page targets are scrolled by the capture listener in lib/smooth-scroll
                   onClick={() => setOpen(false)}
                   aria-current={current ? 'page' : undefined}
-                  className={`press flex min-h-[4.4rem] items-center py-xs font-display text-title-lg font-normal hover:text-primary-soft md:text-display-sm ${
-                    current ? 'text-primary' : 'text-ink'
-                  }`}
+                  data-fx="soft"
+                  className="group flex min-h-[4.4rem] items-start gap-sm py-xxs font-display text-[clamp(3.6rem,7vw,8rem)] font-extrabold leading-[0.95] tracking-[-0.04em] text-ink transition-[padding,color] duration-300 ease-[var(--ease-spring)] hover:pl-sm hover:text-primary"
                 >
-                  {l.label}
+                  <span aria-hidden className="mt-[1.4rem] w-[3.6rem] font-cond text-[1.4rem] font-medium tracking-[0.04em] text-ink-subtle md:w-[5rem] md:text-[1.6rem]">{String(i + 1).padStart(2, '0')}</span>
+                  <span className={current ? 'marker' : undefined}>{l.label}</span>
                   {current ? <span className="sr-only"> (you are here)</span> : null}
                 </Link>
               </li>
@@ -107,12 +99,10 @@ export default function MenuPanel() {
           })}
         </ul>
       </nav>
-      <ul className="mt-xl flex gap-md text-body-sm text-ink-muted">
+      <ul className="relative mx-auto mt-lg flex max-w-[110rem] flex-wrap gap-xs">
         {socials.map((s) => (
           <li key={s.href}>
-            <a href={s.href} className="press inline-flex min-h-[4.4rem] items-center hover:text-ink">
-              {s.label}
-            </a>
+            <a href={s.href} data-fx="soft" className="btn btn-alt press text-[1.6rem]">{s.label}</a>
           </li>
         ))}
       </ul>

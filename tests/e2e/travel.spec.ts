@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-const wide = (v?: { width: number } | null) => (v?.width ?? 0) >= 1280;
-
 test('home row, room, browser Back: lands on the home with the row in view', async ({ page }) => {
   await page.goto('/');
   const row = page.locator('#work ol > li').nth(2).getByRole('link', { name: /NETRA-UGV/ });
@@ -71,17 +69,7 @@ test('reduced motion sets every view transition duration to zero', async ({ page
 
 test('the next room link travels sideways and rooms keep their order', async ({ page }) => {
   await page.goto('/work/qedcode');
-  await page.getByRole('link', { name: /^Next room/ }).click();
+  await page.getByRole('link', { name: /^Next episode/ }).click();
   await expect(page).toHaveURL(/\/work\/fracsst-mamba$/);
   await expect(page.locator('h1')).toHaveText('FracSST-Mamba');
-});
-
-test('room rail links set aria-current', async ({ page, viewport }) => {
-  test.skip(!wide(viewport), 'the rail is for wide screens');
-  await page.goto('/work/qedcode');
-  const rail = page.getByRole('navigation', { name: 'On this page' });
-  await expect(rail.getByRole('link')).toHaveText(['Exhibit', 'Story', 'Next']);
-  await expect(rail.getByRole('link', { name: 'Exhibit' })).toHaveAttribute('aria-current', 'location');
-  await rail.getByRole('link', { name: 'Story' }).click();
-  await expect(rail.getByRole('link', { name: 'Story' })).toHaveAttribute('aria-current', 'location', { timeout: 6000 });
 });

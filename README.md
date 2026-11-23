@@ -21,3 +21,7 @@ npm run typecheck && npm run lint && npm test && npm run verify:receipts && npm 
 - Design tokens are in `app/globals.css` (`@theme`), taken from `DESIGN.md`.
 - Fonts (Inter Tight, Roboto Condensed) are self-hosted by `next/font`.
 - The only third party the page talks to is GitHub, and only after a visitor presses a check.
+
+## Credits
+
+The effects layer (`public/sakuga/core.js`) is Sakuga VFX by Justin Finkelman, MIT licensed (`public/sakuga/LICENSE.txt`), from https://github.com/finktheartist/sakuga-vfx.

@@ -5,7 +5,7 @@ import { receipts } from '@/content/receipts';
 import type { Receipt } from '@/content/types';
 import { CheckButton, CheckStatus, CopyButton } from './CheckButton';
 
-const LINK = 'press inline-flex min-h-[4.4rem] items-center text-body-sm font-medium text-ink underline decoration-primary decoration-1 underline-offset-[0.2em] hover:text-primary-soft';
+const LINK = 'link text-body-sm';
 
 function sourceLine(r: Receipt): string {
   if (r.kind === 'quoted') return `${r.repo} / ${r.path}`;
@@ -45,11 +45,11 @@ export default function ReceiptBody({ receipt: r, as: Claim = 'p', headingId, pe
   return (
     <div data-receipt-scope={r.id} className="grid gap-xs">
       <Claim id={headingId} className="text-body font-medium leading-snug">{r.claim}</Claim>
-      <p className="font-display text-headline text-primary tabular-nums">{r.value}</p>
+      <p className="font-display text-headline font-extrabold text-primary tabular-nums">{r.value}</p>
       <p className="font-cond text-meta text-ink-muted [overflow-wrap:anywhere]">{sourceLine(r)}</p>
 
       {r.kind === 'quoted' ? (
-        <blockquote className="bg-surface-2 px-xs py-xxs [overflow-wrap:anywhere]">
+        <blockquote className="rounded-xs border-2 border-ink bg-surface-2 px-xs py-xxs [overflow-wrap:anywhere]">
           <code className="!bg-transparent !p-0 text-body-sm whitespace-pre-wrap">{r.quote}</code>
         </blockquote>
       ) : null}
@@ -57,7 +57,7 @@ export default function ReceiptBody({ receipt: r, as: Claim = 'p', headingId, pe
         r.path ? (
           <p className="text-body-sm text-ink-muted">{r.command}</p>
         ) : (
-          <blockquote className="bg-surface-2 px-xs py-xxs [overflow-wrap:anywhere]">
+          <blockquote className="rounded-xs border-2 border-ink bg-surface-2 px-xs py-xxs [overflow-wrap:anywhere]">
             <code className="!bg-transparent !p-0 text-body-sm whitespace-pre-wrap">{r.command}</code>
           </blockquote>
         )
@@ -70,7 +70,7 @@ export default function ReceiptBody({ receipt: r, as: Claim = 'p', headingId, pe
             {r.from.map((id, i) => (
               <span key={id}>
                 {i ? ', ' : ''}
-                <Link href={`/receipts#${id}`} className="underline decoration-primary underline-offset-[0.2em]">{receipts[id].value}</Link>
+                <Link href={`/receipts#${id}`} className="underline decoration-pink decoration-2 underline-offset-[0.2em]">{receipts[id].value}</Link>
               </span>
             ))}
             .

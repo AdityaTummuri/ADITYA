@@ -20,11 +20,11 @@ function Switch({ id, label, on, onToggle }: { id: string; label: string; on: bo
         aria-checked={on}
         aria-labelledby={id}
         onClick={onToggle}
-        className={`press relative h-[3.2rem] w-[6rem] shrink-0 rounded-full border transition-colors duration-[160ms] after:absolute after:-inset-y-[0.6rem] after:inset-x-0 after:content-[''] ${on ? 'border-primary bg-primary' : 'border-ink-subtle bg-transparent'}`}
+        className={`press relative h-[3.2rem] w-[6rem] shrink-0 rounded-full border-2 transition-colors duration-[160ms] after:absolute after:-inset-y-[0.6rem] after:inset-x-0 after:content-[''] ${on ? 'border-primary bg-primary' : 'border-ink-subtle bg-transparent'}`}
       >
         <span
           aria-hidden
-          className={`absolute left-[0.3rem] top-[0.3rem] h-[2.4rem] w-[2.4rem] rounded-full transition-transform duration-[160ms] ease-[var(--ease-out)] ${on ? 'translate-x-[2.8rem] bg-black' : 'translate-x-0 bg-ink'}`}
+          className={`absolute left-[0.3rem] top-[0.3rem] h-[2.4rem] w-[2.4rem] rounded-full transition-transform duration-[160ms] ease-[var(--ease-out)] ${on ? 'translate-x-[2.8rem] bg-white' : 'translate-x-0 bg-ink'}`}
         />
         <span className="sr-only">{on ? 'On' : 'Off'}</span>
       </button>
@@ -73,7 +73,7 @@ export default function KavachSwitches({ messages, spoken }: Props) {
 
         <div
           className={`min-h-[8.4rem] rounded-xs border p-sm transition-colors duration-200 ${
-            v.shield ? 'border-error bg-[#16090a]' : 'border-hairline bg-transparent'
+            v.shield ? 'border-error bg-[#ffe3e5]' : 'border-hairline bg-transparent'
           }`}
         >
           <p role="status" aria-live="polite" className={`font-display text-title-lg ${v.shield ? 'text-ink' : 'text-ink'}`}>
@@ -91,7 +91,7 @@ export default function KavachSwitches({ messages, spoken }: Props) {
 
       <noscript>
         <style>{'.kv-live{display:none}'}</style>
-        <div className="rounded-xs border border-error bg-[#16090a] p-sm">
+        <div className="rounded-xs border border-error bg-[#ffe3e5] p-sm">
           <p className="font-display text-title-lg">Both switches on: the shield is up</p>
           <div className="mt-xs grid gap-xs text-body">
             <p>{kavachCopy.english}</p>

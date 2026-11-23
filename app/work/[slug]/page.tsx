@@ -1,14 +1,12 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
-import DivisionRail from '@/components/chrome/DivisionRail';
 import SiteFooter from '@/components/chrome/SiteFooter';
 import Rich from '@/components/receipt/Rich';
 import Page from '@/components/travel/Page';
 import RoomKeys from '@/components/travel/RoomKeys';
-import RoomHead from '@/components/work/RoomHead';
+import { RoomLead, RoomTitle } from '@/components/work/RoomHead';
 import RoomNav from '@/components/work/RoomNav';
-import SetLook from '@/components/work/SetLook';
 import Story from '@/components/work/Story';
 import { kavachCopy, matrixCopy } from '@/content/exhibits';
 import { adjacentRooms, getRoom, rooms } from '@/content/rooms';
@@ -39,12 +37,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-const RAIL = [
-  { id: 'exhibit', label: 'Exhibit' },
-  { id: 'story', label: 'Story' },
-  { id: 'next', label: 'Next' },
-];
-
 function Exhibit({ room }: { room: Room }) {
   switch (room.slug) {
     case 'qedcode':
@@ -66,11 +58,12 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
   const adj = adjacentRooms(slug);
   if (!room || !adj) notFound();
   const wide = room.slug === 'netra-ugv';
+  const index = rooms.findIndex((r) => r.slug === room.slug);
 
   const panel = (
-    <div className={`rounded-md border border-hairline bg-surface-1 p-[2rem] ${wide ? 'md:p-sm' : 'md:p-md'}`}>
+    <div className={`panel p-[2rem] ${wide ? 'md:p-sm' : 'md:p-md'}`}>
       <div className={wide ? 'grid gap-xxs lg:grid-cols-12 lg:gap-x-[var(--gutter)]' : undefined}>
-        <h2 className={`font-display text-title-lg ${wide ? 'lg:col-span-5' : ''}`}>{room.exhibit.title}</h2>
+        <h2 className={`text-title-lg ${wide ? 'lg:col-span-5' : ''}`}>{room.exhibit.title}</h2>
         <p className={`max-w-[62ch] text-body text-ink-muted ${wide ? 'lg:col-span-7' : 'mt-xxs'}`}>
           <Rich>{room.exhibit.intro}</Rich>
         </p>
@@ -86,36 +79,32 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
 
   return (
     <Page>
-      <SetLook look={room.look} />
-      <section id="exhibit" aria-label="Exhibit" className="container-8bit pb-xl pt-[calc(var(--header-height)+2rem)] md:pt-[10.4rem] lg:min-h-svh">
-        {wide ? (
-          <div className="grid gap-md">
-            <div className="quiet">
-              <RoomHead room={room} wide />
+      <section id="exhibit" aria-label="Exhibit" className="container-8bit relative overflow-clip pb-xl pt-[calc(var(--header-height)+2rem)] md:pt-[calc(var(--header-height)+4rem)]">
+        <div aria-hidden className="speedlines" style={{ '--cx': '80%', '--cy': '30%', opacity: 0.09 } as React.CSSProperties} />
+        <div className="relative grid gap-md [&>*]:min-w-0">
+          <RoomTitle room={room} index={index} />
+          {wide ? (
+            <>
+              <RoomLead room={room} wide />
+              {panel}
+            </>
+          ) : (
+            <div className="grid gap-lg lg:grid-cols-12 lg:gap-x-[var(--gutter)] lg:items-start">
+              <div className="lg:col-span-5">
+                <RoomLead room={room} />
+              </div>
+              <div className="lg:col-span-7">{panel}</div>
             </div>
-            {panel}
-          </div>
-        ) : (
-          <div className="grid gap-lg lg:grid-cols-12 lg:gap-x-[var(--gutter)] [&>*]:min-w-0">
-            <div className="quiet lg:col-span-5">
-              <RoomHead room={room} />
-            </div>
-            <div className="lg:col-span-7">{panel}</div>
-          </div>
-        )}
+          )}
+        </div>
       </section>
       <section id="story" aria-label="Story" className="container-8bit scroll-mt-[8rem] py-xl">
-        <div className="quiet">
-          <Story room={room} />
-        </div>
+        <Story room={room} />
       </section>
       <div id="next" className="container-8bit scroll-mt-[8rem] pb-xl">
-        <div className="quiet">
-          <RoomNav prev={adj.prev} next={adj.next} />
-        </div>
+        <RoomNav prev={adj.prev} next={adj.next} />
       </div>
       <SiteFooter links />
-      <DivisionRail items={RAIL} />
       <RoomKeys />
     </Page>
   );

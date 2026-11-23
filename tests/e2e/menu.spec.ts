@@ -26,26 +26,18 @@ test('menu opens, locks scroll, traps focus and closes with Escape', async ({ pa
   await expect(page.locator('body')).not.toHaveAttribute('data-scroll-locked', 'true');
 });
 
-test('menu links use display-sm and the current page is teal at full opacity', async ({ page, viewport }) => {
-  test.skip((viewport?.width ?? 0) < 768, 'display-sm is 34px from md up at 1440');
+test('menu links are big, ink on paper, and the current page is marked', async ({ page, viewport }) => {
   await page.goto('/');
   await page.locator('button[aria-label="Menu"]').click();
   const menu = page.getByRole('dialog', { name: 'Site menu' });
   const here = menu.getByRole('link', { name: 'Start' });
   const other = menu.getByRole('link', { name: 'Work' });
   await expect(here).toBeVisible();
-  if (viewport?.width === 1440) expect(await other.evaluate((el) => getComputedStyle(el).fontSize)).toBe('34px');
-  expect(await here.evaluate((el) => getComputedStyle(el).color)).toBe('rgb(143, 170, 178)');
-  expect(await here.evaluate((el) => getComputedStyle(el).opacity)).toBe('1');
-  expect(await other.evaluate((el) => getComputedStyle(el).opacity)).toBe('1');
-  const ratio = await here.evaluate((el) => {
-    const [r, g, b] = getComputedStyle(el).color.match(/\d+/g)!.map((n) => {
-      const c = Number(n) / 255;
-      return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-    });
-    return (0.2126 * r + 0.7152 * g + 0.0722 * b + 0.05) / 0.05;
-  });
-  expect(ratio).toBeGreaterThanOrEqual(4.5);
+  await expect(here).toHaveAttribute('aria-current', 'page');
+  await expect(here.locator('.marker')).toHaveCount(1);
+  const size = parseFloat(await other.evaluate((el) => getComputedStyle(el).fontSize));
+  expect(size).toBeGreaterThanOrEqual(viewport && viewport.width >= 768 ? 56 : 36);
+  expect(await other.evaluate((el) => getComputedStyle(el).color)).toBe('rgb(23, 20, 46)');
   await expect(menu.getByRole('link', { name: 'Archive' })).toBeVisible();
   await expect(menu.getByRole('link', { name: 'Receipts' })).toBeVisible();
 });

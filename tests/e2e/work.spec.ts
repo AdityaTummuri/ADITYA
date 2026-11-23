@@ -9,8 +9,8 @@ test('the QEDCode room shows its facts', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'The task that fooled it' })).toBeVisible();
   for (const h of ['Why a grade', 'What the runs showed', 'What got in the way', 'What it can’t claim']) await expect(page.getByRole('heading', { name: h })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Open QEDCode on GitHub' })).toHaveAttribute('href', 'https://github.com/AdityaTummuri/QEDCode');
-  await expect(page.getByRole('link', { name: /^Previous room/ })).toHaveAttribute('href', '/work/kavach-upi');
-  await expect(page.getByRole('link', { name: /^Next room/ })).toHaveAttribute('href', '/work/fracsst-mamba');
+  await expect(page.getByRole('link', { name: /^Previous episode/ })).toHaveAttribute('href', '/work/kavach-upi');
+  await expect(page.getByRole('link', { name: /^Next episode/ })).toHaveAttribute('href', '/work/fracsst-mamba');
 });
 
 test('the NETRA-UGV room links the repository, the team dashboard and the fork it came from', async ({ page }) => {
@@ -23,8 +23,8 @@ test('the NETRA-UGV room links the repository, the team dashboard and the fork i
 
 test('rooms follow the fixed cycle', async ({ page }) => {
   await page.goto('/work/kavach-upi');
-  await expect(page.getByRole('link', { name: /^Next room/ })).toHaveAttribute('href', '/work/qedcode');
-  await expect(page.getByRole('link', { name: /^Previous room/ })).toHaveAttribute('href', '/work/netra-ugv');
+  await expect(page.getByRole('link', { name: /^Next episode/ })).toHaveAttribute('href', '/work/qedcode');
+  await expect(page.getByRole('link', { name: /^Previous episode/ })).toHaveAttribute('href', '/work/netra-ugv');
 });
 
 test('unknown slugs are 404', async ({ page }) => {

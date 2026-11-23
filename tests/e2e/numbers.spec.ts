@@ -13,7 +13,7 @@ for (const route of ROUTES) {
         const walker = document.createTreeWalker(document.querySelector('main')!, NodeFilter.SHOW_TEXT);
         for (let n = walker.nextNode(); n; n = walker.nextNode()) {
           const el = n.parentElement!;
-          if (el.closest('script, style, noscript, [data-receipt], [data-receipt-scope], [data-receipt-slip], code, time')) continue;
+          if (el.closest('script, style, noscript, [aria-hidden="true"], [data-receipt], [data-receipt-scope], [data-receipt-slip], code, time')) continue;
           let t = n.nodeValue ?? '';
           for (const name of exempt) t = t.split(name).join('');
           for (const re of patterns) t = t.replace(re, '');

@@ -1,29 +1,19 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter_Tight, Roboto_Condensed } from 'next/font/google';
+import { Bricolage_Grotesque, Dela_Gothic_One, DM_Mono } from 'next/font/google';
 import './globals.css';
 import SkipLink from '@/components/chrome/SkipLink';
 import Header from '@/components/chrome/Header';
 import MenuPanel from '@/components/chrome/MenuPanel';
+import FxRuntime from '@/components/fx/FxRuntime';
 import SlipLoader from '@/components/receipt/SlipLoader';
-import SceneCanvas from '@/components/scene/SceneCanvas';
 import TravelListener from '@/components/travel/TravelListener';
 import { SITE_URL } from '@/lib/seo';
-import Providers from './providers';
 
-const interTight = Inter_Tight({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-inter-tight',
-  display: 'swap',
-});
-const robotoCondensed = Roboto_Condensed({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-roboto-condensed',
-  display: 'swap',
-});
+const bricolage = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font-bricolage', display: 'swap' });
+const dela = Dela_Gothic_One({ subsets: ['latin'], weight: '400', variable: '--font-dela', display: 'swap' });
+const mono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono', display: 'swap' });
 
-export const viewport: Viewport = { themeColor: '#000000' };
+export const viewport: Viewport = { themeColor: '#f7f0e0' };
 
 const DESCRIPTION =
   'Aditya Tummuri is an electronics and communication engineering student in Kerala, India. Projects in AI code checking, radar and robot vision, with every number linked to its source.';
@@ -38,19 +28,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${interTight.variable} ${robotoCondensed.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${dela.variable} ${mono.variable}`}>
       <body>
         <SkipLink />
         <Header />
         <MenuPanel />
-        <Providers />
-        <SceneCanvas />
         <noscript>
           <style>{'[data-needs-js]{display:none!important}'}</style>
         </noscript>
         <main id="main" className="relative z-10">{children}</main>
         <SlipLoader />
         <TravelListener />
+        <FxRuntime />
       </body>
     </html>
   );

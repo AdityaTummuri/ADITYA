@@ -4,7 +4,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 
-const BUDGET_KB = 650; // current build is about 590 KB; most of it is the lazy-loaded 3D scene
+const BUDGET_KB = 300; // current build is about 214 KB
 const dir = '.next/static/chunks';
 const total = readdirSync(dir)
   .filter((f) => f.endsWith('.js'))

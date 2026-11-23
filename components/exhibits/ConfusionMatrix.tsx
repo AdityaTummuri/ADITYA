@@ -60,7 +60,7 @@ export default function ConfusionMatrix({ f1 }: { f1: React.ReactNode }) {
                       onClick={() => { setSel([r, c]); setFocus([r, c]); }}
                       onFocus={() => setFocus([r, c])}
                       onKeyDown={(e) => { if (move(r, c, e.key)) e.preventDefault(); }}
-                      style={{ background: `rgb(143 170 178 / ${(n / MAX_CELL) * 0.55})` }}
+                      style={{ background: `rgb(255 79 154 / ${(n / MAX_CELL) * 0.75})` }}
                       className={`press h-[min(7rem,16vw)] w-[min(7rem,16vw)] font-display text-headline tabular-nums text-ink md:h-[8rem] md:w-[8rem] ${
                         r === c ? 'border border-primary' : 'border border-transparent'
                       } ${on ? 'outline outline-2 outline-offset-2 outline-ink' : ''}`}

@@ -6,8 +6,7 @@ import { checkReceipt } from '@/lib/receipt-check';
 import type { ApiReceipt, QuotedReceipt } from '@/content/types';
 import { isProblem, statusText } from './messages';
 
-const BUTTON =
-  'press inline-flex min-h-[4.4rem] items-center rounded-md bg-inverse-canvas px-sm text-body-sm font-medium text-inverse-ink hover:bg-primary-soft disabled:opacity-60';
+const BUTTON = 'btn press !min-h-[4.4rem] !px-sm !text-[1.5rem] disabled:opacity-60';
 
 /** "Check it now": the visitor's own browser asks GitHub, and the answer lands in the status line. */
 export function CheckButton({ receipt }: { receipt: QuotedReceipt | ApiReceipt }) {
@@ -18,7 +17,7 @@ export function CheckButton({ receipt }: { receipt: QuotedReceipt | ApiReceipt }
     set(receipt.id, await checkReceipt(receipt));
   };
   return (
-    <button type="button" data-needs-js className={BUTTON} onClick={run} disabled={status?.state === 'checking'}>
+    <button type="button" data-needs-js data-fx="soft" className={BUTTON} onClick={run} disabled={status?.state === 'checking'}>
       {status && status.state !== 'checking' ? 'Check again' : 'Check it now'}
     </button>
   );
@@ -72,7 +71,7 @@ export function CopyButton({ text }: { text: string }) {
     timer.current = window.setTimeout(() => setCopied(false), 2000);
   };
   return (
-    <button type="button" data-needs-js className={BUTTON} onClick={copy}>
+    <button type="button" data-needs-js data-fx="soft" className={BUTTON} onClick={copy}>
       {copied ? 'Copied' : 'Copy the command'}
     </button>
   );

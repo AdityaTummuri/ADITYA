@@ -33,6 +33,7 @@ export function allCopy(): string[] {
   out.push(...pageCopy(), ...exhibitCopy());
   out.push(
     ...home.h1Lines, home.statement, home.paragraph, home.primary, home.secondary, home.receiptLabel, home.receiptHeading, home.workHeading, home.workMore,
+    home.kicker, home.tapHint, home.receiptTag, home.workKicker, home.episode, home.sideKicker, home.sideHeading, home.contactKicker, home.statsKicker,
     home.contactHeading, home.contactParagraph, ...home.places.map((p) => p.label),
     about.h1, ...about.links.map((l) => l.label),
     archivePage.h1, archivePage.intro, archivePage.removed, ...archivePage.groups,

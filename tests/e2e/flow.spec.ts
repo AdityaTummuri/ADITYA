@@ -1,44 +1,32 @@
 import { test, expect } from '@playwright/test';
 
-const wide = (v?: { width: number } | null) => (v?.width ?? 0) >= 768;
-
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
-test('divisions flow in the document: nothing is pinned and none overlap', async ({ page }) => {
-  expect(await page.locator('.pin-spacer').count()).toBe(0);
-  const boxes = await page.locator('section[data-division]').evaluateAll((els) => els.map((e) => ({ t: e.getBoundingClientRect().top + window.scrollY, b: e.getBoundingClientRect().bottom + window.scrollY })));
-  expect(boxes).toHaveLength(3);
+test('chapters flow in the document and none overlap', async ({ page }) => {
+  const boxes = await page.locator('main > div > section, main > section').evaluateAll((els) =>
+    els.map((e) => ({ t: e.getBoundingClientRect().top + window.scrollY, b: e.getBoundingClientRect().bottom + window.scrollY })),
+  );
+  expect(boxes.length).toBeGreaterThanOrEqual(4);
   for (let i = 1; i < boxes.length; i++) expect(boxes[i].t).toBeGreaterThanOrEqual(boxes[i - 1].b - 1);
 });
 
-test('each home division is at most 1.02 screens and the document at most 3.05', async ({ page, viewport }) => {
-  test.skip(!wide(viewport), 'screen heights are checked on wide screens');
-  const vh = viewport!.height;
-  const heights = await page.locator('section[data-division]').evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().height)));
-  for (const h of heights) expect(h).toBeLessThanOrEqual(1.02 * vh);
-  const doc = await page.evaluate(() => document.documentElement.scrollHeight);
-  expect(doc).toBeLessThanOrEqual(3.05 * vh);
+test('the hero fills the first screen on its own', async ({ page, viewport }) => {
+  const h = await page.locator('section#start').evaluate((el) => Math.round(el.getBoundingClientRect().height));
+  expect(h).toBeGreaterThanOrEqual(viewport!.height - 2);
 });
 
-test('on a phone the home is at most 4.6 screens', async ({ page, viewport }) => {
-  test.skip(wide(viewport), 'phone limit');
-  const doc = await page.evaluate(() => document.documentElement.scrollHeight);
-  expect(doc).toBeLessThanOrEqual(4.6 * viewport!.height);
-});
-
-test('a hash lands the division at the top of the viewport', async ({ page, viewport }) => {
-  test.skip(!wide(viewport), 'checked on wide screens');
+test('a hash lands the chapter just under the header', async ({ page }) => {
   await page.goto('/#work');
   await expect
     .poll(() => page.locator('section#work').evaluate((el) => Math.round(el.getBoundingClientRect().top)), { timeout: 5000 })
-    .toBeLessThanOrEqual(1);
+    .toBeLessThanOrEqual(100);
 });
 
-test('the hero button reaches the work division', async ({ page }) => {
+test('the hero button reaches the work chapter', async ({ page }) => {
   await page.getByRole('link', { name: 'See the four projects' }).evaluate((el: HTMLElement) => el.click());
-  await expect.poll(() => page.locator('section#work').evaluate((el) => Math.round(el.getBoundingClientRect().top)), { timeout: 6000 }).toBeLessThanOrEqual(1);
+  await expect.poll(() => page.locator('section#work').evaluate((el) => Math.round(el.getBoundingClientRect().top)), { timeout: 6000 }).toBeLessThanOrEqual(100);
 });
 
 test('reduced motion: nothing is hidden', async ({ page }) => {
@@ -57,17 +45,9 @@ test('Tab order starts skip link, wordmark, menu button', async ({ page }) => {
   expect(names).toEqual(['Skip to content', 'Aditya Tummuri', 'Menu']);
 });
 
-test('the division rail follows the screen and its links travel', async ({ page, viewport }) => {
-  test.skip((viewport?.width ?? 0) < 1280, 'the rail is for wide screens');
-  const rail = page.getByRole('navigation', { name: 'On this page' });
-  await expect(rail.getByRole('link')).toHaveText(['Start', 'Work', 'Contact']);
-  await expect(rail.getByRole('link', { name: 'Start' })).toHaveAttribute('aria-current', 'location');
-  await rail.getByRole('link', { name: 'Work' }).click();
-  await expect(rail.getByRole('link', { name: 'Work' })).toHaveAttribute('aria-current', 'location', { timeout: 6000 });
-  await expect(rail.getByRole('link', { name: 'Start' })).not.toHaveAttribute('aria-current', 'location');
-});
-
-test('the rail is not shown on a phone', async ({ page, viewport }) => {
-  test.skip(wide(viewport), 'phone only');
-  await expect(page.getByRole('navigation', { name: 'On this page' })).toBeHidden();
+test('the side-quest strip links every archive project and its copy is hidden from readers', async ({ page }) => {
+  const live = await page.locator('.marquee-track > li:not([aria-hidden])').count();
+  const copies = await page.locator('.marquee-track > li[aria-hidden="true"]').count();
+  expect(live).toBe(23);
+  expect(copies).toBe(23);
 });

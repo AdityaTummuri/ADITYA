@@ -31,8 +31,8 @@ export default function TerrainSlider() {
           <div className="absolute inset-0" style={{ clipPath: 'inset(0 calc(100% - var(--x)) 0 0)' }}>
             <Image src="/work/netra-frame.webp" loading="eager" fetchPriority="high" alt={ALT_FRAME} width={904} height={500} sizes={SIZES} className="absolute inset-0 h-full w-full object-cover" />
           </div>
-          <span className="absolute left-xxs top-xxs rounded-xs bg-black/90 px-xxs py-1 font-cond text-meta text-ink">{terrainCopy.frameLabel}</span>
-          <span className="absolute right-xxs top-xxs rounded-xs bg-black/90 px-xxs py-1 font-cond text-meta text-ink">{terrainCopy.outputLabel}</span>
+          <span className="absolute left-xxs top-xxs rounded-xs bg-ink px-xxs py-1 font-cond text-meta text-canvas">{terrainCopy.frameLabel}</span>
+          <span className="absolute right-xxs top-xxs rounded-xs bg-ink px-xxs py-1 font-cond text-meta text-canvas">{terrainCopy.outputLabel}</span>
           <input
             ref={input}
             type="range"

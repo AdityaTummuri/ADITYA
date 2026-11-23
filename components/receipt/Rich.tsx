@@ -40,7 +40,7 @@ export default function Rich({ children }: { children: Copy }) {
           const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
           if (m) {
             return (
-              <a key={i} href={m[2]} className="underline decoration-primary underline-offset-[0.18em] hover:text-primary-soft">
+              <a key={i} href={m[2]} className="underline decoration-pink decoration-2 underline-offset-[0.18em] hover:text-primary">
                 {m[1]}
               </a>
             );

@@ -5,17 +5,26 @@ import type { Copy } from './types';
  * `{date}`, `{best-date}` and `{opened}` are dates read from content/github.json.
  */
 export const home = {
+  kicker: 'Year two, ECE, Kerala',
   h1Lines: ['I don’t trust a number', 'until I can run it again.'],
   statement: 'Aditya Tummuri, engineering student and builder.',
   paragraph: 'I study electronics and communication engineering in Kerala, India. I build a checker for AI-written code, radar and robot vision models, and small tools. Press any underlined number on this site and you get the file it came from.',
   primary: 'See the four projects',
   secondary: 'All receipts',
+  tapHint: 'Tap anywhere on the page. It reacts.',
   receiptLabel: 'This is what one looks like.',
+  receiptTag: 'Press a number',
   receiptHeading: 'An example receipt',
+  workKicker: 'The main arc',
   workHeading: 'Four projects, each with its working.',
   workMore: 'Everything else I’ve built',
+  episode: 'Read the episode',
+  sideKicker: 'Side quests',
+  sideHeading: 'Everything I built on the way.',
+  contactKicker: 'Next episode',
   contactHeading: 'Write to me.',
   contactParagraph: 'I’m open to collaborations. Email is quickest.',
+  statsKicker: 'Player card',
   snapshot: 'As of {date} my GitHub holds {gh-repos}, {gh-originals} of them original.' as Copy,
   places: [
     { label: 'The archive', href: '/archive' },
